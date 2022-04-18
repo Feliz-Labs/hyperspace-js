@@ -1,0 +1,49 @@
+query getProjectStats(
+  $orderBy: [OrderConfig!]
+  $paginationInfo: PaginationConfig
+  $conditions: GetProjectStatsCondition
+) {
+  getProjectStats(
+    order_by: $orderBy
+    pagination_info: $paginationInfo
+    conditions: $conditions
+  ) {
+    project_stats {
+      project_id
+      market_cap
+      volume_7day
+      volume_1day_change
+      floor_price
+      floor_price_1day_change
+      average_price
+      average_price_1day_change
+      max_price
+      twitter_followers
+      num_of_token_listed
+      num_of_token_holders
+      percentage_of_token_listed
+      volume_1day
+      project {
+        supply
+        website
+        twitter 
+        discord
+        img_url
+        is_verified
+        display_name
+        project_attributes {
+          name
+          type
+          values
+          counts
+          floor_prices
+        }
+      }
+    }
+    pagination_info {
+      current_page_number
+      current_page_size
+      has_next_page
+    }
+  }
+}
