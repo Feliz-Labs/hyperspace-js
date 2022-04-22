@@ -1,12 +1,12 @@
-query getProjectStats(
-  $orderBy: [OrderConfig!]
+query searchProjectByName(
+  $order_by: [OrderConfig!]
   $paginationInfo: PaginationConfig
-  $conditions: GetProjectStatsCondition
+  $condition: GetProjectStatByNameCondition!
 ) {
-  getProjectStats(
-    order_by: $orderBy
+  getProjectStatByName(
+    order_by: $order_by
     pagination_info: $paginationInfo
-    conditions: $conditions
+    condition: $condition
   ) {
     project_stats {
       project_id
@@ -23,6 +23,7 @@ query getProjectStats(
       num_of_token_holders
       percentage_of_token_listed
       volume_1day
+      rank
       project {
         supply
         website
@@ -44,7 +45,6 @@ query getProjectStats(
       current_page_number
       current_page_size
       has_next_page
-      total_page_number
     }
   }
 }

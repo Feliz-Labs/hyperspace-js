@@ -1,0 +1,149 @@
+query getBuyTx(
+  $buyerAddress: String!
+  $price: Float!
+  $tokenAddress: String!
+  $buyerBroker: String!
+  $buyerBrokerBasisPoints: Float
+  $unverified: Boolean
+) {
+  createBuyTx(
+    buyer_address: $buyerAddress
+    price: $price
+    token_address: $tokenAddress
+    buyer_broker: $buyerBroker
+    buyer_broker_basis_points: $buyerBrokerBasisPoints
+    unverified: $unverified
+  ) {
+    data
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
+
+
+query getListTx(
+  $sellerAddress: String!
+  $price: Float!
+  $tokenAddress: String!
+  $sellerBroker: String!
+  $sellerBrokerBasisPoints: Float
+) {
+  createListTx(
+  seller_address: $sellerAddress 
+  token_address: $tokenAddress
+  price: $price
+  seller_broker: $sellerBroker
+  seller_broker_basis_points: $sellerBrokerBasisPoints
+  ) {
+    data
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
+
+
+query getBidTx(
+  $buyerAddress: String!
+  $price: Float!
+  $tokenAddress: String!
+  $buyerBroker: String!
+  $buyerBrokerBasisPoints: Float
+) { 
+  createBidTx(
+    buyer_address: $buyerAddress
+    price: $price
+    token_address: $tokenAddress
+    buyer_broker: $buyerBroker
+    buyer_broker_basis_points: $buyerBrokerBasisPoints
+  ) {
+    data
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
+
+query getAcceptBidTx(
+  $sellerAddress: String!
+  $price: Float!
+  $tokenAddress: String!
+  $sellerBroker: String!
+  $sellerBrokerBasisPoints: Float
+) { 
+    acceptBidTx(
+      seller_address: $sellerAddress 
+      token_address: $tokenAddress
+      price: $price
+      seller_broker: $sellerBroker
+      seller_broker_basis_points: $sellerBrokerBasisPoints
+  ) {
+    data
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
+
+
+query getCancelBidTx(
+  $buyerAddress: String!
+  $tokenAddress: String!
+) { 
+  createCancelBidTx(
+    buyer_address: $buyerAddress
+    token_address: $tokenAddress
+  ){
+    data
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
+
+
+query getDelistTx(
+  $sellerAddress: String!
+  $tokenAddress: String!
+) { 
+  createDelistTx(
+    seller_address: $sellerAddress 
+    token_address: $tokenAddress
+  ){
+    data
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
+
+
+query getWithdrawEscrowTx(
+  $userAddress: String!
+  $amount: Float!
+) { 
+  createWithdrawEscrowTx(
+    user_address: $userAddress
+    amount: $amount
+  ){
+    data
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}

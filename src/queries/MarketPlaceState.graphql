@@ -1,0 +1,65 @@
+query getUserBids(
+  $condition: GetMarketPlaceStateCondition
+  $paginationInfo: PaginationConfig
+  $order_by: [OrderConfig!]
+) {
+  getUserBids(
+    condition: $condition
+    pagination_info: $paginationInfo
+    order_by: $order_by
+  ) {
+    name
+    token_address
+    project_name
+    project_id
+    full_img
+    meta_data_img
+    floor_price
+    market_place_state {
+      block_timestamp
+      token_address
+      price
+      seller_address
+      buyer_address
+      buyer_referral_address
+      buyer_referral_fee
+      signature
+      marketplace_program_id
+      marketplace_instance_id
+      metadata
+      type
+    }
+  }
+}
+
+query getUserListings(
+  $condition: GetMarketPlaceStateCondition
+  $paginationInfo: PaginationConfig
+  $orderBy: [OrderConfig!]
+) {
+  getUserListings(
+    condition: $condition
+    pagination_info: $paginationInfo
+    order_by: $orderBy
+  ) {
+    token_address
+    name
+    full_img
+    meta_data_img
+    project_name
+    project_id
+    rank_est
+    market_place_state {
+      price
+      seller_address
+      buyer_address
+      buyer_referral_address
+      buyer_referral_fee
+      signature
+      marketplace_program_id
+      marketplace_instance_id
+      metadata
+      type
+    }
+  }
+}

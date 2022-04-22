@@ -1,0 +1,15 @@
+query getMarketplaceStatus {
+  getMarketPlaceStatus {
+    mps {
+      display_name
+      item_path
+      website
+      is_bidding_enabled
+      is_buying_enabled
+      is_delisting_enabled
+      is_listing_enabled
+      marketplace_program_id
+      marketplace_instance_id
+    }
+  }
+}

@@ -1,0 +1,90 @@
+query getTokenHistory(
+  $condition: GetMarketPlaceActionsByTokenAddressCondition!
+  $paginationInfo: PaginationConfig
+  $orderBy: [OrderConfig!]
+) {
+  getMarketPlaceActionsByToken(
+    order_by: $orderBy
+    pagination_info: $paginationInfo
+    condition: $condition
+  ) {
+    token_address
+    mpas {
+      type
+      price
+      seller_address
+      buyer_address
+      signature
+      block_timestamp
+    }
+  }
+}
+
+query getUserHistory(
+  $condition: GetMarketPlaceActionsByUserCondition!
+  $orderBy: [OrderConfig!]
+  $paginationInfo: MPAPaginationConfig
+) {
+  getUserHistory(
+    condition: $condition
+    order_by: $orderBy
+    pagination_info: $paginationInfo
+  ) {
+    mps {
+      project_name
+      name
+      token_address
+      meta_data_img
+      full_img
+      is_project_verified
+      market_place_state {
+        marketplace_program_id
+        marketplace_instance_id
+        type
+        price
+        block_timestamp
+        buyer_address
+        seller_address
+      }
+    }
+    pagination_info {
+      current_page_number
+      current_page_size
+      has_next_page
+      total_page_number
+    }
+  }
+}
+
+query getProjectHistory(
+  $condition: GetMarketPlaceActionsByProjectsCondition!
+  $orderBy: [OrderConfig!]
+  $paginationInfo: MPAPaginationConfig
+) {
+  getProjectHistory(
+    condition: $condition
+    order_by: $orderBy
+    pagination_info: $paginationInfo
+  ) {
+    mps {
+      name
+      token_address
+      meta_data_img
+      full_img
+      rank_est
+      market_place_state {
+        marketplace_program_id
+        marketplace_instance_id
+        type
+        price
+        block_timestamp
+      }
+    }
+    pagination_info {
+      current_page_number
+      current_page_size
+      has_next_page
+      total_page_number
+    }
+  }
+}
