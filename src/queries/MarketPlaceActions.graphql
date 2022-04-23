@@ -10,12 +10,21 @@ query getTokenHistory(
   ) {
     token_address
     mpas {
-      type
-      price
+      block_timestamp
+      escrow_address
+      signature
       seller_address
       buyer_address
-      signature
-      block_timestamp
+      type 
+      marketplace_program_id
+      marketplace_instance_id
+      fee 
+      amount 
+      seller_referral_fee
+      seller_referral_address
+      buyer_referral_address
+      buyer_referral_fee
+      metadata
     }
   }
 }
@@ -38,13 +47,21 @@ query getUserHistory(
       full_img
       is_project_verified
       market_place_state {
+        block_timestamp
+        escrow_address
+        signature
+        seller_address
+        buyer_address
+        type 
         marketplace_program_id
         marketplace_instance_id
-        type
-        price
-        block_timestamp
-        buyer_address
-        seller_address
+        fee 
+        amount 
+        seller_referral_fee
+        seller_referral_address
+        buyer_referral_address
+        buyer_referral_fee
+        metadata
       }
     }
     pagination_info {
@@ -73,11 +90,21 @@ query getProjectHistory(
       full_img
       rank_est
       market_place_state {
+        block_timestamp
+        escrow_address
+        signature
+        seller_address
+        buyer_address
+        type 
         marketplace_program_id
         marketplace_instance_id
-        type
-        price
-        block_timestamp
+        fee 
+        amount 
+        seller_referral_fee
+        seller_referral_address
+        buyer_referral_address
+        buyer_referral_fee
+        metadata
       }
     }
     pagination_info {

@@ -17,17 +17,20 @@ query getUserBids(
     floor_price
     market_place_state {
       block_timestamp
-      token_address
-      price
+      escrow_address
+      signature
       seller_address
       buyer_address
-      buyer_referral_address
-      buyer_referral_fee
-      signature
+      type 
       marketplace_program_id
       marketplace_instance_id
+      fee 
+      amount 
+      seller_referral_fee
+      seller_referral_address
+      buyer_referral_address
+      buyer_referral_fee
       metadata
-      type
     }
   }
 }
@@ -50,16 +53,61 @@ query getUserListings(
     project_id
     rank_est
     market_place_state {
-      price
+      block_timestamp
+      escrow_address
+      signature
       seller_address
       buyer_address
-      buyer_referral_address
-      buyer_referral_fee
-      signature
+      type 
       marketplace_program_id
       marketplace_instance_id
+      fee 
+      amount 
+      seller_referral_fee
+      seller_referral_address
+      buyer_referral_address
+      buyer_referral_fee
       metadata
-      type
+    }
+  }
+}
+
+query getTokenState(
+  $condition: GetMarketPlaceStateCondition
+  $paginationInfo: PaginationConfig
+  $orderBy: [OrderConfig!]
+) {
+  getTokenState(
+    condition: $condition
+    pagination_info: $paginationInfo
+    order_by: $orderBy
+  ) {
+    token_address
+    market_place_states {
+      token_address
+      project_id
+      name
+      rank_est
+      full_img
+      meta_data_img
+      attributes
+      market_place_state {
+        block_timestamp
+        escrow_address
+        signature
+        seller_address
+        buyer_address
+        type 
+        marketplace_program_id
+        marketplace_instance_id
+        fee 
+        amount 
+        seller_referral_fee
+        seller_referral_address
+        buyer_referral_address
+        buyer_referral_fee
+        metadata
+      }
     }
   }
 }
