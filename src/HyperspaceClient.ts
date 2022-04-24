@@ -1,8 +1,21 @@
 import {
+  GetAcceptBidTxQuery,
+  GetAcceptBidTxQueryVariables,
+  GetBidTxQuery,
+  GetBidTxQueryVariables,
+  GetBuyTxQuery,
+  GetBuyTxQueryVariables,
+  GetCancelBidTxQuery,
+  GetCancelBidTxQueryVariables,
+  GetDelistTxQuery,
+  GetDelistTxQueryVariables,
+  GetListTxQuery,
+  GetListTxQueryVariables,
   GetMarketPlaceActionsByProjectsCondition,
   GetMarketPlaceActionsByTokenAddressCondition,
   GetMarketPlaceActionsByUserCondition,
   GetMarketPlaceSnapshotCondition,
+  GetMarketplaceSnapshotsQuery,
   GetMarketPlaceStateCondition,
   GetMarketplaceStatusQuery,
   GetProjectStatsCondition,
@@ -13,6 +26,8 @@ import {
   GetUserBidsQuery,
   GetUserHistoryQuery,
   GetUserListingsQuery,
+  GetWithdrawEscrowTxQuery,
+  GetWithdrawEscrowTxQueryVariables,
   MarketPlaceActionEnum,
   OrderConfig,
   PaginationConfig,
@@ -29,10 +44,8 @@ import {
   GetUserHistoryCondition,
 } from "./types";
 
-const apiEndpoint =
-  process.env.NODE_ENV === "production"
-    ? "https://beta.api.solanalysis.com/sdk"
-    : "http://localhost:8080";
+const apiEndpoint = "https://beta.api.solanalysis.com/sdk";
+    
 
 export class HyperspaceClient {
   apiKey: string;
@@ -82,7 +95,7 @@ export class HyperspaceClient {
     condition?: GetMarketplaceSnapshotCondition;
     orderBy?: OrderConfig;
     paginationInfo?: PaginationConfig;
-  }) {
+  }): Promise<GetMarketplaceSnapshotsQuery> {
     const parsedCondition: GetMarketPlaceSnapshotCondition = {};
     if (condition?.projects) parsedCondition.project_ids = condition.projects;
     if (condition?.excludeTokensWithoutMetadata)
@@ -140,7 +153,7 @@ export class HyperspaceClient {
   }: {
     condition: GetUserActionsCondition;
     orderBy?: OrderConfig;
-  }): Promise<GetUserBidsQuery>  {
+  }): Promise<GetUserBidsQuery> {
     const parsedCondition: GetMarketPlaceStateCondition = {
       buyer_address: condition.userAddress,
     };
@@ -158,7 +171,7 @@ export class HyperspaceClient {
   }: {
     condition: GetUserActionsCondition;
     orderBy?: OrderConfig;
-  }):  Promise<GetUserListingsQuery> {
+  }): Promise<GetUserListingsQuery> {
     const parsedCondition: GetMarketPlaceStateCondition = {
       seller_address: condition.userAddress,
     };
@@ -179,7 +192,7 @@ export class HyperspaceClient {
     condition: GetTokenHistoryCondition;
     orderBy?: OrderConfig;
     paginationInfo?: PaginationConfig;
-  }): Promise<GetTokenHistoryQuery>  {
+  }): Promise<GetTokenHistoryQuery> {
     const parsedCondition: GetMarketPlaceActionsByTokenAddressCondition = {
       token_addresses: condition.tokenAddresses,
     };
@@ -201,7 +214,7 @@ export class HyperspaceClient {
   }: {
     condition: GetUserHistoryCondition;
     paginationInfo?: PaginationConfig;
-  }):  Promise<GetUserHistoryQuery>  {
+  }): Promise<GetUserHistoryQuery> {
     const parsedCondition: GetMarketPlaceActionsByUserCondition = {
       seller_address: condition.userAddress,
       buyer_address: condition.userAddress,
@@ -235,15 +248,101 @@ export class HyperspaceClient {
   }
 
   // Marketplace Actions
-  createBuyTx() {}
+  createBuyTx({
+    buyerAddress,
+    buyerBroker,
+    buyerBrokerBasisPoints,
+    price,
+    tokenAddress,
+    unverified,
+  }: GetBuyTxQueryVariables): Promise<GetBuyTxQuery> {
+    return this.sdk.getBuyTx({
+      buyerAddress,
+      buyerBroker,
+      buyerBrokerBasisPoints,
+      price,
+      tokenAddress,
+      unverified,
+    });
+  }
 
-  createListTx() {}
+  createListTx({
+    sellerAddress,
+    sellerBroker,
+    tokenAddress,
+    price,
+    sellerBrokerBasisPoints,
+  }: GetListTxQueryVariables): Promise<GetListTxQuery> {
+    return this.sdk.getListTx({
+      sellerAddress,
+      sellerBroker,
+      tokenAddress,
+      price,
+      sellerBrokerBasisPoints,
+    });
+  }
 
-  createDelistTx() {}
+  createDelistTx({
+    sellerAddress,
+    tokenAddress,
+  }: GetDelistTxQueryVariables): Promise<GetDelistTxQuery> {
+    return this.sdk.getDelistTx({
+      sellerAddress,
+      tokenAddress,
+    });
+  }
 
-  createBidTx() {}
+  createBidTx({
+    buyerAddress,
+    buyerBroker,
+    buyerBrokerBasisPoints,
+    price,
+    tokenAddress,
+  }: GetBidTxQueryVariables): Promise<GetBidTxQuery> {
+    return this.sdk.getBidTx({
+      buyerAddress,
+      buyerBroker,
+      buyerBrokerBasisPoints,
+      price,
+      tokenAddress,
+    });
+  }
 
-  createWithdrawEscrowTx() {}
+  createAcceptBidTx({
+    sellerAddress,
+    price,
+    tokenAddress,
+    sellerBroker,
+    sellerBrokerBasisPoints,
+  }: GetAcceptBidTxQueryVariables): Promise<GetAcceptBidTxQuery> {
+    return this.sdk.getAcceptBidTx({
+      sellerAddress,
+      price,
+      tokenAddress,
+      sellerBroker,
+      sellerBrokerBasisPoints,
+    });
+  }
+
+  createCancelBidTx({
+    buyerAddress,
+    tokenAddress,
+  }: GetCancelBidTxQueryVariables): Promise<GetCancelBidTxQuery> {
+    return this.sdk.getCancelBidTx({
+      buyerAddress,
+      tokenAddress,
+    });
+  }
+
+  createWithdrawEscrowTx({
+    userAddress,
+    amount,
+  }: GetWithdrawEscrowTxQueryVariables): Promise<GetWithdrawEscrowTxQuery> {
+    return this.sdk.getWithdrawEscrowTx({
+      userAddress,
+      amount,
+    });
+  }
 
   getApiKey() {
     return this.apiKey;

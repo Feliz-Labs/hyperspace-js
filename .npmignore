@@ -1,0 +1,4 @@
+test*
+test/
+src/generatedSdk.ts
+src/queries

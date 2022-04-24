@@ -9,7 +9,7 @@ query getTokenHistory(
     condition: $condition
   ) {
     token_address
-    mpas {
+    market_place_actions {
       block_timestamp
       escrow_address
       signature
