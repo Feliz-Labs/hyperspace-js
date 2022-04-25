@@ -73,7 +73,7 @@ export class HyperspaceClient {
     orderBy,
     paginationInfo,
   }: {
-    condition: GetProjectStatsCondition;
+    condition?: GetProjectStatsCondition;
     orderBy?: OrderConfig;
     paginationInfo?: PaginationConfig;
   }): Promise<GetProjectStatsQuery> {
