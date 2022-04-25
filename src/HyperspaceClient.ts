@@ -59,10 +59,11 @@ export class HyperspaceClient {
   }
 
   // Getters
-  searchProjectByName(name: string): Promise<SearchProjectByNameQuery> {
+  searchProjectByName({name, tag}: {name: string, tag?: string}): Promise<SearchProjectByNameQuery> {
     return this.sdk.searchProjectByName({
       condition: {
         display_name: name,
+        tag
       },
     });
   }
