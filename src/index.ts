@@ -25,7 +25,14 @@ import {
   OrderConfig,
   PaginationConfig,
   SearchProjectByNameQuery,
-  GetMarketplaceSnapshotsQuery
+  GetMarketplaceSnapshotsQuery,
+  ProjectStat,
+  MarketPlaceSnapshot,
+  MarketPlaceActions,
+  MarketPlaceSnapshotResponse,
+  ProjectAttribute,
+  ProjectIdWithAttributes,
+  MarketPlaceTxOutput
 } from "./sdk";
 import {
   GetMarketplaceSnapshotCondition,
@@ -42,6 +49,13 @@ module.exports = {
 
 
 export {
+  ProjectStat,
+  MarketPlaceSnapshot,
+  MarketPlaceActions,
+  MarketPlaceSnapshotResponse,
+  ProjectAttribute,
+  ProjectIdWithAttributes,
+  MarketPlaceTxOutput,
   GetMarketplaceSnapshotCondition,
   GetMarketplaceStateCondition,
   GetProjectHistoryCondition,
