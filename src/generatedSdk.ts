@@ -425,8 +425,13 @@ export type MarketPlaceStatus = {
 };
 
 export enum MarketPlaceTxErrorEnum {
+  AlreadyOwnedNft = 'ALREADY_OWNED_NFT',
+  BasisPointsMismatch = 'BASIS_POINTS_MISMATCH',
   BidNotFound = 'BID_NOT_FOUND',
+  BidStateAlreadyExists = 'BID_STATE_ALREADY_EXISTS',
+  BrokerMismatch = 'BROKER_MISMATCH',
   BuyerHasInsufficientFunds = 'BUYER_HAS_INSUFFICIENT_FUNDS',
+  EscrowWithdrawAmountError = 'ESCROW_WITHDRAW_AMOUNT_ERROR',
   InternalServerError = 'INTERNAL_SERVER_ERROR',
   InvalidInputError = 'INVALID_INPUT_ERROR',
   InvalidTokenAddress = 'INVALID_TOKEN_ADDRESS',
@@ -437,6 +442,7 @@ export enum MarketPlaceTxErrorEnum {
   MarketplaceOperationIsDisabled = 'MARKETPLACE_OPERATION_IS_DISABLED',
   PriceHasUpdatedToBeHigher = 'PRICE_HAS_UPDATED_TO_BE_HIGHER',
   PriceHasUpdatedToBeLower = 'PRICE_HAS_UPDATED_TO_BE_LOWER',
+  PriceMismatch = 'PRICE_MISMATCH',
   RpcError = 'RPC_ERROR',
   SellerOwnerMismatch = 'SELLER_OWNER_MISMATCH'
 }

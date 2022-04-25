@@ -32,7 +32,8 @@ import {
   MarketPlaceSnapshotResponse,
   ProjectAttribute,
   ProjectIdWithAttributes,
-  MarketPlaceTxOutput
+  MarketPlaceTxOutput,
+  PaginationInfoResponseType
 } from "./sdk";
 import {
   GetMarketplaceSnapshotCondition,
@@ -64,6 +65,7 @@ export {
   GetUserHistoryCondition,
   OrderConfig,
   PaginationConfig,
+  PaginationInfoResponseType,
   HyperspaceClient,
   SearchProjectByNameQuery,
   GetProjectStatsQuery,
