@@ -53,10 +53,15 @@ export class HyperspaceClient {
   apiKey: string;
   graphqlClient: GraphQLClient;
   sdk: Sdk;
+  headers: any;
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
     this.graphqlClient = new GraphQLClient(apiEndpoint);
+    this.headers = {
+      authorization: `${apiKey}`
+    }
+    this.graphqlClient.setHeaders(this.headers);
     this.sdk = getSdk(this.graphqlClient);
   }
 
@@ -72,7 +77,7 @@ export class HyperspaceClient {
         display_name: name,
         tag,
       },
-    });
+    }, this.headers);
   }
 
   getProjects({
@@ -88,11 +93,11 @@ export class HyperspaceClient {
       conditions: condition,
       orderBy,
       paginationInfo,
-    });
+    }, this.headers);
   }
 
   getMarketplaceStatus(): Promise<GetMarketplaceStatusQuery> {
-    return this.sdk.getMarketplaceStatus();
+    return this.sdk.getMarketplaceStatus(undefined, this.headers);
   }
 
   getMarketplaceSnapshot({
@@ -123,7 +128,7 @@ export class HyperspaceClient {
       condition: parsedCondition,
       order_by: orderBy,
       pagination_info: paginationInfo,
-    });
+    }, this.headers);
   }
 
   getTokenState({
@@ -152,7 +157,7 @@ export class HyperspaceClient {
       condition: parsedCondition,
       orderBy,
       paginationInfo,
-    });
+    }, this.headers);
   }
 
   getUserBids({
@@ -170,7 +175,7 @@ export class HyperspaceClient {
     return this.sdk.getUserBids({
       condition: parsedCondition,
       order_by: orderBy,
-    });
+    }, this.headers);
   }
 
   getUserListings({
@@ -189,7 +194,7 @@ export class HyperspaceClient {
     return this.sdk.getUserListings({
       condition: parsedCondition,
       orderBy,
-    });
+    }, this.headers);
   }
 
   getTokenHistory({
@@ -213,7 +218,7 @@ export class HyperspaceClient {
         { field_name: "block_timestamp", sort_order: SortOrderEnum.Desc },
       ],
       paginationInfo,
-    });
+    }, this.headers);
   }
 
   getUserHistory({
@@ -234,7 +239,7 @@ export class HyperspaceClient {
     return this.sdk.getUserHistory({
       condition: parsedCondition,
       paginationInfo,
-    });
+    }, this.headers);
   }
 
   getProjectHistory({
@@ -252,7 +257,7 @@ export class HyperspaceClient {
     return this.sdk.getProjectHistory({
       condition: parsedCondition,
       paginationInfo,
-    });
+    }, this.headers);
   }
 
   // Marketplace Actions
@@ -271,7 +276,7 @@ export class HyperspaceClient {
       price,
       tokenAddress,
       unverified,
-    });
+    }, this.headers);
   }
 
   createListTx({
@@ -287,7 +292,7 @@ export class HyperspaceClient {
       tokenAddress,
       price,
       sellerBrokerBasisPoints,
-    });
+    }, this.headers);
   }
 
   createDelistTx({
@@ -297,7 +302,7 @@ export class HyperspaceClient {
     return this.sdk.getDelistTx({
       sellerAddress,
       tokenAddress,
-    });
+    }, this.headers);
   }
 
   createBidTx({
@@ -313,7 +318,7 @@ export class HyperspaceClient {
       buyerBrokerBasisPoints,
       price,
       tokenAddress,
-    });
+    }, this.headers);
   }
 
   createAcceptBidTx({
@@ -329,7 +334,7 @@ export class HyperspaceClient {
       tokenAddress,
       sellerBroker,
       sellerBrokerBasisPoints,
-    });
+    }, this.headers);
   }
 
   createCancelBidTx({
@@ -339,7 +344,7 @@ export class HyperspaceClient {
     return this.sdk.getCancelBidTx({
       buyerAddress,
       tokenAddress,
-    });
+    }, this.headers);
   }
 
   createWithdrawEscrowTx({
@@ -349,7 +354,7 @@ export class HyperspaceClient {
     return this.sdk.getWithdrawEscrowTx({
       userAddress,
       amount,
-    });
+    }, this.headers);
   }
 
   getApiKey() {

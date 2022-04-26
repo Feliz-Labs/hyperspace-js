@@ -36,7 +36,8 @@ import {
   PaginationInfoResponseType,
   MarketPlaceActionEnum,
   GetProjectHistoryQuery,
-  MarketPlaceTxErrorEnum
+  MarketPlaceTxErrorEnum,
+  SortOrderEnum
 } from "./sdk";
 import {
   GetMarketplaceSnapshotCondition,
@@ -53,6 +54,7 @@ module.exports = {
 }
 
 export {
+  SortOrderEnum,
   MarketPlaceTxErrorEnum,
   SearchProjectCondition,
   GetProjectHistoryQuery,
