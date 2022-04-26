@@ -18,6 +18,7 @@ import {
   GetMarketplaceSnapshotsQuery,
   GetMarketPlaceStateCondition,
   GetMarketplaceStatusQuery,
+  GetProjectHistoryQuery,
   GetProjectStatsCondition,
   GetProjectStatsQuery,
   getSdk,
@@ -33,6 +34,7 @@ import {
   PaginationConfig,
   Sdk,
   SearchProjectByNameQuery,
+  SortOrderEnum,
 } from "./sdk";
 import { GraphQLClient } from "graphql-request";
 import {
@@ -42,10 +44,10 @@ import {
   GetTokenHistoryCondition,
   GetUserActionsCondition,
   GetUserHistoryCondition,
+  SearchProjectCondition,
 } from "./types";
 
 const apiEndpoint = "https://beta.api.solanalysis.com/sdk";
-    
 
 export class HyperspaceClient {
   apiKey: string;
@@ -59,11 +61,16 @@ export class HyperspaceClient {
   }
 
   // Getters
-  searchProjectByName({name, tag}: {name: string, tag?: string}): Promise<SearchProjectByNameQuery> {
+  searchProjectByName({
+    condition,
+  }: {
+    condition: SearchProjectCondition;
+  }): Promise<SearchProjectByNameQuery> {
+    const { name, tag } = condition;
     return this.sdk.searchProjectByName({
       condition: {
         display_name: name,
-        tag
+        tag,
       },
     });
   }
@@ -187,11 +194,9 @@ export class HyperspaceClient {
 
   getTokenHistory({
     condition,
-    orderBy,
     paginationInfo,
   }: {
     condition: GetTokenHistoryCondition;
-    orderBy?: OrderConfig;
     paginationInfo?: PaginationConfig;
   }): Promise<GetTokenHistoryQuery> {
     const parsedCondition: GetMarketPlaceActionsByTokenAddressCondition = {
@@ -204,7 +209,9 @@ export class HyperspaceClient {
 
     return this.sdk.getTokenHistory({
       condition: parsedCondition,
-      orderBy,
+      orderBy: [
+        { field_name: "block_timestamp", sort_order: SortOrderEnum.Desc },
+      ],
       paginationInfo,
     });
   }
@@ -236,7 +243,7 @@ export class HyperspaceClient {
   }: {
     condition: GetProjectHistoryCondition;
     paginationInfo?: PaginationConfig;
-  }) {
+  }): Promise<GetProjectHistoryQuery> {
     const parsedCondition: GetMarketPlaceActionsByProjectsCondition = {
       projects: condition.projects,
     };

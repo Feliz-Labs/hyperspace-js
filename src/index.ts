@@ -33,7 +33,10 @@ import {
   ProjectAttribute,
   ProjectIdWithAttributes,
   MarketPlaceTxOutput,
-  PaginationInfoResponseType
+  PaginationInfoResponseType,
+  MarketPlaceActionEnum,
+  GetProjectHistoryQuery,
+  MarketPlaceTxErrorEnum
 } from "./sdk";
 import {
   GetMarketplaceSnapshotCondition,
@@ -41,6 +44,7 @@ import {
   GetProjectHistoryCondition,
   GetTokenHistoryCondition,
   GetUserActionsCondition,
+  SearchProjectCondition,
   GetUserHistoryCondition,
 } from "./types";
 
@@ -48,8 +52,11 @@ module.exports = {
   HyperspaceClient
 }
 
-
 export {
+  MarketPlaceTxErrorEnum,
+  SearchProjectCondition,
+  GetProjectHistoryQuery,
+  MarketPlaceActionEnum,
   ProjectStat,
   MarketPlaceSnapshot,
   MarketPlaceActions,

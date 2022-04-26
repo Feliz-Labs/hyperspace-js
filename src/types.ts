@@ -23,6 +23,7 @@ export type MarketplaceActionEnums = MarketPlaceActionEnum.Bid
 | MarketPlaceActionEnum.Updatebid
 | MarketPlaceActionEnum.Cancelbid;
 
+
 export type GetMarketplaceStateCondition = {
   tokenAddresses: string[];
   actionType?: MarketplaceActionEnums;
@@ -50,4 +51,9 @@ export type GetUserHistoryCondition = {
 export type GetProjectHistoryCondition = {
   projects: ProjectIdWithAttributes[];
   actionTypes?: MarketplaceActionEnums[];
+}
+
+export type SearchProjectCondition = {
+  name: string;
+  tag?: string;
 }
