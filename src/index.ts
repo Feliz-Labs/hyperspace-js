@@ -47,6 +47,7 @@ import {
   GetUserActionsCondition,
   SearchProjectCondition,
   GetUserHistoryCondition,
+  GetProjectsCondition
 } from "./types";
 
 module.exports = {
@@ -54,6 +55,7 @@ module.exports = {
 }
 
 export {
+  GetProjectsCondition,
   SortOrderEnum,
   MarketPlaceTxErrorEnum,
   SearchProjectCondition,

@@ -40,6 +40,7 @@ import { GraphQLClient } from "graphql-request";
 import {
   GetMarketplaceSnapshotCondition,
   GetMarketplaceStateCondition,
+  GetProjectsCondition,
   GetProjectHistoryCondition,
   GetTokenHistoryCondition,
   GetUserActionsCondition,
@@ -85,12 +86,16 @@ export class HyperspaceClient {
     orderBy,
     paginationInfo,
   }: {
-    condition?: GetProjectStatsCondition;
+    condition?: GetProjectsCondition;
     orderBy?: OrderConfig;
     paginationInfo?: PaginationConfig;
   }): Promise<GetProjectStatsQuery> {
+    const parsedCondition: GetProjectStatsCondition = {
+    }
+    if(condition?.projectIds) parsedCondition.project_ids = condition.projectIds;
+    if(condition?.excludeProjectAttributes) parsedCondition.exclude_project_attributes = condition.excludeProjectAttributes;
     return this.sdk.getProjectStats({
-      conditions: condition,
+      conditions: parsedCondition,
       orderBy,
       paginationInfo,
     }, this.headers);

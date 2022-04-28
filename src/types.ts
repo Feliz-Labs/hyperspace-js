@@ -57,3 +57,8 @@ export type SearchProjectCondition = {
   name: string;
   tag?: string;
 }
+
+export type GetProjectsCondition = {
+  projectIds?: string[];
+  excludeProjectAttributes?: boolean;
+}
