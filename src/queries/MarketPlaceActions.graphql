@@ -25,6 +25,7 @@ query getTokenHistory(
       buyer_referral_address
       buyer_referral_fee
       metadata
+      price
     }
   }
 }
@@ -62,6 +63,7 @@ query getUserHistory(
         buyer_referral_address
         buyer_referral_fee
         metadata
+        price
       }
     }
     pagination_info {
@@ -105,6 +107,7 @@ query getProjectHistory(
         buyer_referral_address
         buyer_referral_fee
         metadata
+        price
       }
     }
     pagination_info {
