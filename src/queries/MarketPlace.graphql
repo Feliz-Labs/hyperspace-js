@@ -15,6 +15,8 @@ query getBuyTx(
     unverified: $unverified
   ) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -39,6 +41,8 @@ query getListTx(
   seller_broker_basis_points: $sellerBrokerBasisPoints
   ) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -63,6 +67,8 @@ query getBidTx(
     buyer_broker_basis_points: $buyerBrokerBasisPoints
   ) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -86,6 +92,8 @@ query getAcceptBidTx(
       seller_broker_basis_points: $sellerBrokerBasisPoints
   ) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -104,6 +112,8 @@ query getCancelBidTx(
     token_address: $tokenAddress
   ){
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -122,6 +132,8 @@ query getDelistTx(
     token_address: $tokenAddress
   ){
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -140,6 +152,8 @@ query getWithdrawEscrowTx(
     amount: $amount
   ){
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message

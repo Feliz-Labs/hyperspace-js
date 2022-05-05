@@ -4,7 +4,6 @@ import {
   GetAcceptBidTxQueryVariables,
   GetBidTxQuery,
   GetBidTxQueryVariables,
-  GetBuyTxQuery,
   GetBuyTxQueryVariables,
   GetCancelBidTxQuery,
   GetCancelBidTxQueryVariables,
@@ -47,7 +46,10 @@ import {
   GetUserActionsCondition,
   SearchProjectCondition,
   GetUserHistoryCondition,
-  GetProjectsCondition
+  GetProjectsCondition,
+  GetProjectStatHistCondition,
+  TimeGranularityEnum,
+  GetBuyTxQuery
 } from "./types";
 
 module.exports = {
@@ -55,6 +57,8 @@ module.exports = {
 }
 
 export {
+  GetProjectStatHistCondition,
+  TimeGranularityEnum,
   GetProjectsCondition,
   SortOrderEnum,
   MarketPlaceTxErrorEnum,

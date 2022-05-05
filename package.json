@@ -1,6 +1,6 @@
 {
   "name": "hyperspace-client-js",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/Feliz-Labs/hyperspace-js.git",
@@ -16,7 +16,8 @@
   "dependencies": {
     "graphql": "^16.3.0",
     "graphql-request": "^4.2.0",
-    "graphql-tag": "^2.12.6"
+    "graphql-tag": "^2.12.6",
+    "opensea-solana": "npm:@solana/web3.js@1.31.0"
   },
   "scripts": {
     "build": "tsc",

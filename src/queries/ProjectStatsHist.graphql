@@ -1,0 +1,32 @@
+query getProjectStatHistory(
+  $paginationInfo: PaginationConfig
+  $conditions: GetProjectStatHistCondition!
+) {
+  getProjectStatHist(
+    pagination_info: $paginationInfo
+    conditions: $conditions
+  ) {
+    project_stat_hist_entries {
+      project_id
+      timestamp
+      volume
+      volume_usd
+      volume_double
+      volume_usd_double
+      floor_price 
+      num_of_sales
+      max_price
+      twitter_followers 
+      discord_members
+      supply 
+      num_of_token_holders
+      num_of_token_listed
+    }
+    pagination_info {
+      current_page_number
+      current_page_size
+      has_next_page
+      total_page_number
+    }
+  }
+}

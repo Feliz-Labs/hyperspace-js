@@ -155,8 +155,10 @@ export type GetMarketPlaceSnapshotCondition = {
   include_attribute_details?: InputMaybe<Scalars['Boolean']>;
   include_floors?: InputMaybe<Scalars['Boolean']>;
   listing_type?: InputMaybe<MarketPlaceActionEnum>;
+  name?: InputMaybe<Scalars['String']>;
   price_filter?: InputMaybe<MarketPlacePricingFilterValues>;
   project_ids?: InputMaybe<Array<ProjectIdWithAttributes>>;
+  rank_filter?: InputMaybe<MarketPlacePricingFilterValues>;
   token_addresses?: InputMaybe<Array<Scalars['String']>>;
 };
 
@@ -207,6 +209,19 @@ export type GetProjectStatByNameCondition = {
 export type GetProjectStatCount = {
   __typename?: 'GetProjectStatCount';
   num_of_projects: Scalars['Float'];
+};
+
+export type GetProjectStatHistCondition = {
+  end_timestamp: Scalars['Float'];
+  project_ids: Array<Scalars['String']>;
+  start_timestamp: Scalars['Float'];
+  time_granularity: Scalars['String'];
+};
+
+export type GetProjectStatHistOutput = {
+  __typename?: 'GetProjectStatHistOutput';
+  pagination_info: PaginationInfoResponseType;
+  project_stat_hist_entries?: Maybe<Array<ProjectStatHist>>;
 };
 
 export type GetProjectStatsCondition = {
@@ -425,6 +440,12 @@ export type MarketPlaceStatus = {
   website?: Maybe<Scalars['String']>;
 };
 
+export type MarketPlaceTxConfirmation = {
+  __typename?: 'MarketPlaceTxConfirmation';
+  error?: Maybe<MarketPlaceTxOutputError>;
+  tx_id?: Maybe<Scalars['String']>;
+};
+
 export enum MarketPlaceTxErrorEnum {
   AlreadyOwnedNft = 'ALREADY_OWNED_NFT',
   BasisPointsMismatch = 'BASIS_POINTS_MISMATCH',
@@ -440,7 +461,9 @@ export enum MarketPlaceTxErrorEnum {
   ItemListingNotFound = 'ITEM_LISTING_NOT_FOUND',
   ItemNoLongerAvailable = 'ITEM_NO_LONGER_AVAILABLE',
   MarketplaceBuyingIsDisabled = 'MARKETPLACE_BUYING_IS_DISABLED',
+  MarketplaceDoesnotHaveReqOn = 'MARKETPLACE_DOESNOT_HAVE_REQ_ON',
   MarketplaceOperationIsDisabled = 'MARKETPLACE_OPERATION_IS_DISABLED',
+  OpenseaPleaseTryAgain = 'OPENSEA_PLEASE_TRY_AGAIN',
   PriceHasUpdatedToBeHigher = 'PRICE_HAS_UPDATED_TO_BE_HIGHER',
   PriceHasUpdatedToBeLower = 'PRICE_HAS_UPDATED_TO_BE_LOWER',
   PriceMismatch = 'PRICE_MISMATCH',
@@ -452,6 +475,8 @@ export type MarketPlaceTxOutput = {
   __typename?: 'MarketPlaceTxOutput';
   data?: Maybe<Array<Scalars['Float']>>;
   error?: Maybe<MarketPlaceTxOutputError>;
+  is_required_signers_on?: Maybe<Scalars['Boolean']>;
+  metadata?: Maybe<Scalars['JSON']>;
 };
 
 export type MarketPlaceTxOutputError = {
@@ -619,6 +644,26 @@ export type ProjectStat = {
   volume_7day?: Maybe<Scalars['Float']>;
 };
 
+export type ProjectStatHist = {
+  __typename?: 'ProjectStatHist';
+  created_at: Scalars['DateTime'];
+  discord_members?: Maybe<Scalars['Float']>;
+  floor_price?: Maybe<Scalars['Float']>;
+  max_price?: Maybe<Scalars['Float']>;
+  num_of_sales?: Maybe<Scalars['Float']>;
+  num_of_token_holders?: Maybe<Scalars['Float']>;
+  num_of_token_listed?: Maybe<Scalars['Float']>;
+  project_id: Scalars['String'];
+  supply?: Maybe<Scalars['Float']>;
+  timestamp: Scalars['Float'];
+  twitter_followers?: Maybe<Scalars['Float']>;
+  updated_at: Scalars['DateTime'];
+  volume?: Maybe<Scalars['Float']>;
+  volume_double?: Maybe<Scalars['Float']>;
+  volume_usd?: Maybe<Scalars['Float']>;
+  volume_usd_double?: Maybe<Scalars['Float']>;
+};
+
 export type ProjectTag = {
   __typename?: 'ProjectTag';
   created_at: Scalars['DateTime'];
@@ -636,6 +681,7 @@ export enum ProtocolEnum {
 export type Query = {
   __typename?: 'Query';
   acceptBidTx: MarketPlaceTxOutput;
+  confirmBuyTx: MarketPlaceTxConfirmation;
   createBidTx: MarketPlaceTxOutput;
   createBuyTx: MarketPlaceTxOutput;
   createCancelBidTx: MarketPlaceTxOutput;
@@ -654,6 +700,7 @@ export type Query = {
   getProjectHistory: GetMarketPlaceActionsResponse;
   getProjectStatByName: GetProjectStatsOutput;
   getProjectStatCount: GetProjectStatCount;
+  getProjectStatHist: GetProjectStatHistOutput;
   getProjectStats: GetProjectStatsOutput;
   getTokenState: Array<GetMarketPlaceStateResponse>;
   getUserBids: Array<MarketPlaceSnapshot>;
@@ -668,6 +715,13 @@ export type QueryAcceptBidTxArgs = {
   seller_broker: Scalars['String'];
   seller_broker_basis_points?: InputMaybe<Scalars['Float']>;
   token_address: Scalars['String'];
+};
+
+
+export type QueryConfirmBuyTxArgs = {
+  data?: InputMaybe<Array<Scalars['Float']>>;
+  hexData?: InputMaybe<Scalars['String']>;
+  metadata: Scalars['JSON'];
 };
 
 
@@ -785,6 +839,13 @@ export type QueryGetProjectStatByNameArgs = {
 };
 
 
+export type QueryGetProjectStatHistArgs = {
+  conditions: GetProjectStatHistCondition;
+  order_by?: InputMaybe<Array<OrderConfig>>;
+  pagination_info?: InputMaybe<PaginationConfig>;
+};
+
+
 export type QueryGetProjectStatsArgs = {
   conditions?: InputMaybe<GetProjectStatsCondition>;
   order_by?: InputMaybe<Array<OrderConfig>>;
@@ -866,7 +927,7 @@ export type GetBuyTxQueryVariables = Exact<{
 }>;
 
 
-export type GetBuyTxQuery = { __typename?: 'Query', createBuyTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetBuyTxQuery = { __typename?: 'Query', createBuyTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetListTxQueryVariables = Exact<{
   sellerAddress: Scalars['String'];
@@ -877,7 +938,7 @@ export type GetListTxQueryVariables = Exact<{
 }>;
 
 
-export type GetListTxQuery = { __typename?: 'Query', createListTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetListTxQuery = { __typename?: 'Query', createListTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetBidTxQueryVariables = Exact<{
   buyerAddress: Scalars['String'];
@@ -888,7 +949,7 @@ export type GetBidTxQueryVariables = Exact<{
 }>;
 
 
-export type GetBidTxQuery = { __typename?: 'Query', createBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetBidTxQuery = { __typename?: 'Query', createBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetAcceptBidTxQueryVariables = Exact<{
   sellerAddress: Scalars['String'];
@@ -899,7 +960,7 @@ export type GetAcceptBidTxQueryVariables = Exact<{
 }>;
 
 
-export type GetAcceptBidTxQuery = { __typename?: 'Query', acceptBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetAcceptBidTxQuery = { __typename?: 'Query', acceptBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetCancelBidTxQueryVariables = Exact<{
   buyerAddress: Scalars['String'];
@@ -907,7 +968,7 @@ export type GetCancelBidTxQueryVariables = Exact<{
 }>;
 
 
-export type GetCancelBidTxQuery = { __typename?: 'Query', createCancelBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetCancelBidTxQuery = { __typename?: 'Query', createCancelBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetDelistTxQueryVariables = Exact<{
   sellerAddress: Scalars['String'];
@@ -915,7 +976,7 @@ export type GetDelistTxQueryVariables = Exact<{
 }>;
 
 
-export type GetDelistTxQuery = { __typename?: 'Query', createDelistTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetDelistTxQuery = { __typename?: 'Query', createDelistTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetWithdrawEscrowTxQueryVariables = Exact<{
   userAddress: Scalars['String'];
@@ -923,7 +984,7 @@ export type GetWithdrawEscrowTxQueryVariables = Exact<{
 }>;
 
 
-export type GetWithdrawEscrowTxQuery = { __typename?: 'Query', createWithdrawEscrowTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetWithdrawEscrowTxQuery = { __typename?: 'Query', createWithdrawEscrowTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetTokenHistoryQueryVariables = Exact<{
   condition: GetMarketPlaceActionsByTokenAddressCondition;
@@ -1002,6 +1063,14 @@ export type GetProjectStatsQueryVariables = Exact<{
 
 export type GetProjectStatsQuery = { __typename?: 'Query', getProjectStats: { __typename?: 'GetProjectStatsOutput', project_stats?: Array<{ __typename?: 'ProjectStat', project_id: string, market_cap?: number | null, volume_7day?: number | null, volume_1day_change?: number | null, floor_price?: number | null, floor_price_1day_change?: number | null, average_price?: number | null, average_price_1day_change?: number | null, max_price?: number | null, twitter_followers?: number | null, num_of_token_listed?: number | null, num_of_token_holders?: number | null, percentage_of_token_listed?: number | null, volume_1day?: number | null, project?: { __typename?: 'Project', supply?: number | null, website?: string | null, twitter?: string | null, discord?: string | null, img_url?: string | null, is_verified?: boolean | null, display_name: string, project_attributes?: Array<{ __typename?: 'ProjectAttribute', name: string, type: AttributeTypeEnum, values: Array<string>, counts?: any | null, floor_prices?: any | null }> | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
 
+export type GetProjectStatHistoryQueryVariables = Exact<{
+  paginationInfo?: InputMaybe<PaginationConfig>;
+  conditions: GetProjectStatHistCondition;
+}>;
+
+
+export type GetProjectStatHistoryQuery = { __typename?: 'Query', getProjectStatHist: { __typename?: 'GetProjectStatHistOutput', project_stat_hist_entries?: Array<{ __typename?: 'ProjectStatHist', project_id: string, timestamp: number, volume?: number | null, volume_usd?: number | null, volume_double?: number | null, volume_usd_double?: number | null, floor_price?: number | null, num_of_sales?: number | null, max_price?: number | null, twitter_followers?: number | null, discord_members?: number | null, supply?: number | null, num_of_token_holders?: number | null, num_of_token_listed?: number | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
+
 export type SearchProjectByNameQueryVariables = Exact<{
   order_by?: InputMaybe<Array<OrderConfig> | OrderConfig>;
   paginationInfo?: InputMaybe<PaginationConfig>;
@@ -1023,6 +1092,8 @@ export const GetBuyTxDocument = gql`
     unverified: $unverified
   ) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -1041,6 +1112,8 @@ export const GetListTxDocument = gql`
     seller_broker_basis_points: $sellerBrokerBasisPoints
   ) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -1059,6 +1132,8 @@ export const GetBidTxDocument = gql`
     buyer_broker_basis_points: $buyerBrokerBasisPoints
   ) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -1077,6 +1152,8 @@ export const GetAcceptBidTxDocument = gql`
     seller_broker_basis_points: $sellerBrokerBasisPoints
   ) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -1089,6 +1166,8 @@ export const GetCancelBidTxDocument = gql`
     query getCancelBidTx($buyerAddress: String!, $tokenAddress: String!) {
   createCancelBidTx(buyer_address: $buyerAddress, token_address: $tokenAddress) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -1101,6 +1180,8 @@ export const GetDelistTxDocument = gql`
     query getDelistTx($sellerAddress: String!, $tokenAddress: String!) {
   createDelistTx(seller_address: $sellerAddress, token_address: $tokenAddress) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -1113,6 +1194,8 @@ export const GetWithdrawEscrowTxDocument = gql`
     query getWithdrawEscrowTx($userAddress: String!, $amount: Float!) {
   createWithdrawEscrowTx(user_address: $userAddress, amount: $amount) {
     data
+    is_required_signers_on
+    metadata
     error {
       error_type
       message
@@ -1476,6 +1559,34 @@ export const GetProjectStatsDocument = gql`
   }
 }
     `;
+export const GetProjectStatHistoryDocument = gql`
+    query getProjectStatHistory($paginationInfo: PaginationConfig, $conditions: GetProjectStatHistCondition!) {
+  getProjectStatHist(pagination_info: $paginationInfo, conditions: $conditions) {
+    project_stat_hist_entries {
+      project_id
+      timestamp
+      volume
+      volume_usd
+      volume_double
+      volume_usd_double
+      floor_price
+      num_of_sales
+      max_price
+      twitter_followers
+      discord_members
+      supply
+      num_of_token_holders
+      num_of_token_listed
+    }
+    pagination_info {
+      current_page_number
+      current_page_size
+      has_next_page
+      total_page_number
+    }
+  }
+}
+    `;
 export const SearchProjectByNameDocument = gql`
     query searchProjectByName($order_by: [OrderConfig!], $paginationInfo: PaginationConfig, $condition: GetProjectStatByNameCondition!) {
   getProjectStatByName(
@@ -1579,6 +1690,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getProjectStats(variables?: GetProjectStatsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProjectStatsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetProjectStatsQuery>(GetProjectStatsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProjectStats', 'query');
+    },
+    getProjectStatHistory(variables: GetProjectStatHistoryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProjectStatHistoryQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetProjectStatHistoryQuery>(GetProjectStatHistoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProjectStatHistory', 'query');
     },
     searchProjectByName(variables: SearchProjectByNameQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SearchProjectByNameQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<SearchProjectByNameQuery>(SearchProjectByNameDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'searchProjectByName', 'query');
