@@ -33,6 +33,8 @@ import {
   PaginationConfig,
   Sdk,
   SearchProjectByNameQuery,
+  SendBuyTxQuery,
+  SendBuyTxQueryVariables,
   SortOrderEnum,
 } from "./sdk";
 import { GraphQLClient } from "graphql-request";
@@ -382,6 +384,18 @@ export class HyperspaceClient {
       tokenAddress,
       unverified,
     });
+  }
+
+  sendBuyTx({
+    metadata,
+    data,
+    hexData
+  }: SendBuyTxQueryVariables): Promise<SendBuyTxQuery> {
+    return this.sdk.sendBuyTx({
+      metadata,
+      data,
+      hexData
+    })
   }
 
   createListTx({

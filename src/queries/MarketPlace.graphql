@@ -25,6 +25,24 @@ query getBuyTx(
   }
 }
 
+query sendBuyTx(
+  $data: [Float!]
+  $hexData: String 
+  $metadata: JSON!
+) {
+  confirmBuyTx(
+    data: $data 
+    hex_data: $hexData
+    metadata: $metadata
+  ) {
+    tx_id 
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
 
 query getListTx(
   $sellerAddress: String!

@@ -720,7 +720,7 @@ export type QueryAcceptBidTxArgs = {
 
 export type QueryConfirmBuyTxArgs = {
   data?: InputMaybe<Array<Scalars['Float']>>;
-  hexData?: InputMaybe<Scalars['String']>;
+  hex_data?: InputMaybe<Scalars['String']>;
   metadata: Scalars['JSON'];
 };
 
@@ -929,6 +929,15 @@ export type GetBuyTxQueryVariables = Exact<{
 
 export type GetBuyTxQuery = { __typename?: 'Query', createBuyTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
+export type SendBuyTxQueryVariables = Exact<{
+  data?: InputMaybe<Array<Scalars['Float']> | Scalars['Float']>;
+  hexData?: InputMaybe<Scalars['String']>;
+  metadata: Scalars['JSON'];
+}>;
+
+
+export type SendBuyTxQuery = { __typename?: 'Query', confirmBuyTx: { __typename?: 'MarketPlaceTxConfirmation', tx_id?: string | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+
 export type GetListTxQueryVariables = Exact<{
   sellerAddress: Scalars['String'];
   price: Scalars['Float'];
@@ -1094,6 +1103,18 @@ export const GetBuyTxDocument = gql`
     data
     is_required_signers_on
     metadata
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
+    `;
+export const SendBuyTxDocument = gql`
+    query sendBuyTx($data: [Float!], $hexData: String, $metadata: JSON!) {
+  confirmBuyTx(data: $data, hex_data: $hexData, metadata: $metadata) {
+    tx_id
     error {
       error_type
       message
@@ -1645,6 +1666,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     getBuyTx(variables: GetBuyTxQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetBuyTxQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetBuyTxQuery>(GetBuyTxDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getBuyTx', 'query');
+    },
+    sendBuyTx(variables: SendBuyTxQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SendBuyTxQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SendBuyTxQuery>(SendBuyTxDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'sendBuyTx', 'query');
     },
     getListTx(variables: GetListTxQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetListTxQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetListTxQuery>(GetListTxDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getListTx', 'query');
