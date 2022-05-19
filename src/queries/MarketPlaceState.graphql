@@ -8,6 +8,7 @@ query getUserBids(
     pagination_info: $paginationInfo
     order_by: $order_by
   ) {
+    market_place_snapshots {
     name
     token_address
     project_name
@@ -32,6 +33,7 @@ query getUserBids(
       buyer_referral_fee
       metadata
       price
+      }
     }
   }
 }
@@ -46,6 +48,7 @@ query getUserListings(
     pagination_info: $paginationInfo
     order_by: $orderBy
   ) {
+    market_place_snapshots {
     token_address
     name
     full_img
@@ -53,23 +56,24 @@ query getUserListings(
     project_name
     project_id
     rank_est
-    market_place_state {
-      block_timestamp
-      escrow_address
-      signature
-      seller_address
-      buyer_address
-      type 
-      marketplace_program_id
-      marketplace_instance_id
-      fee 
-      amount 
-      seller_referral_fee
-      seller_referral_address
-      buyer_referral_address
-      buyer_referral_fee
-      metadata
-      price
+      market_place_state {
+        block_timestamp
+        escrow_address
+        signature
+        seller_address
+        buyer_address
+        type 
+        marketplace_program_id
+        marketplace_instance_id
+        fee 
+        amount 
+        seller_referral_fee
+        seller_referral_address
+        buyer_referral_address
+        buyer_referral_fee
+        metadata
+        price
+      }
     }
   }
 }
