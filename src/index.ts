@@ -26,7 +26,6 @@ import {
   SearchProjectByNameQuery,
   GetMarketplaceSnapshotsQuery,
   ProjectStat,
-  MarketPlaceSnapshot,
   MarketPlaceActions,
   MarketPlaceSnapshotResponse,
   ProjectAttribute,
@@ -36,8 +35,11 @@ import {
   MarketPlaceActionEnum,
   GetProjectHistoryQuery,
   MarketPlaceTxErrorEnum,
-  SortOrderEnum
+  SortOrderEnum,
+  StringInputArg,
+  StringInputOperationEnum,
 } from "./sdk";
+
 import {
   GetMarketplaceSnapshotCondition,
   GetMarketplaceStateCondition,
@@ -49,7 +51,7 @@ import {
   GetProjectsCondition,
   GetProjectStatHistCondition,
   TimeGranularityEnum,
-  GetBuyTxQuery
+  GetBuyTxQuery,
 } from "./types";
 
 module.exports = {
@@ -57,6 +59,8 @@ module.exports = {
 }
 
 export {
+  StringInputArg,
+  StringInputOperationEnum,
   GetProjectStatHistCondition,
   TimeGranularityEnum,
   GetProjectsCondition,
@@ -66,7 +70,6 @@ export {
   GetProjectHistoryQuery,
   MarketPlaceActionEnum,
   ProjectStat,
-  MarketPlaceSnapshot,
   MarketPlaceActions,
   MarketPlaceSnapshotResponse,
   ProjectAttribute,

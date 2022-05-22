@@ -5,10 +5,11 @@ import {
   ProjectIdWithAttributes,
   PaginationConfig,
   MarketPlaceTxErrorEnum,
+  StringInputArg,
 } from "./sdk";
 
 export type GetMarketplaceSnapshotCondition = {
-  name?: string;
+  name?: StringInputArg;
   projects?: ProjectIdWithAttributes[];
   tokenAddresses?: string[];
   excludeTokensWithoutMetadata?: boolean;

@@ -40,7 +40,7 @@ query getUserHistory(
     order_by: $orderBy
     pagination_info: $paginationInfo
   ) {
-    mps {
+    market_place_snapshots {
       project_name
       name
       token_address
@@ -85,7 +85,7 @@ query getProjectHistory(
     order_by: $orderBy
     pagination_info: $paginationInfo
   ) {
-    mps {
+    market_place_snapshots {
       name
       token_address
       meta_data_img
