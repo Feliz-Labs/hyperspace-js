@@ -1,6 +1,6 @@
 {
   "name": "hyperspace-client-js",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/Feliz-Labs/hyperspace-js.git",
@@ -21,6 +21,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "generate": "graphql-codegen -c codegen.yml"
+    "generate": "graphql-codegen -c codegen.yml",
+    "release": "tsc && npm publish"
   }
 }
