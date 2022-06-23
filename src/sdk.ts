@@ -13,6 +13,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** Date custom scalar type */
+  Date: any;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
@@ -101,23 +103,35 @@ export type CreateTransactionMarketPlaceActionInput = {
   token_address: Scalars['String'];
 };
 
-export type GetMarketPlaceActionsByProjectCondition = {
-  by_mpa_types?: InputMaybe<Array<MarketPlaceActionEnum>>;
-  exclude_mpa_types?: InputMaybe<Array<MarketPlaceActionEnum>>;
-  project?: InputMaybe<ProjectIdWithAttributes>;
-  project_id?: InputMaybe<Scalars['String']>;
+export type CreateUpcomingProjectInstanceInput = {
+  description?: InputMaybe<Scalars['String']>;
+  discord?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  has_ended?: InputMaybe<Scalars['Boolean']>;
+  img_url?: InputMaybe<Scalars['String']>;
+  launch_date?: InputMaybe<Scalars['Date']>;
+  launch_timestamp?: InputMaybe<Scalars['String']>;
+  mint_site?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['String']>;
+  project_name: Scalars['String'];
+  protocol: ProtocolEnum;
+  supply?: InputMaybe<Scalars['String']>;
+  twitter?: InputMaybe<Scalars['String']>;
+  website?: InputMaybe<Scalars['String']>;
 };
 
-export type GetMarketPlaceActionsByProjectResponse = {
-  __typename?: 'GetMarketPlaceActionsByProjectResponse';
-  pagination_info: PaginationInfoResponseType;
-  project_instances: Array<ProjectInstance>;
-};
+export enum CrmPriorityEnum {
+  Dead = 'DEAD',
+  High = 'HIGH',
+  Low = 'LOW',
+  Top = 'TOP'
+}
 
 export type GetMarketPlaceActionsByProjectsCondition = {
   by_mpa_types?: InputMaybe<Array<MarketPlaceActionEnum>>;
+  by_nmpa_types?: InputMaybe<Array<NonMarketPlaceActionEnum>>;
   exclude_mpa_types?: InputMaybe<Array<MarketPlaceActionEnum>>;
-  projects?: InputMaybe<Array<ProjectIdWithAttributes>>;
+  projects: Array<ProjectIdWithAttributes>;
 };
 
 export type GetMarketPlaceActionsByTokenAddressCondition = {
@@ -130,13 +144,9 @@ export type GetMarketPlaceActionsByUserCondition = {
   buyer_address?: InputMaybe<Scalars['String']>;
   by_mpa_types?: InputMaybe<Array<MarketPlaceActionEnum>>;
   by_nmpa_types?: InputMaybe<Array<NonMarketPlaceActionEnum>>;
+  destination_address?: InputMaybe<Scalars['String']>;
   seller_address?: InputMaybe<Scalars['String']>;
-};
-
-export type GetMarketPlaceActionsByUserResponse = {
-  __typename?: 'GetMarketPlaceActionsByUserResponse';
-  pagination_info: PaginationInfoResponseType;
-  project_instances: Array<ProjectInstance>;
+  source_address?: InputMaybe<Scalars['String']>;
 };
 
 export type GetMarketPlaceActionsOutput = {
@@ -151,6 +161,8 @@ export type GetMarketPlaceSnapshotCondition = {
   include_floors?: InputMaybe<Scalars['Boolean']>;
   listing_type?: InputMaybe<MarketPlaceActionEnum>;
   name?: InputMaybe<StringInputArg>;
+  only_cross_mint_verified?: InputMaybe<Scalars['Boolean']>;
+  only_listed_on_hs?: InputMaybe<Scalars['Boolean']>;
   price_filter?: InputMaybe<MarketPlacePricingFilterValues>;
   project_ids?: InputMaybe<Array<ProjectIdWithAttributes>>;
   rank_filter?: InputMaybe<MarketPlacePricingFilterValues>;
@@ -169,12 +181,6 @@ export type GetMarketPlaceStateCondition = {
   marketplace_ids?: InputMaybe<Array<MarketPlaceIdentifier>>;
   seller_address?: InputMaybe<Scalars['String']>;
   token_addresses?: InputMaybe<Array<Scalars['String']>>;
-};
-
-export type GetMarketPlaceStateOutput = {
-  __typename?: 'GetMarketPlaceStateOutput';
-  market_place_states: Array<ProjectInstance>;
-  token_address: Scalars['String'];
 };
 
 export type GetMarketPlaceStateResponse = {
@@ -196,8 +202,17 @@ export type GetOverallProjectStatOutput = {
   volume?: Maybe<Scalars['Float']>;
 };
 
+export type GetOverallWalletStatOutput = {
+  __typename?: 'GetOverallWalletStatOutput';
+  largest_sale_1day?: Maybe<WalletStat>;
+  top_buyer_1day?: Maybe<WalletStat>;
+  top_seller_1day?: Maybe<WalletStat>;
+};
+
 export type GetProjectStatByNameCondition = {
-  display_name: Scalars['String'];
+  display_name?: InputMaybe<Scalars['String']>;
+  exclude_project_attributes?: InputMaybe<Scalars['Boolean']>;
+  project_name?: InputMaybe<StringInputArg>;
   tag?: InputMaybe<Scalars['String']>;
 };
 
@@ -223,6 +238,7 @@ export type GetProjectStatsCondition = {
   exclude_project_attributes?: InputMaybe<Scalars['Boolean']>;
   is_verified?: InputMaybe<Scalars['Boolean']>;
   project_ids?: InputMaybe<Array<Scalars['String']>>;
+  supply?: InputMaybe<SupplyInput>;
   tags?: InputMaybe<Array<Scalars['String']>>;
 };
 
@@ -232,9 +248,45 @@ export type GetProjectStatsOutput = {
   project_stats?: Maybe<Array<ProjectStat>>;
 };
 
+export type GetUpcomingProjectsCondition = {
+  display_name?: InputMaybe<Scalars['String']>;
+  is_featured?: InputMaybe<Scalars['Boolean']>;
+  is_moonshot?: InputMaybe<Scalars['Boolean']>;
+  project_name?: InputMaybe<Scalars['String']>;
+  user_address?: InputMaybe<Scalars['String']>;
+  user_timestamp?: InputMaybe<UserTimestamp>;
+};
+
+export type GetUpcomingProjectsResponse = {
+  __typename?: 'GetUpcomingProjectsResponse';
+  pagination_info: PaginationInfoResponseType;
+  upcoming_projects: Array<UpcomingProject>;
+};
+
+export type GetWalletStatsCondition = {
+  include_user_rank?: InputMaybe<Scalars['Boolean']>;
+  search_address?: InputMaybe<Scalars['String']>;
+  time_period?: InputMaybe<TimePeriodEnum>;
+};
+
+export type GetWalletStatsOutput = {
+  __typename?: 'GetWalletStatsOutput';
+  pagination_info: PaginationInfoResponseType;
+  wallet_stats?: Maybe<Array<WalletStat>>;
+};
+
+export enum LeadStateEnum {
+  Closedlost = 'CLOSEDLOST',
+  Closedwon = 'CLOSEDWON',
+  Discovery = 'DISCOVERY',
+  Lead = 'LEAD',
+  Negotiation = 'NEGOTIATION'
+}
+
 export type MpaPaginationConfig = {
   page_number?: InputMaybe<Scalars['Float']>;
   page_size?: InputMaybe<Scalars['Float']>;
+  progressive_load?: InputMaybe<Scalars['Boolean']>;
 };
 
 export enum MarketPlaceActionEnum {
@@ -265,6 +317,7 @@ export type MarketPlaceActionResponse = {
   broker_referral_fee?: Maybe<Scalars['Float']>;
   escrow_address?: Maybe<Scalars['String']>;
   fee?: Maybe<Scalars['Float']>;
+  is_cross_mint_verified?: Maybe<Scalars['Boolean']>;
   marketplace_fee_address?: Maybe<Scalars['String']>;
   marketplace_instance_id?: Maybe<Scalars['String']>;
   marketplace_program_id?: Maybe<Scalars['String']>;
@@ -283,6 +336,8 @@ export type MarketPlaceActions = {
   buyer_referral_address?: Maybe<Scalars['String']>;
   buyer_referral_fee?: Maybe<Scalars['Float']>;
   created_at?: Maybe<Scalars['DateTime']>;
+  currency?: Maybe<Scalars['String']>;
+  decimal?: Maybe<Scalars['Float']>;
   escrow_address?: Maybe<Scalars['String']>;
   fee?: Maybe<Scalars['Float']>;
   marketplace_fee_address?: Maybe<Scalars['String']>;
@@ -312,7 +367,9 @@ export type MarketPlacePricingFilterValues = {
 export type MarketPlaceSnapshotResponse = {
   __typename?: 'MarketPlaceSnapshotResponse';
   attributes?: Maybe<Scalars['JSON']>;
+  candy_machine_id?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['DateTime']>;
+  first_creator?: Maybe<Scalars['String']>;
   floor_price?: Maybe<Scalars['Float']>;
   floor_price_1day_change?: Maybe<Scalars['Float']>;
   full_img?: Maybe<Scalars['String']>;
@@ -320,6 +377,7 @@ export type MarketPlaceSnapshotResponse = {
   is_project_verified?: Maybe<Scalars['Boolean']>;
   lowest_listing_mpa?: Maybe<MarketPlaceActionResponse>;
   market_place_state?: Maybe<MarketPlaceState>;
+  mcc_id?: Maybe<Scalars['String']>;
   meta_data_img?: Maybe<Scalars['String']>;
   meta_data_uri?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -329,6 +387,7 @@ export type MarketPlaceSnapshotResponse = {
   project_id: Scalars['String'];
   project_image?: Maybe<Scalars['String']>;
   project_name?: Maybe<Scalars['String']>;
+  project_slug?: Maybe<Scalars['String']>;
   project_supply?: Maybe<Scalars['Float']>;
   rank?: Maybe<Scalars['Float']>;
   rank_est?: Maybe<Scalars['Float']>;
@@ -350,6 +409,8 @@ export type MarketPlaceState = {
   buyer_referral_address?: Maybe<Scalars['String']>;
   buyer_referral_fee?: Maybe<Scalars['Float']>;
   created_at?: Maybe<Scalars['DateTime']>;
+  currency?: Maybe<Scalars['String']>;
+  decimal?: Maybe<Scalars['Float']>;
   escrow_address?: Maybe<Scalars['String']>;
   fee?: Maybe<Scalars['Float']>;
   marketplace_fee_address?: Maybe<Scalars['String']>;
@@ -434,8 +495,10 @@ export type Mutation = {
   createListingMarketPlaceAction: MarketPlaceActions;
   createMarketPlaceAction: MarketPlaceActions;
   createTransactionMarketPlaceAction: MarketPlaceActions;
+  createUpcomingProject: UpcomingProject;
   updateBidMarketPlaceAction: MarketPlaceActions;
   updateListingMarketPlaceAction: MarketPlaceActions;
+  updateUpcomingProject: UpcomingProject;
 };
 
 
@@ -469,6 +532,11 @@ export type MutationCreateTransactionMarketPlaceActionArgs = {
 };
 
 
+export type MutationCreateUpcomingProjectArgs = {
+  data: CreateUpcomingProjectInstanceInput;
+};
+
+
 export type MutationUpdateBidMarketPlaceActionArgs = {
   data: UpdateBidMarketPlaceActionInput;
 };
@@ -476,6 +544,11 @@ export type MutationUpdateBidMarketPlaceActionArgs = {
 
 export type MutationUpdateListingMarketPlaceActionArgs = {
   data: UpdateListingMarketPlaceActionInput;
+};
+
+
+export type MutationUpdateUpcomingProjectArgs = {
+  data: UpdateUpcomingProjectInput;
 };
 
 export enum NonMarketPlaceActionEnum {
@@ -493,6 +566,7 @@ export enum NonMarketPlaceActionEnum {
 export type NonMarketPlaceActions = {
   __typename?: 'NonMarketPlaceActions';
   amount?: Maybe<Scalars['Float']>;
+  bank_id?: Maybe<Scalars['String']>;
   block_number?: Maybe<Scalars['Float']>;
   block_timestamp?: Maybe<Scalars['Float']>;
   collection_id?: Maybe<Scalars['String']>;
@@ -501,6 +575,7 @@ export type NonMarketPlaceActions = {
   decimal?: Maybe<Scalars['Float']>;
   destination_address?: Maybe<Scalars['String']>;
   destination_token_account?: Maybe<Scalars['String']>;
+  farm_id?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
   new_authority?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
@@ -509,6 +584,7 @@ export type NonMarketPlaceActions = {
   source_address?: Maybe<Scalars['String']>;
   source_token_account?: Maybe<Scalars['String']>;
   token_address?: Maybe<Scalars['String']>;
+  token_name?: Maybe<Scalars['String']>;
   type?: Maybe<NonMarketPlaceActionEnum>;
   updated_at?: Maybe<Scalars['DateTime']>;
 };
@@ -521,6 +597,7 @@ export type OrderConfig = {
 export type PaginationConfig = {
   page_number?: InputMaybe<Scalars['Float']>;
   page_size?: InputMaybe<Scalars['Float']>;
+  progressive_load?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type PaginationInfoResponseType = {
@@ -533,18 +610,24 @@ export type PaginationInfoResponseType = {
 
 export type Project = {
   __typename?: 'Project';
+  candy_machine_id?: Maybe<Scalars['String']>;
   candy_machine_ids?: Maybe<Array<Scalars['String']>>;
   created_at?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
   discord?: Maybe<Scalars['String']>;
   display_name: Scalars['String'];
+  first_creator?: Maybe<Scalars['String']>;
   img_url?: Maybe<Scalars['String']>;
+  is_attribute_stats_enabled?: Maybe<Scalars['Boolean']>;
   is_minting?: Maybe<Scalars['Boolean']>;
   is_verified?: Maybe<Scalars['Boolean']>;
   launch_date?: Maybe<Scalars['DateTime']>;
   launch_timestamp?: Maybe<Scalars['String']>;
+  mcc_id?: Maybe<Scalars['String']>;
+  notifi_id?: Maybe<Scalars['String']>;
   project_attributes?: Maybe<Array<ProjectAttribute>>;
   project_id: Scalars['String'];
+  project_slug?: Maybe<Scalars['String']>;
   protocol?: Maybe<ProtocolEnum>;
   requires_categorization?: Maybe<Scalars['Boolean']>;
   supply?: Maybe<Scalars['Float']>;
@@ -566,32 +649,6 @@ export type ProjectAttribute = {
 export type ProjectIdWithAttributes = {
   attributes?: InputMaybe<Array<Scalars['JSON']>>;
   project_id: Scalars['String'];
-};
-
-export type ProjectInstance = {
-  __typename?: 'ProjectInstance';
-  attributes?: Maybe<Scalars['JSON']>;
-  created_at?: Maybe<Scalars['DateTime']>;
-  floor_price?: Maybe<Scalars['Float']>;
-  full_img?: Maybe<Scalars['String']>;
-  is_project_verified?: Maybe<Scalars['Boolean']>;
-  latest_action?: Maybe<MarketPlaceActions>;
-  latest_valuation?: Maybe<Valuation>;
-  meta_data_img?: Maybe<Scalars['String']>;
-  meta_data_uri?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  owner?: Maybe<Scalars['String']>;
-  project_id: Scalars['String'];
-  project_image?: Maybe<Scalars['String']>;
-  project_name?: Maybe<Scalars['String']>;
-  rank?: Maybe<Scalars['Float']>;
-  rank_est?: Maybe<Scalars['Float']>;
-  rarity?: Maybe<Scalars['Float']>;
-  rarity_est?: Maybe<Scalars['Float']>;
-  small_img?: Maybe<Scalars['String']>;
-  supply?: Maybe<Scalars['Float']>;
-  token_address: Scalars['String'];
-  updated_at?: Maybe<Scalars['DateTime']>;
 };
 
 export type ProjectStat = {
@@ -663,24 +720,23 @@ export type Query = {
   createDelistTx: MarketPlaceTxOutput;
   createListTx: MarketPlaceTxOutput;
   createWithdrawEscrowTx: MarketPlaceTxOutput;
-  getCurrentBidsForUser: Array<ProjectInstance>;
-  getCurrentListingsForUser: Array<ProjectInstance>;
-  getMarketPlaceActionsByProject: GetMarketPlaceActionsByProjectResponse;
   getMarketPlaceActionsByToken: Array<GetMarketPlaceActionsOutput>;
-  getMarketPlaceActionsByUser: GetMarketPlaceActionsByUserResponse;
   getMarketPlaceSnapshots: GetMarketPlaceSnapshotsResponse;
-  getMarketPlaceState: Array<GetMarketPlaceStateOutput>;
   getMarketPlaceStatus: GetMarketPlaceStatusResponse;
   getOverallProjectStats: GetOverallProjectStatOutput;
+  getOverallWalletStats: GetOverallWalletStatOutput;
   getProjectHistory: GetMarketPlaceSnapshotsResponse;
   getProjectStatByName: GetProjectStatsOutput;
   getProjectStatCount: GetProjectStatCount;
   getProjectStatHist: GetProjectStatHistOutput;
   getProjectStats: GetProjectStatsOutput;
   getTokenState: Array<GetMarketPlaceStateResponse>;
+  getUpcomingProjectsByUser: GetUpcomingProjectsResponse;
+  getUpcomingProjectsRaw: GetUpcomingProjectsResponse;
   getUserBids: GetMarketPlaceSnapshotsResponse;
   getUserHistory: GetMarketPlaceSnapshotsResponse;
   getUserListings: GetMarketPlaceSnapshotsResponse;
+  getWalletStats: GetWalletStatsOutput;
 };
 
 
@@ -746,27 +802,6 @@ export type QueryCreateWithdrawEscrowTxArgs = {
 };
 
 
-export type QueryGetCurrentBidsForUserArgs = {
-  condition?: InputMaybe<GetMarketPlaceStateCondition>;
-  order_by?: InputMaybe<Array<OrderConfig>>;
-  pagination_info?: InputMaybe<PaginationConfig>;
-};
-
-
-export type QueryGetCurrentListingsForUserArgs = {
-  condition?: InputMaybe<GetMarketPlaceStateCondition>;
-  order_by?: InputMaybe<Array<OrderConfig>>;
-  pagination_info?: InputMaybe<PaginationConfig>;
-};
-
-
-export type QueryGetMarketPlaceActionsByProjectArgs = {
-  condition: GetMarketPlaceActionsByProjectCondition;
-  order_by?: InputMaybe<Array<OrderConfig>>;
-  pagination_info?: InputMaybe<MpaPaginationConfig>;
-};
-
-
 export type QueryGetMarketPlaceActionsByTokenArgs = {
   condition: GetMarketPlaceActionsByTokenAddressCondition;
   order_by?: InputMaybe<Array<OrderConfig>>;
@@ -774,22 +809,8 @@ export type QueryGetMarketPlaceActionsByTokenArgs = {
 };
 
 
-export type QueryGetMarketPlaceActionsByUserArgs = {
-  condition: GetMarketPlaceActionsByUserCondition;
-  order_by?: InputMaybe<Array<OrderConfig>>;
-  pagination_info?: InputMaybe<MpaPaginationConfig>;
-};
-
-
 export type QueryGetMarketPlaceSnapshotsArgs = {
   condition?: InputMaybe<GetMarketPlaceSnapshotCondition>;
-  order_by?: InputMaybe<Array<OrderConfig>>;
-  pagination_info?: InputMaybe<PaginationConfig>;
-};
-
-
-export type QueryGetMarketPlaceStateArgs = {
-  condition?: InputMaybe<GetMarketPlaceStateCondition>;
   order_by?: InputMaybe<Array<OrderConfig>>;
   pagination_info?: InputMaybe<PaginationConfig>;
 };
@@ -835,6 +856,20 @@ export type QueryGetTokenStateArgs = {
 };
 
 
+export type QueryGetUpcomingProjectsByUserArgs = {
+  conditions?: InputMaybe<Array<GetUpcomingProjectsCondition>>;
+  order_by?: InputMaybe<Array<OrderConfig>>;
+  pagination_info?: InputMaybe<PaginationConfig>;
+};
+
+
+export type QueryGetUpcomingProjectsRawArgs = {
+  conditions?: InputMaybe<Array<GetUpcomingProjectsCondition>>;
+  order_by?: InputMaybe<Array<OrderConfig>>;
+  pagination_info?: InputMaybe<PaginationConfig>;
+};
+
+
 export type QueryGetUserBidsArgs = {
   condition?: InputMaybe<GetMarketPlaceStateCondition>;
   order_by?: InputMaybe<Array<OrderConfig>>;
@@ -855,6 +890,13 @@ export type QueryGetUserListingsArgs = {
   pagination_info?: InputMaybe<PaginationConfig>;
 };
 
+
+export type QueryGetWalletStatsArgs = {
+  condition?: InputMaybe<GetWalletStatsCondition>;
+  order_by?: InputMaybe<Array<OrderConfig>>;
+  pagination_info?: InputMaybe<PaginationConfig>;
+};
+
 export enum SortOrderEnum {
   Asc = 'ASC',
   Desc = 'DESC'
@@ -869,6 +911,64 @@ export enum StringInputOperationEnum {
   Exact = 'EXACT',
   Fuzzy = 'FUZZY'
 }
+
+export type SupplyInput = {
+  operation: Scalars['String'];
+  order_by?: InputMaybe<Scalars['String']>;
+  supply: Scalars['Float'];
+};
+
+export enum TimePeriodEnum {
+  All = 'ALL',
+  OneDay = 'ONE_DAY'
+}
+
+export type UpcomingProject = {
+  __typename?: 'UpcomingProject';
+  calendar_event_id?: Maybe<Scalars['String']>;
+  candy_machine_ids?: Maybe<Array<Scalars['String']>>;
+  created_at: Scalars['DateTime'];
+  crm_priority?: Maybe<CrmPriorityEnum>;
+  description?: Maybe<Scalars['String']>;
+  discord?: Maybe<Scalars['String']>;
+  discord_members?: Maybe<Scalars['Float']>;
+  display_name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  img_url?: Maybe<Scalars['String']>;
+  isLikedByUser?: Maybe<Scalars['Boolean']>;
+  is_featured: Scalars['Boolean'];
+  is_moonshot: Scalars['Boolean'];
+  launch_date?: Maybe<Scalars['Date']>;
+  launch_timestamp?: Maybe<Scalars['String']>;
+  launchpad?: Maybe<Scalars['String']>;
+  launchpad_contact_date?: Maybe<Scalars['Date']>;
+  launchpad_stage?: Maybe<LeadStateEnum>;
+  likesCount: Scalars['Float'];
+  marketplace_contact_date?: Maybe<Scalars['Date']>;
+  marketplace_stage?: Maybe<LeadStateEnum>;
+  mint_site?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  point_person?: Maybe<Scalars['String']>;
+  prediction?: Maybe<Scalars['Float']>;
+  price?: Maybe<Scalars['String']>;
+  priority?: Maybe<Scalars['Float']>;
+  priority_assign_date?: Maybe<Scalars['Date']>;
+  project_id?: Maybe<Scalars['String']>;
+  project_name: Scalars['String'];
+  protocol: ProtocolEnum;
+  source?: Maybe<Scalars['String']>;
+  supply?: Maybe<Scalars['String']>;
+  telegram?: Maybe<Scalars['String']>;
+  twitter?: Maybe<Scalars['String']>;
+  twitter_followers?: Maybe<Scalars['Float']>;
+  updated_at: Scalars['DateTime'];
+  user_likes?: Maybe<Array<UserUpcomingLike>>;
+  website?: Maybe<Scalars['String']>;
+};
+
+export type UpcomingProjectFindyByInput = {
+  project_name: Scalars['String'];
+};
 
 export type UpdateBidMarketPlaceActionInput = {
   buyer_address: Scalars['String'];
@@ -894,12 +994,117 @@ export type UpdateListingMarketPlaceActionInput = {
   token_address: Scalars['String'];
 };
 
-export type Valuation = {
-  __typename?: 'Valuation';
-  price: Scalars['Float'];
-  project_id: Scalars['String'];
-  token_address: Scalars['String'];
-  valuation_date: Scalars['DateTime'];
+export type UpdateUpcomingProjectInput = {
+  find_by: UpcomingProjectFindyByInput;
+  input_values: UpdateUpcomingProjectInputValues;
+};
+
+export type UpdateUpcomingProjectInputValues = {
+  description?: InputMaybe<Scalars['String']>;
+  discord?: InputMaybe<Scalars['String']>;
+  display_name?: InputMaybe<Scalars['String']>;
+  has_ended?: InputMaybe<Scalars['Boolean']>;
+  img_url?: InputMaybe<Scalars['String']>;
+  launch_date?: InputMaybe<Scalars['Date']>;
+  launch_timestamp?: InputMaybe<Scalars['String']>;
+  mint_site?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['String']>;
+  supply?: InputMaybe<Scalars['String']>;
+  twitter?: InputMaybe<Scalars['String']>;
+  website?: InputMaybe<Scalars['String']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  bio?: Maybe<Scalars['String']>;
+  created_at: Scalars['DateTime'];
+  discord?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  is_cross_mint_seller_verified?: Maybe<Scalars['Boolean']>;
+  profile_image?: Maybe<Scalars['String']>;
+  subscribers?: Maybe<Array<UserSubscription>>;
+  subscriptions?: Maybe<Array<UserSubscription>>;
+  tags?: Maybe<Array<UserTag>>;
+  twitter?: Maybe<Scalars['String']>;
+  upcoming_likes?: Maybe<Array<UserUpcomingLike>>;
+  updated_at: Scalars['DateTime'];
+  username?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+};
+
+export type UserSubscription = {
+  __typename?: 'UserSubscription';
+  created_at: Scalars['DateTime'];
+  subscribed_to: User;
+  subscriber: User;
+  updated_at: Scalars['DateTime'];
+};
+
+export type UserTag = {
+  __typename?: 'UserTag';
+  created_at: Scalars['DateTime'];
+  tag: Scalars['String'];
+  updated_at: Scalars['DateTime'];
+  user_id: Scalars['String'];
+};
+
+export type UserTimestamp = {
+  locale?: InputMaybe<Scalars['String']>;
+  operation?: InputMaybe<Scalars['String']>;
+  timestamp: Scalars['Float'];
+  timezone?: InputMaybe<Scalars['String']>;
+};
+
+export type UserUpcomingLike = {
+  __typename?: 'UserUpcomingLike';
+  created_at: Scalars['DateTime'];
+  project: UpcomingProject;
+  updated_at: Scalars['DateTime'];
+  user: User;
+};
+
+export type WalletStat = {
+  __typename?: 'WalletStat';
+  address: Scalars['String'];
+  bids_made_amount?: Maybe<Scalars['Float']>;
+  bids_made_amount_1day?: Maybe<Scalars['Float']>;
+  created_at: Scalars['DateTime'];
+  listed_nfts?: Maybe<Scalars['Float']>;
+  max_purchase?: Maybe<Scalars['Float']>;
+  max_purchase_1day?: Maybe<Scalars['Float']>;
+  max_purchase_item?: Maybe<Scalars['JSON']>;
+  max_purchase_item_1day?: Maybe<Scalars['JSON']>;
+  max_sale?: Maybe<Scalars['Float']>;
+  max_sale_1day?: Maybe<Scalars['Float']>;
+  max_sale_item?: Maybe<Scalars['JSON']>;
+  max_sale_item_1day?: Maybe<Scalars['JSON']>;
+  minted_amount?: Maybe<Scalars['Float']>;
+  minted_amount_1day?: Maybe<Scalars['Float']>;
+  num_bids?: Maybe<Scalars['Float']>;
+  num_bids_1day?: Maybe<Scalars['Float']>;
+  num_bought?: Maybe<Scalars['Float']>;
+  num_bought_1day?: Maybe<Scalars['Float']>;
+  num_minted?: Maybe<Scalars['Float']>;
+  num_minted_1day?: Maybe<Scalars['Float']>;
+  num_sold?: Maybe<Scalars['Float']>;
+  num_sold_1day?: Maybe<Scalars['Float']>;
+  owned_nfts?: Maybe<Scalars['Float']>;
+  portfolio_value?: Maybe<Scalars['Float']>;
+  rank?: Maybe<Scalars['Float']>;
+  rank_1day?: Maybe<Scalars['Float']>;
+  rank_1day_percentile?: Maybe<Scalars['Float']>;
+  rank_percentile?: Maybe<Scalars['Float']>;
+  sol_name?: Maybe<Scalars['String']>;
+  twitter?: Maybe<Scalars['String']>;
+  updated_at: Scalars['DateTime'];
+  volume_bought?: Maybe<Scalars['Float']>;
+  volume_bought_1day?: Maybe<Scalars['Float']>;
+  volume_sold?: Maybe<Scalars['Float']>;
+  volume_sold_1day?: Maybe<Scalars['Float']>;
+  wallet_score?: Maybe<Scalars['Float']>;
+  wallet_score_1day?: Maybe<Scalars['Float']>;
+  wallet_stat_timestamp: Scalars['Float'];
 };
 
 export type GetBuyTxQueryVariables = Exact<{
