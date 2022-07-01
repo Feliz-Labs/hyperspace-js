@@ -38,6 +38,8 @@ import {
   SortOrderEnum,
   StringInputArg,
   StringInputOperationEnum,
+  GetWalletStatsQuery,
+  GetWalletStatsHistQuery
 } from "./sdk";
 
 import {
@@ -59,6 +61,8 @@ module.exports = {
 }
 
 export {
+  GetWalletStatsQuery,
+  GetWalletStatsHistQuery,
   StringInputArg,
   StringInputOperationEnum,
   GetProjectStatHistCondition,

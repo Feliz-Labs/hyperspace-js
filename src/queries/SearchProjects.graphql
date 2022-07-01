@@ -23,6 +23,7 @@ query searchProjectByName(
       num_of_token_holders
       percentage_of_token_listed
       volume_1day
+      volume_1hr
       rank
       project {
         supply
@@ -32,6 +33,8 @@ query searchProjectByName(
         img_url
         is_verified
         display_name
+        project_slug
+        me_slug
         project_attributes {
           name
           type

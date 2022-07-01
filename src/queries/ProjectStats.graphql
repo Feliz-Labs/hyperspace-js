@@ -23,6 +23,7 @@ query getProjectStats(
       num_of_token_holders
       percentage_of_token_listed
       volume_1day
+      volume_1hr
       project {
         supply
         website
@@ -31,6 +32,8 @@ query getProjectStats(
         img_url
         is_verified
         display_name
+        project_slug
+        me_slug
         project_attributes {
           name
           type

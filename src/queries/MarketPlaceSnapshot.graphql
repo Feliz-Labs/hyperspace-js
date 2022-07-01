@@ -22,6 +22,7 @@ query getMarketplaceSnapshots(
         floor_price
         project_name
         project_image
+        project_slug
         is_project_verified
         project_attributes {
           name

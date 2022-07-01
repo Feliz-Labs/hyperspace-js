@@ -6,6 +6,8 @@ import {
   PaginationConfig,
   MarketPlaceTxErrorEnum,
   StringInputArg,
+  TimePeriodEnum,
+  Day_Lookback_Enum
 } from "./sdk";
 
 export type GetMarketplaceSnapshotCondition = {
@@ -73,7 +75,11 @@ export type GetProjectStatHistCondition = {
 };
 
 export type SearchProjectCondition = {
-  name: string;
+  name?: String;
+  matchName?: StringInputArg;
+  twitter?: StringInputArg;
+  meSlug?: StringInputArg;
+  excludeAttributes?: boolean;
   tag?: string;
 };
 
@@ -81,6 +87,7 @@ export type GetProjectsCondition = {
   projectIds?: string[];
   excludeProjectAttributes?: boolean;
 };
+
 export type GetBuyTxQuery = {
   __typename?: "Query";
   createBuyTx: {
@@ -97,3 +104,14 @@ export type GetBuyTxQuery = {
     txObj?: any | null;
   };
 };
+
+export type GetWalletStatsCondition = {
+  searchAddress?: string;
+  timePeriod?: TimePeriodEnum;
+  includeUserRank?: boolean;
+}
+
+export type GetWalletStatsHistCondition = {
+  searchAddress: string;
+  dayLookback?: Day_Lookback_Enum;
+}

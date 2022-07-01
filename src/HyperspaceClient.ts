@@ -36,6 +36,8 @@ import {
   SendBuyTxQuery,
   SendBuyTxQueryVariables,
   SortOrderEnum,
+  GetWalletStatsQuery,
+  GetWalletStatsHistQuery,
 } from "./sdk";
 import { GraphQLClient } from "graphql-request";
 import {
@@ -49,6 +51,8 @@ import {
   SearchProjectCondition,
   GetProjectStatHistCondition,
   GetBuyTxQuery,
+  GetWalletStatsCondition,
+  GetWalletStatsHistCondition,
 } from "./types";
 const SolanaWeb3 = require("opensea-solana");
 
@@ -70,19 +74,94 @@ export class HyperspaceClient {
     this.sdk = getSdk(this.graphqlClient);
   }
 
+  getWalletStats({
+    condition,
+    orderBy,
+    paginationInfo,
+  }: {
+    condition: GetWalletStatsCondition;
+    orderBy?: OrderConfig;
+    paginationInfo?: PaginationConfig;
+  }): Promise<GetWalletStatsQuery> {
+    return this.sdk.getWalletStats(
+      {
+        condition: {
+          search_address: condition.searchAddress,
+          include_user_rank: condition.includeUserRank,
+          time_period: condition.timePeriod,
+        },
+        orderBy,
+        paginationInfo,
+      },
+      this.headers
+    );
+  }
+
+  getWalletStatsHist({
+    condition,
+  }: {
+    condition: GetWalletStatsHistCondition;
+  }): Promise<GetWalletStatsHistQuery> {
+    return this.sdk.getWalletStatsHist(
+      {
+        condition: {
+          search_address: condition.searchAddress,
+          day_lookback: condition.dayLookback,
+        },
+      },
+      this.headers
+    );
+  }
+
   // Getters
   searchProjectByName({
     condition,
   }: {
     condition: SearchProjectCondition;
   }): Promise<SearchProjectByNameQuery> {
-    const { name, tag } = condition;
+    const { name, tag, matchName, meSlug, twitter, excludeAttributes } =
+      condition;
+
+    let conditionInput = {};
+
+    if (name)
+      conditionInput = {
+        display_name: name,
+      };
+
+    if (tag)
+      conditionInput = {
+        ...conditionInput,
+        tag,
+      };
+
+    if (matchName)
+      conditionInput = {
+        ...conditionInput,
+        project_name: matchName,
+      };
+
+    if (twitter)
+      conditionInput = {
+        ...conditionInput,
+        twitter,
+      };
+
+    if (meSlug)
+      conditionInput = {
+        ...conditionInput,
+        me_slug: meSlug,
+      };
+
+    if (excludeAttributes)
+      conditionInput = {
+        ...conditionInput,
+        exclude_project_attributes: true,
+      };
+
     return this.sdk.searchProjectByName(
       {
-        condition: {
-          display_name: name,
-          tag,
-        },
+        condition: conditionInput,
       },
       this.headers
     );
@@ -389,13 +468,13 @@ export class HyperspaceClient {
   sendBuyTx({
     metadata,
     data,
-    hexData
+    hexData,
   }: SendBuyTxQueryVariables): Promise<SendBuyTxQuery> {
     return this.sdk.sendBuyTx({
       metadata,
       data,
-      hexData
-    })
+      hexData,
+    });
   }
 
   createListTx({

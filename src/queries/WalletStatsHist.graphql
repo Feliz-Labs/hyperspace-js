@@ -1,0 +1,13 @@
+query getWalletStatsHist(
+  $condition: GetWalletStatsHistCondition!
+  ) {
+  getWalletStatsHist(
+    condition: $condition
+  ) {
+    wallet_stats_history {
+      timestamp
+      portfolio_value
+      owned_nfts
+    }
+  }
+}
