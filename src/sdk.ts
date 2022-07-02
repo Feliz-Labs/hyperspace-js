@@ -1251,7 +1251,7 @@ export type GetUserHistoryQueryVariables = Exact<{
 }>;
 
 
-export type GetUserHistoryQuery = { __typename?: 'Query', getUserHistory: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', project_name?: string | null, name?: string | null, token_address: string, meta_data_img?: string | null, full_img?: string | null, is_project_verified?: boolean | null, market_place_state?: { __typename?: 'MarketPlaceState', block_timestamp?: number | null, escrow_address?: string | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, fee?: number | null, amount?: number | null, seller_referral_fee?: number | null, seller_referral_address?: string | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, price?: number | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
+export type GetUserHistoryQuery = { __typename?: 'Query', getUserHistory: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', project_name?: string | null, name?: string | null, token_address: string, meta_data_img?: string | null, full_img?: string | null, is_project_verified?: boolean | null, market_place_state?: { __typename?: 'MarketPlaceState', block_timestamp?: number | null, escrow_address?: string | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, fee?: number | null, amount?: number | null, seller_referral_fee?: number | null, seller_referral_address?: string | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, price?: number | null } | null, non_market_place_state?: { __typename?: 'NonMarketPlaceActions', token_address?: string | null, signature?: string | null, source_address?: string | null, destination_address?: string | null, program_id?: string | null, collection_id?: string | null, new_authority?: string | null, price?: number | null, type?: NonMarketPlaceActionEnum | null, currency?: string | null, amount?: number | null, decimal?: number | null, destination_token_account?: string | null, source_token_account?: string | null, metadata?: any | null, block_timestamp?: number | null, block_number?: number | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
 
 export type GetProjectHistoryQueryVariables = Exact<{
   condition: GetMarketPlaceActionsByProjectsCondition;
@@ -1260,7 +1260,7 @@ export type GetProjectHistoryQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectHistoryQuery = { __typename?: 'Query', getProjectHistory: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', name?: string | null, token_address: string, meta_data_img?: string | null, full_img?: string | null, rank_est?: number | null, market_place_state?: { __typename?: 'MarketPlaceState', block_timestamp?: number | null, escrow_address?: string | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, fee?: number | null, amount?: number | null, seller_referral_fee?: number | null, seller_referral_address?: string | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, price?: number | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
+export type GetProjectHistoryQuery = { __typename?: 'Query', getProjectHistory: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', name?: string | null, token_address: string, meta_data_img?: string | null, full_img?: string | null, rank_est?: number | null, market_place_state?: { __typename?: 'MarketPlaceState', block_timestamp?: number | null, escrow_address?: string | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, fee?: number | null, amount?: number | null, seller_referral_fee?: number | null, seller_referral_address?: string | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, price?: number | null } | null, non_market_place_state?: { __typename?: 'NonMarketPlaceActions', token_address?: string | null, signature?: string | null, source_address?: string | null, destination_address?: string | null, program_id?: string | null, collection_id?: string | null, new_authority?: string | null, price?: number | null, type?: NonMarketPlaceActionEnum | null, currency?: string | null, amount?: number | null, decimal?: number | null, destination_token_account?: string | null, source_token_account?: string | null, metadata?: any | null, block_timestamp?: number | null, block_number?: number | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
 
 export type GetMarketplaceSnapshotsQueryVariables = Exact<{
   condition?: InputMaybe<GetMarketPlaceSnapshotCondition>;
@@ -1542,6 +1542,25 @@ export const GetUserHistoryDocument = gql`
         metadata
         price
       }
+      non_market_place_state {
+        token_address
+        signature
+        source_address
+        destination_address
+        program_id
+        collection_id
+        new_authority
+        price
+        type
+        currency
+        amount
+        decimal
+        destination_token_account
+        source_token_account
+        metadata
+        block_timestamp
+        block_number
+      }
     }
     pagination_info {
       current_page_number
@@ -1582,6 +1601,25 @@ export const GetProjectHistoryDocument = gql`
         buyer_referral_fee
         metadata
         price
+      }
+      non_market_place_state {
+        token_address
+        signature
+        source_address
+        destination_address
+        program_id
+        collection_id
+        new_authority
+        price
+        type
+        currency
+        amount
+        decimal
+        destination_token_account
+        source_token_account
+        metadata
+        block_timestamp
+        block_number
       }
     }
     pagination_info {

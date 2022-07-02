@@ -65,6 +65,25 @@ query getUserHistory(
         metadata
         price
       }
+      non_market_place_state {
+          token_address
+          signature
+          source_address
+          destination_address
+          program_id
+          collection_id
+          new_authority
+          price
+          type
+          currency
+          amount
+          decimal
+          destination_token_account
+          source_token_account
+          metadata
+          block_timestamp
+          block_number
+      }
     }
     pagination_info {
       current_page_number
@@ -108,6 +127,25 @@ query getProjectHistory(
         buyer_referral_fee
         metadata
         price
+      }
+      non_market_place_state {
+          token_address
+          signature
+          source_address
+          destination_address
+          program_id
+          collection_id
+          new_authority
+          price
+          type
+          currency
+          amount
+          decimal
+          destination_token_account
+          source_token_account
+          metadata
+          block_timestamp
+          block_number
       }
     }
     pagination_info {
