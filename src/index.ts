@@ -39,7 +39,8 @@ import {
   StringInputArg,
   StringInputOperationEnum,
   GetWalletStatsQuery,
-  GetWalletStatsHistQuery
+  GetWalletStatsHistQuery,
+  Day_Lookback_Enum
 } from "./sdk";
 
 import {
@@ -54,6 +55,7 @@ import {
   GetProjectStatHistCondition,
   TimeGranularityEnum,
   GetBuyTxQuery,
+  DayLookbackEnum
 } from "./types";
 
 module.exports = {
@@ -61,6 +63,8 @@ module.exports = {
 }
 
 export {
+  DayLookbackEnum,
+  Day_Lookback_Enum,
   GetWalletStatsQuery,
   GetWalletStatsHistQuery,
   StringInputArg,

@@ -7,8 +7,15 @@ import {
   MarketPlaceTxErrorEnum,
   StringInputArg,
   TimePeriodEnum,
-  Day_Lookback_Enum
+  Day_Lookback_Enum,
+  NonMarketPlaceActionEnum
 } from "./sdk";
+
+export enum DayLookbackEnum {
+  Month = 'MONTH',
+  OneDay = 'ONE_DAY',
+  SevenDay = 'SEVEN_DAY'
+}
 
 export type GetMarketplaceSnapshotCondition = {
   name?: StringInputArg;
@@ -37,9 +44,12 @@ export type MarketplaceActionEnums =
   | MarketPlaceActionEnum.Updatebid
   | MarketPlaceActionEnum.Cancelbid;
 
+export type NonMarketplaceActionEnums =
+  | NonMarketPlaceActionEnum.Mint
+
 export type GetMarketplaceStateCondition = {
   tokenAddresses: string[];
-  actionType?: MarketplaceActionEnums;
+  actionType?: MarketplaceActionEnums | string;
   buyerAddress?: string;
   sellerAddress?: string;
   marketPlaceIdentifiers?: MarketPlaceIdentifier[];
@@ -47,7 +57,7 @@ export type GetMarketplaceStateCondition = {
 // GetMarketPlaceActionsByTokenAddressCondition
 export type GetTokenHistoryCondition = {
   tokenAddresses: string[];
-  actionType?: MarketplaceActionEnums;
+  actionType?: MarketplaceActionEnums | string;
   marketPlaceIdentifiers?: MarketPlaceIdentifier[];
 };
 
@@ -58,19 +68,21 @@ export type GetUserActionsCondition = {
 
 export type GetUserHistoryCondition = {
   userAddress: string;
-  actionTypes?: MarketplaceActionEnums[];
+  actionTypes?: MarketplaceActionEnums[] | string[];
+  nonMpaActionTypes?: NonMarketplaceActionEnums[] | string[];
 };
 
 export type GetProjectHistoryCondition = {
   projects: ProjectIdWithAttributes[];
-  actionTypes?: MarketplaceActionEnums[];
+  actionTypes?: MarketplaceActionEnums[] | string[];
+  nonMpaActionTypes?: NonMarketplaceActionEnums[] | string[];
 };
 
 export type GetProjectStatHistCondition = {
   projects: string[];
   startTimestamp: number;
   endTimestamp: number;
-  timeGranularity: TimeGranularityEnum;
+  timeGranularity: TimeGranularityEnum | string;
   paginationInfo?: PaginationConfig;
 };
 
@@ -107,11 +119,11 @@ export type GetBuyTxQuery = {
 
 export type GetWalletStatsCondition = {
   searchAddress?: string;
-  timePeriod?: TimePeriodEnum;
+  timePeriod?: TimePeriodEnum | string;
   includeUserRank?: boolean;
 }
 
 export type GetWalletStatsHistCondition = {
   searchAddress: string;
-  dayLookback?: Day_Lookback_Enum;
+  dayLookback?: Day_Lookback_Enum | DayLookbackEnum | string;
 }

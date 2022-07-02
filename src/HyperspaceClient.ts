@@ -38,6 +38,9 @@ import {
   SortOrderEnum,
   GetWalletStatsQuery,
   GetWalletStatsHistQuery,
+  Day_Lookback_Enum,
+  TimePeriodEnum,
+  NonMarketPlaceActionEnum,
 } from "./sdk";
 import { GraphQLClient } from "graphql-request";
 import {
@@ -53,6 +56,7 @@ import {
   GetBuyTxQuery,
   GetWalletStatsCondition,
   GetWalletStatsHistCondition,
+  TimeGranularityEnum,
 } from "./types";
 const SolanaWeb3 = require("opensea-solana");
 
@@ -88,7 +92,7 @@ export class HyperspaceClient {
         condition: {
           search_address: condition.searchAddress,
           include_user_rank: condition.includeUserRank,
-          time_period: condition.timePeriod,
+          time_period: condition.timePeriod as TimePeriodEnum,
         },
         orderBy,
         paginationInfo,
@@ -106,7 +110,7 @@ export class HyperspaceClient {
       {
         condition: {
           search_address: condition.searchAddress,
-          day_lookback: condition.dayLookback,
+          day_lookback: condition.dayLookback as Day_Lookback_Enum,
         },
       },
       this.headers
@@ -205,7 +209,7 @@ export class HyperspaceClient {
       project_ids: projects.slice(0, 1),
       start_timestamp: startTimestamp,
       end_timestamp: endTimestamp,
-      time_granularity: timeGranularity,
+      time_granularity: timeGranularity as TimeGranularityEnum,
     };
 
     return this.sdk.getProjectStatHistory(
@@ -271,7 +275,7 @@ export class HyperspaceClient {
       token_addresses: condition.tokenAddresses,
     };
     if (condition.actionType)
-      parsedCondition.action_type = condition.actionType;
+      parsedCondition.action_type = condition.actionType as MarketPlaceActionEnum;
     if (condition.buyerAddress)
       parsedCondition.buyer_address = condition.buyerAddress;
     if (condition.sellerAddress)
@@ -344,7 +348,7 @@ export class HyperspaceClient {
       token_addresses: condition.tokenAddresses,
     };
     if (condition.actionType)
-      parsedCondition.action_type = condition.actionType;
+      parsedCondition.action_type = condition.actionType as MarketPlaceActionEnum;
     if (condition.marketPlaceIdentifiers)
       parsedCondition.marketplace_ids = condition.marketPlaceIdentifiers;
 
@@ -373,8 +377,13 @@ export class HyperspaceClient {
     };
 
     if (condition.actionTypes)
-      parsedCondition.by_mpa_types = condition.actionTypes;
+      parsedCondition.by_mpa_types = condition.actionTypes as MarketPlaceActionEnum[]
+    else parsedCondition.by_mpa_types = [];
 
+    if(condition.nonMpaActionTypes)
+      parsedCondition.by_nmpa_types = condition.nonMpaActionTypes as NonMarketPlaceActionEnum[]
+    else parsedCondition.by_nmpa_types = [];
+      
     return this.sdk.getUserHistory(
       {
         condition: parsedCondition,
@@ -395,7 +404,13 @@ export class HyperspaceClient {
       projects: condition.projects,
     };
     if (condition.actionTypes)
-      parsedCondition.by_mpa_types = condition.actionTypes;
+      parsedCondition.by_mpa_types = condition.actionTypes as MarketPlaceActionEnum[]
+    else parsedCondition.by_mpa_types = [];
+    
+    if(condition.nonMpaActionTypes)
+      parsedCondition.by_nmpa_types = condition.nonMpaActionTypes as NonMarketPlaceActionEnum[]
+    else parsedCondition.by_nmpa_types = [];
+
     return this.sdk.getProjectHistory(
       {
         condition: parsedCondition,
