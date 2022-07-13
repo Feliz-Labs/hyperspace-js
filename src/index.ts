@@ -32,7 +32,6 @@ import {
   ProjectIdWithAttributes,
   MarketPlaceTxOutput,
   PaginationInfoResponseType,
-  MarketPlaceActionEnum,
   GetProjectHistoryQuery,
   MarketPlaceTxErrorEnum,
   SortOrderEnum,
