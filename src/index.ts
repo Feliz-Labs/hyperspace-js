@@ -55,7 +55,8 @@ import {
   GetProjectStatHistCondition,
   TimeGranularityEnum,
   GetBuyTxQuery,
-  DayLookbackEnum
+  DayLookbackEnum,
+  MarketplaceActionEnums
 } from "./types";
 
 module.exports = {
@@ -76,7 +77,7 @@ export {
   MarketPlaceTxErrorEnum,
   SearchProjectCondition,
   GetProjectHistoryQuery,
-  MarketPlaceActionEnum,
+  MarketplaceActionEnums,
   ProjectStat,
   MarketPlaceActions,
   MarketPlaceSnapshotResponse,
