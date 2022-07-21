@@ -41,6 +41,11 @@ import {
   Day_Lookback_Enum,
   TimePeriodEnum,
   NonMarketPlaceActionEnum,
+  GetUpcomingProjectsQuery,
+  GetUpcomingProjectsCondition as OldGetUpcomingProjectsCondition,
+  GetOverallWalletStatsQuery,
+  GetNonMpaProjectHistoryQuery,
+  GetNonMpaUserHistoryQuery
 } from "./sdk";
 import { GraphQLClient } from "graphql-request";
 import {
@@ -57,6 +62,9 @@ import {
   GetWalletStatsCondition,
   GetWalletStatsHistCondition,
   TimeGranularityEnum,
+  GetUpcomingProjectsCondition,
+  GetNonMarketplaceActionsByProjectCondition,
+  GetNonMarketplaceActionsByUserCondition,
 } from "./types";
 const SolanaWeb3 = require("opensea-solana");
 
@@ -223,6 +231,70 @@ export class HyperspaceClient {
 
   getMarketplaceStatus(): Promise<GetMarketplaceStatusQuery> {
     return this.sdk.getMarketplaceStatus(undefined, this.headers);
+  }
+
+  getUpcomingProjects({
+    condition,
+    orderBy,
+    paginationInfo
+  }: {
+    condition?: GetUpcomingProjectsCondition
+    orderBy?: OrderConfig;
+    paginationInfo?: PaginationConfig;
+  }): Promise<GetUpcomingProjectsQuery> {
+    const parsedCondition: OldGetUpcomingProjectsCondition = {
+      user_timestamp: condition?.userTimestamp,
+      is_featured: condition?.isFeatured,
+      is_moonshot: condition?.isLaunchpad,
+      display_name: condition?.searchName,
+      project_name: condition?.name
+    }
+    return this.sdk.getUpcomingProjects({
+      conditions: parsedCondition,
+      order_by: orderBy,
+      pagination_info: paginationInfo
+    }, this.headers);
+  }
+
+  getOverallWalletStats(): Promise<GetOverallWalletStatsQuery> {
+    return this.sdk.getOverallWalletStats(undefined, this.headers);
+  }
+
+  getNonMpaProjectHistory({
+    condition,
+    paginationInfo
+  } : {
+    condition: GetNonMarketplaceActionsByProjectCondition;
+    paginationInfo?: PaginationConfig;
+  }) : Promise<GetNonMpaProjectHistoryQuery> {
+
+    const parsedCondition = {
+      projects: condition.projects,
+      by_nmpa_types: condition.nonMpaActionTypes
+    }
+
+    return this.sdk.getNonMpaProjectHistory({
+      condition: parsedCondition,
+      paginationInfo
+    }, this.headers);
+  }
+
+  getNonMpaUserHistory({
+    condition,
+    paginationInfo
+  }: {
+    condition: GetNonMarketplaceActionsByUserCondition,
+    paginationInfo?: PaginationConfig;
+  }): Promise<GetNonMpaUserHistoryQuery> {
+    const parsedCondition = {
+      source_address: condition.userAddress,
+      destination_address: condition.userAddress,
+      by_nmpa_types: condition.nonMpaActionTypes
+    }
+    return this.sdk.getNonMpaUserHistory({
+      condition: parsedCondition,
+      paginationInfo
+    }, this.headers);
   }
 
   getMarketplaceSnapshot({

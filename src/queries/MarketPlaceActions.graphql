@@ -15,11 +15,11 @@ query getTokenHistory(
       signature
       seller_address
       buyer_address
-      type 
+      type
       marketplace_program_id
       marketplace_instance_id
-      fee 
-      amount 
+      fee
+      amount
       seller_referral_fee
       seller_referral_address
       buyer_referral_address
@@ -53,36 +53,17 @@ query getUserHistory(
         signature
         seller_address
         buyer_address
-        type 
+        type
         marketplace_program_id
         marketplace_instance_id
-        fee 
-        amount 
+        fee
+        amount
         seller_referral_fee
         seller_referral_address
         buyer_referral_address
         buyer_referral_fee
         metadata
         price
-      }
-      non_market_place_state {
-          token_address
-          signature
-          source_address
-          destination_address
-          program_id
-          collection_id
-          new_authority
-          price
-          type
-          currency
-          amount
-          decimal
-          destination_token_account
-          source_token_account
-          metadata
-          block_timestamp
-          block_number
       }
     }
     pagination_info {
@@ -116,11 +97,11 @@ query getProjectHistory(
         signature
         seller_address
         buyer_address
-        type 
+        type
         marketplace_program_id
         marketplace_instance_id
-        fee 
-        amount 
+        fee
+        amount
         seller_referral_fee
         seller_referral_address
         buyer_referral_address
@@ -128,31 +109,103 @@ query getProjectHistory(
         metadata
         price
       }
-      non_market_place_state {
-          token_address
-          signature
-          source_address
-          destination_address
-          program_id
-          collection_id
-          new_authority
-          price
-          type
-          currency
-          amount
-          decimal
-          destination_token_account
-          source_token_account
-          metadata
-          block_timestamp
-          block_number
-      }
     }
     pagination_info {
       current_page_number
       current_page_size
       has_next_page
       total_page_number
+    }
+  }
+}
+
+query getNonMpaProjectHistory(
+  $condition: GetNonMarketPlaceActionsByProjectCondition!
+  $paginationInfo: MPAPaginationConfig
+) {
+  getNonMpaProjectHistory(
+    condition: $condition
+    pagination_info: $paginationInfo
+  ) {
+    market_place_snapshots {
+      token_address
+      project_id
+      project_name
+      name
+      owner
+      full_img
+      rank_est
+      meta_data_img
+      non_market_place_state {
+        token_address
+        signature
+        source_address
+        destination_address
+        program_id
+        collection_id
+        new_authority
+        price
+        type
+        currency
+        amount
+        decimal
+        destination_token_account
+        source_token_account
+        metadata
+        block_timestamp
+        block_number
+      }
+    }
+    pagination_info {
+      current_page_number
+      current_page_size
+      has_next_page
+    }
+  }
+}
+
+query getNonMpaUserHistory(
+  $condition: GetNonMarketPlaceActionsByUserCondition!
+  $paginationInfo: MPAPaginationConfig
+) {
+  getNonMpaUserHistory(
+    condition: $condition
+    pagination_info: $paginationInfo
+  ) {
+    market_place_snapshots {
+      token_address
+      project_id
+      project_name
+      name
+      owner
+      full_img
+      rank_est
+      meta_data_img
+      is_project_verified
+      non_market_place_state {
+        token_address
+        signature
+        source_address
+        destination_address
+        program_id
+        collection_id
+        new_authority
+        price
+        type
+        currency
+        amount
+        decimal
+        destination_token_account
+        source_token_account
+        metadata
+        block_timestamp
+        block_number
+      }
+    }
+    pagination_info {
+      current_page_number
+      current_page_size
+      has_next_page
     }
   }
 }

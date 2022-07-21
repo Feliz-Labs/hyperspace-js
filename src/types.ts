@@ -8,7 +8,8 @@ import {
   StringInputArg,
   TimePeriodEnum,
   Day_Lookback_Enum,
-  NonMarketPlaceActionEnum
+  NonMarketPlaceActionEnum,
+  UserTimestamp
 } from "./sdk";
 
 export enum DayLookbackEnum {
@@ -68,14 +69,14 @@ export type GetUserActionsCondition = {
 
 export type GetUserHistoryCondition = {
   userAddress: string;
-  actionTypes?: MarketplaceActionEnums[] | string[];
-  nonMpaActionTypes?: NonMarketplaceActionEnums[] | string[];
+  actionTypes?: MarketplaceActionEnums[];
+  nonMpaActionTypes?: NonMarketplaceActionEnums[]; //deprecated
 };
 
 export type GetProjectHistoryCondition = {
   projects: ProjectIdWithAttributes[];
-  actionTypes?: MarketplaceActionEnums[] | string[];
-  nonMpaActionTypes?: NonMarketplaceActionEnums[] | string[];
+  actionTypes?: MarketplaceActionEnums[];
+  nonMpaActionTypes?: NonMarketplaceActionEnums[]; // deprecated
 };
 
 export type GetProjectStatHistCondition = {
@@ -126,4 +127,23 @@ export type GetWalletStatsCondition = {
 export type GetWalletStatsHistCondition = {
   searchAddress: string;
   dayLookback?: Day_Lookback_Enum | DayLookbackEnum | string;
+}
+
+export type GetUpcomingProjectsCondition = {
+  name?: string;
+  userTimestamp: UserTimestamp;
+  searchName?: string;
+  isFeatured?: boolean;
+  isLaunchpad?: boolean;
+}
+
+
+export type GetNonMarketplaceActionsByProjectCondition = {
+  projects: ProjectIdWithAttributes[];
+  nonMpaActionTypes: NonMarketplaceActionEnums[];
+}
+
+export type GetNonMarketplaceActionsByUserCondition = {
+  userAddress: string;
+  nonMpaActionTypes: NonMarketplaceActionEnums[];
 }

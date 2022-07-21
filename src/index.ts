@@ -55,7 +55,10 @@ import {
   TimeGranularityEnum,
   GetBuyTxQuery,
   DayLookbackEnum,
-  MarketplaceActionEnums
+  MarketplaceActionEnums,
+  GetNonMarketplaceActionsByUserCondition,
+  GetNonMarketplaceActionsByProjectCondition,
+  GetUpcomingProjectsCondition
 } from "./types";
 
 module.exports = {
@@ -63,6 +66,9 @@ module.exports = {
 }
 
 export {
+  GetNonMarketplaceActionsByUserCondition,
+  GetNonMarketplaceActionsByProjectCondition,
+  GetUpcomingProjectsCondition,
   DayLookbackEnum,
   Day_Lookback_Enum,
   GetWalletStatsQuery,

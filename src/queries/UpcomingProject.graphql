@@ -1,0 +1,29 @@
+query getUpcomingProjects(
+  $conditions: [GetUpcomingProjectsCondition!]
+  $order_by: [OrderConfig!]
+  $pagination_info: PaginationConfig
+) {
+  getUpcomingProjectsRaw(
+    conditions: $conditions
+    order_by: $order_by
+    pagination_info: $pagination_info
+  ) {
+    upcoming_projects {
+      project_name
+      protocol
+      twitter
+      discord
+      website
+      display_name
+      supply
+      description
+      launch_timestamp
+      launch_date
+      mint_site
+      img_url
+      price
+      is_moonshot
+      is_featured
+    }
+  }
+}

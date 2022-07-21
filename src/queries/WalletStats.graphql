@@ -50,3 +50,22 @@ query getWalletStats(
     }
   }
 }
+
+query getOverallWalletStats {
+  getOverallWalletStats {
+    largest_sale_1day {
+      max_purchase_item_1day
+      max_purchase_1day
+    }
+    top_buyer_1day {
+      address
+      sol_name
+      max_purchase_item_1day
+    }
+    top_seller_1day {
+      address
+      sol_name
+      max_sale_item_1day
+    }
+  }
+}
