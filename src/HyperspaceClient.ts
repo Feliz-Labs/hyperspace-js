@@ -68,7 +68,7 @@ import {
 } from "./types";
 const SolanaWeb3 = require("opensea-solana");
 
-const apiEndpoint = "https://beta.api.solanalysis.com/sdk";
+const apiEndpoint = "https://beta.api.solanalysis.com/cupcake";
 
 export class HyperspaceClient {
   apiKey: string;
