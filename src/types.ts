@@ -28,6 +28,7 @@ export type GetMarketplaceSnapshotCondition = {
   rankFilter?: MarketPlacePricingFilterValues;
   includeAttributeInformation?: boolean;
   includeProjectFloorPrice?: boolean;
+  onlyHyperspace?: boolean;
 };
 
 export enum TimeGranularityEnum {
