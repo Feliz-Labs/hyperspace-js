@@ -39,7 +39,8 @@ import {
   StringInputOperationEnum,
   GetWalletStatsQuery,
   GetWalletStatsHistQuery,
-  Day_Lookback_Enum
+  Day_Lookback_Enum,
+  AttributeTypeEnum
 } from "./sdk";
 
 import {
@@ -69,6 +70,7 @@ export {
   GetNonMarketplaceActionsByUserCondition,
   GetNonMarketplaceActionsByProjectCondition,
   GetUpcomingProjectsCondition,
+  AttributeTypeEnum,
   DayLookbackEnum,
   Day_Lookback_Enum,
   GetWalletStatsQuery,
