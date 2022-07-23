@@ -35,6 +35,7 @@ query getProjectStats(
         display_name
         project_slug
         me_slug
+        description
         project_attributes {
           name
           type
