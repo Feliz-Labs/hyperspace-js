@@ -855,6 +855,7 @@ export type QueryCreateBuyTxArgs = {
   price: Scalars['Float'];
   token_address: Scalars['String'];
   unverified?: InputMaybe<Scalars['Boolean']>;
+  validate?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -1362,7 +1363,7 @@ export type GetProjectStatsQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectStatsQuery = { __typename?: 'Query', getProjectStats: { __typename?: 'GetProjectStatsOutput', project_stats?: Array<{ __typename?: 'ProjectStat', project_id: string, market_cap?: number | null, volume_7day?: number | null, volume_1day_change?: number | null, floor_price?: number | null, floor_price_1day_change?: number | null, average_price?: number | null, average_price_1day_change?: number | null, max_price?: number | null, twitter_followers?: number | null, num_of_token_listed?: number | null, num_of_token_holders?: number | null, percentage_of_token_listed?: number | null, volume_1day?: number | null, volume_1hr?: number | null, project?: { __typename?: 'Project', supply?: number | null, website?: string | null, twitter?: string | null, discord?: string | null, img_url?: string | null, is_verified?: boolean | null, display_name: string, project_slug?: string | null, me_slug?: string | null, project_attributes?: Array<{ __typename?: 'ProjectAttribute', name: string, type: AttributeTypeEnum, values: Array<string>, counts?: any | null, floor_prices?: any | null }> | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
+export type GetProjectStatsQuery = { __typename?: 'Query', getProjectStats: { __typename?: 'GetProjectStatsOutput', project_stats?: Array<{ __typename?: 'ProjectStat', project_id: string, market_cap?: number | null, volume_7day?: number | null, volume_1day_change?: number | null, floor_price?: number | null, floor_price_1day_change?: number | null, average_price?: number | null, average_price_1day_change?: number | null, max_price?: number | null, twitter_followers?: number | null, num_of_token_listed?: number | null, num_of_token_holders?: number | null, percentage_of_token_listed?: number | null, volume_1day?: number | null, volume_1hr?: number | null, project?: { __typename?: 'Project', project_id: string, supply?: number | null, website?: string | null, twitter?: string | null, discord?: string | null, img_url?: string | null, is_verified?: boolean | null, display_name: string, project_slug?: string | null, me_slug?: string | null, project_attributes?: Array<{ __typename?: 'ProjectAttribute', name: string, type: AttributeTypeEnum, values: Array<string>, counts?: any | null, floor_prices?: any | null }> | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
 
 export type GetProjectStatHistoryQueryVariables = Exact<{
   paginationInfo?: InputMaybe<PaginationConfig>;
@@ -1964,6 +1965,7 @@ export const GetProjectStatsDocument = gql`
       volume_1day
       volume_1hr
       project {
+        project_id
         supply
         website
         twitter

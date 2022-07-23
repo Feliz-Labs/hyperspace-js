@@ -25,6 +25,7 @@ query getProjectStats(
       volume_1day
       volume_1hr
       project {
+        project_id
         supply
         website
         twitter 
