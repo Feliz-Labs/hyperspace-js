@@ -23,6 +23,7 @@ query getMarketplaceSnapshots(
         project_name
         project_image
         project_slug
+        project_description
         is_project_verified
         project_attributes {
           name
