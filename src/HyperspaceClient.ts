@@ -501,6 +501,7 @@ export class HyperspaceClient {
     price,
     tokenAddress,
     unverified,
+    ignoreFundCheck
   }: GetBuyTxQueryVariables): Promise<GetBuyTxQuery> {
     let response = await this.sdk.getBuyTx(
       {
@@ -510,6 +511,7 @@ export class HyperspaceClient {
         price,
         tokenAddress,
         unverified,
+        ignoreFundCheck
       },
       this.headers
     );
