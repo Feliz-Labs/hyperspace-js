@@ -543,6 +543,7 @@ export class HyperspaceClient {
     price,
     tokenAddress,
     unverified,
+    ignoreFundCheck,
   }: GetBuyTxQueryVariables): Promise<GetBuyTxQuery> {
     return this.handleCreateBuyTx({
       buyerAddress,
@@ -551,6 +552,7 @@ export class HyperspaceClient {
       price,
       tokenAddress,
       unverified,
+      ignoreFundCheck
     });
   }
 
