@@ -289,6 +289,7 @@ export type GetProjectStatHistOutput = {
 export type GetProjectStatsCondition = {
   exclude_project_attributes?: InputMaybe<Scalars['Boolean']>;
   is_verified?: InputMaybe<Scalars['Boolean']>;
+  price_filter?: InputMaybe<MarketPlacePricingFilterValues>;
   project_ids?: InputMaybe<Array<Scalars['String']>>;
   supply?: InputMaybe<SupplyInput>;
   tags?: InputMaybe<Array<Scalars['String']>>;

@@ -194,6 +194,11 @@ export class HyperspaceClient {
     if (condition?.excludeProjectAttributes)
       parsedCondition.exclude_project_attributes =
         condition.excludeProjectAttributes;
+    if (condition?.isVerified !== null && condition?.isVerified !== undefined) 
+      parsedCondition.is_verified = condition.isVerified;
+    if (condition?.priceFilter)
+      parsedCondition.price_filter = condition.priceFilter;
+
     return this.sdk.getProjectStats(
       {
         conditions: parsedCondition,
