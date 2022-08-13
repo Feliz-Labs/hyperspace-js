@@ -194,6 +194,9 @@ export class HyperspaceClient {
     if (condition?.excludeProjectAttributes)
       parsedCondition.exclude_project_attributes =
         condition.excludeProjectAttributes;
+    if (condition?.tags) 
+      parsedCondition.tags = condition.tags;
+      
     return this.sdk.getProjectStats(
       {
         conditions: parsedCondition,

@@ -100,6 +100,7 @@ export type SearchProjectCondition = {
 export type GetProjectsCondition = {
   projectIds?: string[];
   excludeProjectAttributes?: boolean;
+  tags?: string[];
 };
 
 export type GetBuyTxQuery = {
