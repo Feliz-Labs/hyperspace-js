@@ -132,7 +132,6 @@ query getNonMpaProjectHistory(
       project_id
       project_name
       name
-      owner
       full_img
       rank_est
       meta_data_img
@@ -177,7 +176,6 @@ query getNonMpaUserHistory(
       project_id
       project_name
       name
-      owner
       full_img
       rank_est
       meta_data_img

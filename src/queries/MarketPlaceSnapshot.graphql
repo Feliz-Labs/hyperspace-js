@@ -12,7 +12,6 @@ query getMarketplaceSnapshots(
         token_address
         project_id
         name
-        rarity_est
         rank_est
         supply
         full_img
