@@ -101,6 +101,7 @@ export type GetProjectsCondition = {
   projectIds?: string[];
   excludeProjectAttributes?: boolean;
   tags?: string[];
+  isVerified?: boolean;
 };
 
 export type GetBuyTxQuery = {
