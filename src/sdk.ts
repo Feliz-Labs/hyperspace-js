@@ -249,6 +249,7 @@ export type GetMarketPlaceActionsOutput = {
 };
 
 export type GetMarketPlaceSnapshotCondition = {
+  filter_pool_listings?: InputMaybe<Scalars['Boolean']>;
   has_metadata?: InputMaybe<Scalars['Boolean']>;
   include_attribute_details?: InputMaybe<Scalars['Boolean']>;
   include_floors?: InputMaybe<Scalars['Boolean']>;
@@ -504,12 +505,14 @@ export type MarketPlaceSnapshotResponse = {
   floor_price_1day_change?: Maybe<Scalars['Float']>;
   full_img?: Maybe<Scalars['String']>;
   highest_bid_mpa?: Maybe<MarketPlaceActionResponse>;
+  howrare_rank?: Maybe<Scalars['Float']>;
   is_project_verified?: Maybe<Scalars['Boolean']>;
   lowest_listing_mpa?: Maybe<MarketPlaceActionResponse>;
   market_place_state?: Maybe<MarketPlaceState>;
   mcc_id?: Maybe<Scalars['String']>;
   meta_data_img?: Maybe<Scalars['String']>;
   meta_data_uri?: Maybe<Scalars['String']>;
+  moonrank?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
   non_market_place_state?: Maybe<NonMarketPlaceActions>;
   owner?: Maybe<Scalars['String']>;

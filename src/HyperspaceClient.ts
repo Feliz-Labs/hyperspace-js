@@ -330,7 +330,8 @@ export class HyperspaceClient {
       parsedCondition.rank_filter = condition.rankFilter;
     if (condition?.onlyHyperspace)
       parsedCondition.only_listed_on_hs = true;
-
+    if (condition?.filterPoolListings)
+      parsedCondition.filter_pool_listings = true;
     return this.sdk.getMarketplaceSnapshots(
       {
         condition: parsedCondition,

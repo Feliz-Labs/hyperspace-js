@@ -28,6 +28,7 @@ export type GetMarketplaceSnapshotCondition = {
   rankFilter?: MarketPlacePricingFilterValues;
   includeAttributeInformation?: boolean;
   includeProjectFloorPrice?: boolean;
+  filterPoolListings?: boolean;
   onlyHyperspace?: boolean;
 };
 
