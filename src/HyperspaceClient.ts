@@ -529,6 +529,7 @@ export class HyperspaceClient {
       const txObj = SolanaWeb3.Transaction.from(response.createBuyTx.data);
       return {
         createBuyTx: {
+          data: response.createBuyTx.data,
           //@ts-ignore
           is_required_signers_on: true,
           //@ts-ignore
