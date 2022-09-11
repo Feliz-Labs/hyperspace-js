@@ -9,30 +9,33 @@ query getUserBids(
     order_by: $order_by
   ) {
     market_place_snapshots {
-    name
-    token_address
-    project_name
-    project_id
-    full_img
-    meta_data_img
-    floor_price
-    market_place_state {
-      block_timestamp
-      escrow_address
-      signature
-      seller_address
-      buyer_address
-      type 
-      marketplace_program_id
-      marketplace_instance_id
-      fee 
-      amount 
-      seller_referral_fee
-      seller_referral_address
-      buyer_referral_address
-      buyer_referral_fee
-      metadata
-      price
+      name
+      token_address
+      project_name
+      project_id
+      full_img
+      meta_data_img
+      floor_price
+      rank_est
+      moonrank
+      howrare_rank
+      market_place_state {
+        block_timestamp
+        escrow_address
+        signature
+        seller_address
+        buyer_address
+        type
+        marketplace_program_id
+        marketplace_instance_id
+        fee
+        amount
+        seller_referral_fee
+        seller_referral_address
+        buyer_referral_address
+        buyer_referral_fee
+        metadata
+        price
       }
     }
   }
@@ -49,24 +52,26 @@ query getUserListings(
     order_by: $orderBy
   ) {
     market_place_snapshots {
-    token_address
-    name
-    full_img
-    meta_data_img
-    project_name
-    project_id
-    rank_est
+      token_address
+      name
+      full_img
+      meta_data_img
+      project_name
+      project_id
+      rank_est
+      moonrank
+      howrare_rank
       market_place_state {
         block_timestamp
         escrow_address
         signature
         seller_address
         buyer_address
-        type 
+        type
         marketplace_program_id
         marketplace_instance_id
-        fee 
-        amount 
+        fee
+        amount
         seller_referral_fee
         seller_referral_address
         buyer_referral_address
@@ -97,17 +102,20 @@ query getTokenState(
       full_img
       meta_data_img
       attributes
+      rank_est
+      moonrank
+      howrare_rank
       market_place_state {
         block_timestamp
         escrow_address
         signature
         seller_address
         buyer_address
-        type 
+        type
         marketplace_program_id
         marketplace_instance_id
-        fee 
-        amount 
+        fee
+        amount
         seller_referral_fee
         seller_referral_address
         buyer_referral_address

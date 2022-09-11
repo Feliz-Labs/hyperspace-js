@@ -13,6 +13,8 @@ query getMarketplaceSnapshots(
         project_id
         name
         rank_est
+        moonrank
+        howrare_rank
         supply
         full_img
         meta_data_img
