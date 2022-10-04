@@ -26,6 +26,7 @@ query getMarketplaceSnapshots(
         project_slug
         project_description
         is_project_verified
+        created_at
         project_attributes {
           name
           counts

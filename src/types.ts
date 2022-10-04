@@ -103,6 +103,7 @@ export type GetProjectsCondition = {
   excludeProjectAttributes?: boolean;
   tags?: string[];
   isVerified?: boolean;
+  floorPriceFilter?: MarketPlacePricingFilterValues;
 };
 
 export type GetBuyTxQuery = {

@@ -198,6 +198,9 @@ export class HyperspaceClient {
       parsedCondition.tags = condition.tags;
     if (condition?.isVerified)
       parsedCondition.is_verified = true;
+    if(condition?.floorPriceFilter)
+      parsedCondition.floor_price = condition?.floorPriceFilter;
+    
       
     return this.sdk.getProjectStats(
       {
@@ -507,6 +510,7 @@ export class HyperspaceClient {
     price,
     tokenAddress,
     unverified,
+    ignoreFundCheck
   }: GetBuyTxQueryVariables): Promise<GetBuyTxQuery> {
     let response = await this.sdk.getBuyTx(
       {
@@ -516,6 +520,7 @@ export class HyperspaceClient {
         price,
         tokenAddress,
         unverified,
+        ignoreFundCheck
       },
       this.headers
     );
