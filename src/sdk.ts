@@ -195,12 +195,12 @@ export enum Day_Lookback_Enum {
 
 export type GetCollectionBidConfigResponse = {
   __typename?: 'GetCollectionBidConfigResponse';
-  config: CollectionBidConfig;
+  config?: Maybe<CollectionBidConfig>;
 };
 
 export type GetCollectionBidsResponse = {
   __typename?: 'GetCollectionBidsResponse';
-  bids: Array<CollectionBidState>;
+  bids?: Maybe<Array<CollectionBidState>>;
 };
 
 export type GetCollectionDistCondition = {
@@ -213,6 +213,7 @@ export type GetCollectionDistOutput = {
 };
 
 export type GetFloorPriceDistCondition = {
+  attributes?: InputMaybe<Array<Scalars['JSON']>>;
   project_id: Scalars['String'];
 };
 
@@ -224,7 +225,9 @@ export type GetFloorPriceDistOutput = {
 export type GetMarketPlaceActionsByProjectsCondition = {
   by_mpa_types?: InputMaybe<Array<MarketPlaceActionEnum>>;
   by_nmpa_types?: InputMaybe<Array<NonMarketPlaceActionEnum>>;
+  price_filter?: InputMaybe<MarketPlacePricingFilterValues>;
   projects: Array<ProjectIdWithAttributes>;
+  rank_filter?: InputMaybe<MarketPlacePricingFilterValues>;
 };
 
 export type GetMarketPlaceActionsByTokenAddressCondition = {
@@ -253,6 +256,7 @@ export type GetMarketPlaceSnapshotCondition = {
   has_metadata?: InputMaybe<Scalars['Boolean']>;
   include_attribute_details?: InputMaybe<Scalars['Boolean']>;
   include_floors?: InputMaybe<Scalars['Boolean']>;
+  is_project_verified?: InputMaybe<Scalars['Boolean']>;
   listing_type?: InputMaybe<MarketPlaceActionEnum>;
   name?: InputMaybe<StringInputArg>;
   only_cross_mint_verified?: InputMaybe<Scalars['Boolean']>;
@@ -321,7 +325,13 @@ export type GetOwnerDistOutput = {
 };
 
 export type GetOwnersDistCondition = {
+  attributes?: InputMaybe<Array<Scalars['JSON']>>;
   project_id: Scalars['String'];
+};
+
+export type GetProjectAndCollectionBidsResponse = {
+  __typename?: 'GetProjectAndCollectionBidsResponse';
+  bids?: Maybe<Array<ProjectAndCollectionBid>>;
 };
 
 export type GetProjectStatByNameCondition = {
@@ -353,6 +363,7 @@ export type GetProjectStatHistOutput = {
 
 export type GetProjectStatsCondition = {
   exclude_project_attributes?: InputMaybe<Scalars['Boolean']>;
+  floor_price?: InputMaybe<MarketPlacePricingFilterValues>;
   is_verified?: InputMaybe<Scalars['Boolean']>;
   project_ids?: InputMaybe<Array<Scalars['String']>>;
   supply?: InputMaybe<SupplyInput>;
@@ -442,6 +453,9 @@ export type MarketPlaceActionResponse = {
   block_timestamp?: Maybe<Scalars['Float']>;
   broker_referral_address?: Maybe<Scalars['String']>;
   broker_referral_fee?: Maybe<Scalars['Float']>;
+  currency?: Maybe<Scalars['String']>;
+  currency_price?: Maybe<Scalars['Float']>;
+  decimal?: Maybe<Scalars['Float']>;
   escrow_address?: Maybe<Scalars['String']>;
   fee?: Maybe<Scalars['Float']>;
   is_cross_mint_verified?: Maybe<Scalars['Boolean']>;
@@ -468,6 +482,7 @@ export type MarketPlaceActions = {
   currency_price?: Maybe<Scalars['Float']>;
   decimal?: Maybe<Scalars['Float']>;
   escrow_address?: Maybe<Scalars['String']>;
+  expiry_time?: Maybe<Scalars['Float']>;
   fee?: Maybe<Scalars['Float']>;
   instruction_index?: Maybe<Scalars['Float']>;
   marketplace_fee_address?: Maybe<Scalars['String']>;
@@ -490,6 +505,7 @@ export type MarketPlaceIdentifier = {
 };
 
 export type MarketPlacePricingFilterValues = {
+  field?: InputMaybe<Scalars['String']>;
   max?: InputMaybe<Scalars['Float']>;
   min?: InputMaybe<Scalars['Float']>;
 };
@@ -544,6 +560,7 @@ export type MarketPlaceState = {
   currency_price?: Maybe<Scalars['Float']>;
   decimal?: Maybe<Scalars['Float']>;
   escrow_address?: Maybe<Scalars['String']>;
+  expiry_time?: Maybe<Scalars['Float']>;
   fee?: Maybe<Scalars['Float']>;
   instruction_index?: Maybe<Scalars['Float']>;
   marketplace_fee_address?: Maybe<Scalars['String']>;
@@ -612,6 +629,7 @@ export type MarketPlaceTxOutput = {
   error?: Maybe<MarketPlaceTxOutputError>;
   is_required_signers_on?: Maybe<Scalars['Boolean']>;
   metadata?: Maybe<Scalars['JSON']>;
+  stdBuffer?: Maybe<Array<Scalars['Float']>>;
 };
 
 export type MarketPlaceTxOutputError = {
@@ -748,7 +766,7 @@ export type PaginationInfoResponseType = {
   current_page_number: Scalars['Float'];
   current_page_size: Scalars['Float'];
   has_next_page: Scalars['Boolean'];
-  total_page_number: Scalars['Float'];
+  total_page_number?: Maybe<Scalars['Float']>;
 };
 
 export type Project = {
@@ -781,6 +799,42 @@ export type Project = {
   twitter?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['DateTime']>;
   website?: Maybe<Scalars['String']>;
+};
+
+export type ProjectAndCollectionBid = {
+  __typename?: 'ProjectAndCollectionBid';
+  amount?: Maybe<Scalars['Float']>;
+  block_number?: Maybe<Scalars['Float']>;
+  block_timestamp?: Maybe<Scalars['Float']>;
+  buyer_address?: Maybe<Scalars['String']>;
+  buyer_referral_address?: Maybe<Scalars['String']>;
+  buyer_referral_fee?: Maybe<Scalars['Float']>;
+  created_at?: Maybe<Scalars['DateTime']>;
+  currency?: Maybe<Scalars['String']>;
+  currency_price?: Maybe<Scalars['Float']>;
+  decimal?: Maybe<Scalars['Float']>;
+  display_name?: Maybe<Scalars['String']>;
+  expiration?: Maybe<Scalars['Float']>;
+  fee?: Maybe<Scalars['Float']>;
+  fee_address?: Maybe<Scalars['String']>;
+  identifier_index?: Maybe<Scalars['Float']>;
+  identifier_key?: Maybe<Scalars['String']>;
+  identifier_type: CollectionIdentifierTypeEnum;
+  img_url?: Maybe<Scalars['String']>;
+  instance_id?: Maybe<Scalars['String']>;
+  instruction_index?: Maybe<Scalars['Float']>;
+  metadata?: Maybe<Scalars['JSON']>;
+  price?: Maybe<Scalars['Float']>;
+  program_id?: Maybe<Scalars['String']>;
+  project_id?: Maybe<Scalars['String']>;
+  project_slug?: Maybe<Scalars['String']>;
+  seller_address?: Maybe<Scalars['String']>;
+  seller_referral_address?: Maybe<Scalars['String']>;
+  seller_referral_fee?: Maybe<Scalars['Float']>;
+  signature?: Maybe<Scalars['String']>;
+  trade_state?: Maybe<Scalars['String']>;
+  type?: Maybe<CollectionBidActionEnum>;
+  updated_at?: Maybe<Scalars['DateTime']>;
 };
 
 export type ProjectAttribute = {
@@ -869,7 +923,7 @@ export type Query = {
   getCollectionBidConfig: GetCollectionBidConfigResponse;
   getCollectionBidsForProject: GetCollectionBidsResponse;
   getCollectionBidsForProjectAndUser: GetCollectionBidsResponse;
-  getCollectionBidsForUser: GetCollectionBidsResponse;
+  getCollectionBidsForUser: GetProjectAndCollectionBidsResponse;
   getCollectionDistribution: GetCollectionDistOutput;
   getFloorPriceDistribution: GetFloorPriceDistOutput;
   getMarketPlaceActionsByToken: Array<GetMarketPlaceActionsOutput>;
@@ -1297,6 +1351,7 @@ export type GetBuyTxQueryVariables = Exact<{
   buyerBroker: Scalars['String'];
   buyerBrokerBasisPoints?: InputMaybe<Scalars['Float']>;
   unverified?: InputMaybe<Scalars['Boolean']>;
+  ignoreFundCheck?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
@@ -1375,7 +1430,7 @@ export type GetMarketplaceSnapshotsQueryVariables = Exact<{
 }>;
 
 
-export type GetMarketplaceSnapshotsQuery = { __typename?: 'Query', getMarketPlaceSnapshots: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', token_address: string, project_id: string, name?: string | null, rank_est?: number | null, moonrank?: number | null, howrare_rank?: number | null, supply?: number | null, full_img?: string | null, meta_data_img?: string | null, meta_data_uri?: string | null, attributes?: any | null, floor_price?: number | null, project_name?: string | null, project_image?: string | null, project_slug?: string | null, project_description?: string | null, is_project_verified?: boolean | null, project_attributes?: Array<{ __typename?: 'ProjectAttribute', name: string, counts?: any | null, type: AttributeTypeEnum, values: Array<string> }> | null, lowest_listing_mpa?: { __typename?: 'MarketPlaceActionResponse', user_address?: string | null, price?: number | null, marketplace_program_id?: string | null, type?: MarketPlaceActionEnum | null, signature?: string | null, amount?: number | null, broker_referral_address?: string | null, block_timestamp?: number | null, broker_referral_fee?: number | null, escrow_address?: string | null, fee?: number | null, marketplace_fee_address?: string | null, marketplace_instance_id?: string | null, metadata?: any | null } | null, highest_bid_mpa?: { __typename?: 'MarketPlaceActionResponse', marketplace_fee_address?: string | null, fee?: number | null, escrow_address?: string | null, broker_referral_fee?: number | null, broker_referral_address?: string | null, block_timestamp?: number | null, signature?: string | null, amount?: number | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, price?: number | null, user_address?: string | null, metadata?: any | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
+export type GetMarketplaceSnapshotsQuery = { __typename?: 'Query', getMarketPlaceSnapshots: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', token_address: string, project_id: string, name?: string | null, rank_est?: number | null, moonrank?: number | null, howrare_rank?: number | null, supply?: number | null, full_img?: string | null, meta_data_img?: string | null, meta_data_uri?: string | null, attributes?: any | null, floor_price?: number | null, project_name?: string | null, project_image?: string | null, project_slug?: string | null, project_description?: string | null, is_project_verified?: boolean | null, created_at?: any | null, project_attributes?: Array<{ __typename?: 'ProjectAttribute', name: string, counts?: any | null, type: AttributeTypeEnum, values: Array<string> }> | null, lowest_listing_mpa?: { __typename?: 'MarketPlaceActionResponse', user_address?: string | null, price?: number | null, marketplace_program_id?: string | null, type?: MarketPlaceActionEnum | null, signature?: string | null, amount?: number | null, broker_referral_address?: string | null, block_timestamp?: number | null, broker_referral_fee?: number | null, escrow_address?: string | null, fee?: number | null, marketplace_fee_address?: string | null, marketplace_instance_id?: string | null, metadata?: any | null } | null, highest_bid_mpa?: { __typename?: 'MarketPlaceActionResponse', marketplace_fee_address?: string | null, fee?: number | null, escrow_address?: string | null, broker_referral_fee?: number | null, broker_referral_address?: string | null, block_timestamp?: number | null, signature?: string | null, amount?: number | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, price?: number | null, user_address?: string | null, metadata?: any | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number?: number | null } } };
 
 export type GetTokenHistoryQueryVariables = Exact<{
   condition: GetMarketPlaceActionsByTokenAddressCondition;
@@ -1393,7 +1448,7 @@ export type GetUserHistoryQueryVariables = Exact<{
 }>;
 
 
-export type GetUserHistoryQuery = { __typename?: 'Query', getUserHistory: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', project_name?: string | null, name?: string | null, token_address: string, meta_data_img?: string | null, full_img?: string | null, is_project_verified?: boolean | null, market_place_state?: { __typename?: 'MarketPlaceState', block_timestamp?: number | null, escrow_address?: string | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, fee?: number | null, amount?: number | null, seller_referral_fee?: number | null, seller_referral_address?: string | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, price?: number | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
+export type GetUserHistoryQuery = { __typename?: 'Query', getUserHistory: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', project_name?: string | null, name?: string | null, token_address: string, meta_data_img?: string | null, full_img?: string | null, is_project_verified?: boolean | null, market_place_state?: { __typename?: 'MarketPlaceState', block_timestamp?: number | null, escrow_address?: string | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, fee?: number | null, amount?: number | null, seller_referral_fee?: number | null, seller_referral_address?: string | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, price?: number | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number?: number | null } } };
 
 export type GetProjectHistoryQueryVariables = Exact<{
   condition: GetMarketPlaceActionsByProjectsCondition;
@@ -1402,7 +1457,7 @@ export type GetProjectHistoryQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectHistoryQuery = { __typename?: 'Query', getProjectHistory: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', name?: string | null, token_address: string, meta_data_img?: string | null, full_img?: string | null, rank_est?: number | null, market_place_state?: { __typename?: 'MarketPlaceState', block_timestamp?: number | null, escrow_address?: string | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, fee?: number | null, amount?: number | null, seller_referral_fee?: number | null, seller_referral_address?: string | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, price?: number | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
+export type GetProjectHistoryQuery = { __typename?: 'Query', getProjectHistory: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', name?: string | null, token_address: string, meta_data_img?: string | null, full_img?: string | null, rank_est?: number | null, market_place_state?: { __typename?: 'MarketPlaceState', block_timestamp?: number | null, escrow_address?: string | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, fee?: number | null, amount?: number | null, seller_referral_fee?: number | null, seller_referral_address?: string | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, price?: number | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number?: number | null } } };
 
 export type GetNonMpaProjectHistoryQueryVariables = Exact<{
   condition: GetNonMarketPlaceActionsByProjectCondition;
@@ -1459,7 +1514,7 @@ export type GetProjectStatsQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectStatsQuery = { __typename?: 'Query', getProjectStats: { __typename?: 'GetProjectStatsOutput', project_stats?: Array<{ __typename?: 'ProjectStat', project_id: string, market_cap?: number | null, volume_7day?: number | null, volume_1day_change?: number | null, floor_price?: number | null, floor_price_1day_change?: number | null, average_price?: number | null, average_price_1day_change?: number | null, max_price?: number | null, twitter_followers?: number | null, num_of_token_listed?: number | null, num_of_token_holders?: number | null, percentage_of_token_listed?: number | null, volume_1day?: number | null, volume_1hr?: number | null, project?: { __typename?: 'Project', project_id: string, supply?: number | null, website?: string | null, twitter?: string | null, discord?: string | null, img_url?: string | null, is_verified?: boolean | null, display_name: string, project_slug?: string | null, me_slug?: string | null, description?: string | null, tags?: Array<{ __typename?: 'ProjectTag', tag: string }> | null, project_attributes?: Array<{ __typename?: 'ProjectAttribute', name: string, type: AttributeTypeEnum, values: Array<string>, counts?: any | null, floor_prices?: any | null }> | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
+export type GetProjectStatsQuery = { __typename?: 'Query', getProjectStats: { __typename?: 'GetProjectStatsOutput', project_stats?: Array<{ __typename?: 'ProjectStat', project_id: string, market_cap?: number | null, volume_7day?: number | null, volume_1day_change?: number | null, floor_price?: number | null, floor_price_1day_change?: number | null, average_price?: number | null, average_price_1day_change?: number | null, max_price?: number | null, twitter_followers?: number | null, num_of_token_listed?: number | null, num_of_token_holders?: number | null, percentage_of_token_listed?: number | null, volume_1day?: number | null, volume_1hr?: number | null, project?: { __typename?: 'Project', project_id: string, supply?: number | null, website?: string | null, twitter?: string | null, discord?: string | null, img_url?: string | null, is_verified?: boolean | null, display_name: string, project_slug?: string | null, me_slug?: string | null, description?: string | null, tags?: Array<{ __typename?: 'ProjectTag', tag: string }> | null, project_attributes?: Array<{ __typename?: 'ProjectAttribute', name: string, type: AttributeTypeEnum, values: Array<string>, counts?: any | null, floor_prices?: any | null }> | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number?: number | null } } };
 
 export type GetProjectStatHistoryQueryVariables = Exact<{
   paginationInfo?: InputMaybe<PaginationConfig>;
@@ -1467,7 +1522,7 @@ export type GetProjectStatHistoryQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectStatHistoryQuery = { __typename?: 'Query', getProjectStatHist: { __typename?: 'GetProjectStatHistOutput', project_stat_hist_entries?: Array<{ __typename?: 'ProjectStatHist', project_id: string, timestamp: number, volume?: number | null, volume_usd?: number | null, volume_double?: number | null, volume_usd_double?: number | null, floor_price?: number | null, num_of_sales?: number | null, max_price?: number | null, twitter_followers?: number | null, discord_members?: number | null, supply?: number | null, num_of_token_holders?: number | null, num_of_token_listed?: number | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number: number } } };
+export type GetProjectStatHistoryQuery = { __typename?: 'Query', getProjectStatHist: { __typename?: 'GetProjectStatHistOutput', project_stat_hist_entries?: Array<{ __typename?: 'ProjectStatHist', project_id: string, timestamp: number, volume?: number | null, volume_usd?: number | null, volume_double?: number | null, volume_usd_double?: number | null, floor_price?: number | null, num_of_sales?: number | null, max_price?: number | null, twitter_followers?: number | null, discord_members?: number | null, supply?: number | null, num_of_token_holders?: number | null, num_of_token_listed?: number | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number?: number | null } } };
 
 export type SearchProjectByNameQueryVariables = Exact<{
   order_by?: InputMaybe<Array<OrderConfig> | OrderConfig>;
@@ -1510,7 +1565,7 @@ export type GetWalletStatsHistQuery = { __typename?: 'Query', getWalletStatsHist
 
 
 export const GetBuyTxDocument = gql`
-    query getBuyTx($buyerAddress: String!, $price: Float!, $tokenAddress: String!, $buyerBroker: String!, $buyerBrokerBasisPoints: Float, $unverified: Boolean) {
+    query getBuyTx($buyerAddress: String!, $price: Float!, $tokenAddress: String!, $buyerBroker: String!, $buyerBrokerBasisPoints: Float, $unverified: Boolean, $ignoreFundCheck: Boolean) {
   createBuyTx(
     buyer_address: $buyerAddress
     price: $price
@@ -1518,6 +1573,7 @@ export const GetBuyTxDocument = gql`
     buyer_broker: $buyerBroker
     buyer_broker_basis_points: $buyerBrokerBasisPoints
     unverified: $unverified
+    ignore_funds_check: $ignoreFundCheck
   ) {
     data
     is_required_signers_on
@@ -1669,6 +1725,7 @@ export const GetMarketplaceSnapshotsDocument = gql`
       project_slug
       project_description
       is_project_verified
+      created_at
       project_attributes {
         name
         counts
