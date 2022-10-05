@@ -539,7 +539,7 @@ export class HyperspaceClient {
           is_required_signers_on: true,
           //@ts-ignore
           metadata: response.createBuyTx.metadata,
-          txObj,
+          stdBuffer: response.createBuyTx.stdBuffer
         },
       };
     }

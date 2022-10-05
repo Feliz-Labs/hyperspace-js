@@ -9,13 +9,13 @@ import {
   TimePeriodEnum,
   Day_Lookback_Enum,
   NonMarketPlaceActionEnum,
-  UserTimestamp
+  UserTimestamp,
 } from "./sdk";
 
 export enum DayLookbackEnum {
-  Month = 'MONTH',
-  OneDay = 'ONE_DAY',
-  SevenDay = 'SEVEN_DAY'
+  Month = "MONTH",
+  OneDay = "ONE_DAY",
+  SevenDay = "SEVEN_DAY",
 }
 
 export type GetMarketplaceSnapshotCondition = {
@@ -47,8 +47,7 @@ export type MarketplaceActionEnums =
   | MarketPlaceActionEnum.Updatebid
   | MarketPlaceActionEnum.Cancelbid;
 
-export type NonMarketplaceActionEnums =
-  | NonMarketPlaceActionEnum.Mint
+export type NonMarketplaceActionEnums = NonMarketPlaceActionEnum.Mint;
 
 export type GetMarketplaceStateCondition = {
   tokenAddresses: string[];
@@ -113,13 +112,13 @@ export type GetBuyTxQuery = {
     data?: Array<number> | null;
     is_required_signers_on?: boolean | null;
     metadata?: any | null;
+    stdBuffer?: Array<number> | null;
     error?: {
       __typename?: "MarketPlaceTxOutputError";
       error_type?: MarketPlaceTxErrorEnum | null;
       message?: string | null;
       metadata?: any | null;
     } | null;
-    txObj?: any | null;
   };
 };
 
@@ -127,12 +126,12 @@ export type GetWalletStatsCondition = {
   searchAddress?: string;
   timePeriod?: TimePeriodEnum | string;
   includeUserRank?: boolean;
-}
+};
 
 export type GetWalletStatsHistCondition = {
   searchAddress: string;
   dayLookback?: Day_Lookback_Enum | DayLookbackEnum | string;
-}
+};
 
 export type GetUpcomingProjectsCondition = {
   name?: string;
@@ -140,15 +139,14 @@ export type GetUpcomingProjectsCondition = {
   searchName?: string;
   isFeatured?: boolean;
   isLaunchpad?: boolean;
-}
-
+};
 
 export type GetNonMarketplaceActionsByProjectCondition = {
   projects: ProjectIdWithAttributes[];
   nonMpaActionTypes: NonMarketplaceActionEnums[];
-}
+};
 
 export type GetNonMarketplaceActionsByUserCondition = {
   userAddress: string;
   nonMpaActionTypes: NonMarketplaceActionEnums[];
-}
+};

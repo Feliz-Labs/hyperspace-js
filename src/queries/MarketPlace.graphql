@@ -19,6 +19,7 @@ query getBuyTx(
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
