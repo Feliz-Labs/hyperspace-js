@@ -36,6 +36,8 @@ query getProjectStats(
         project_slug
         me_slug
         description
+        mcc_id
+        first_creator
         tags {
           tag
         }
