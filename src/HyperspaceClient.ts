@@ -466,6 +466,12 @@ export class HyperspaceClient {
     if(condition.nonMpaActionTypes)
       parsedCondition.by_nmpa_types = condition.nonMpaActionTypes as NonMarketPlaceActionEnum[]
     else parsedCondition.by_nmpa_types = [];
+
+    if (condition.projectId)
+      parsedCondition.project_id = condition.projectId;
+
+    if(condition.isRoyaltiesPaid !== undefined && condition.isRoyaltiesPaid !== null)
+      parsedCondition.is_royalties_paid = condition.isRoyaltiesPaid;
       
     return this.sdk.getUserHistory(
       {

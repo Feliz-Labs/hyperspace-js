@@ -58,6 +58,7 @@ export type CollectionBidConfig = {
   instance_id?: Maybe<Scalars['String']>;
   program_id: Scalars['String'];
   project_id: Scalars['String'];
+  seller_fee_basis_points: Scalars['Float'];
 };
 
 export type CollectionBidState = {
@@ -195,6 +196,11 @@ export type GetCollectionBidConfigResponse = {
   config?: Maybe<CollectionBidConfig>;
 };
 
+export type GetCollectionBidMultiConfigResponse = {
+  __typename?: 'GetCollectionBidMultiConfigResponse';
+  configs?: Maybe<Array<CollectionBidConfig>>;
+};
+
 export type GetCollectionBidsResponse = {
   __typename?: 'GetCollectionBidsResponse';
   bids?: Maybe<Array<CollectionBidState>>;
@@ -238,6 +244,8 @@ export type GetMarketPlaceActionsByUserCondition = {
   by_mpa_types?: InputMaybe<Array<MarketPlaceActionEnum>>;
   by_nmpa_types?: InputMaybe<Array<NonMarketPlaceActionEnum>>;
   destination_address?: InputMaybe<Scalars['String']>;
+  is_royalties_paid?: InputMaybe<Scalars['Boolean']>;
+  project_id?: InputMaybe<Scalars['String']>;
   seller_address?: InputMaybe<Scalars['String']>;
   source_address?: InputMaybe<Scalars['String']>;
 };
@@ -521,6 +529,7 @@ export type MarketPlaceSnapshotResponse = {
   highest_bid_mpa?: Maybe<MarketPlaceActionResponse>;
   howrare_rank?: Maybe<Scalars['Float']>;
   is_project_verified?: Maybe<Scalars['Boolean']>;
+  last_sale_mpa?: Maybe<MarketPlaceActionResponse>;
   lowest_listing_mpa?: Maybe<MarketPlaceActionResponse>;
   market_place_state?: Maybe<MarketPlaceState>;
   mcc_id?: Maybe<Scalars['String']>;
@@ -872,7 +881,11 @@ export type ProjectStat = {
   volume_1day?: Maybe<Scalars['Float']>;
   volume_1day_change?: Maybe<Scalars['Float']>;
   volume_1hr?: Maybe<Scalars['Float']>;
+  volume_1m?: Maybe<Scalars['Float']>;
+  volume_5m?: Maybe<Scalars['Float']>;
   volume_7day?: Maybe<Scalars['Float']>;
+  volume_15m?: Maybe<Scalars['Float']>;
+  volume_30m?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectStatHist = {
@@ -920,6 +933,7 @@ export type Query = {
   createListTx: MarketPlaceTxOutput;
   createWithdrawEscrowTx: MarketPlaceTxOutput;
   getCollectionBidConfig: GetCollectionBidConfigResponse;
+  getCollectionBidMultiConfig: GetCollectionBidMultiConfigResponse;
   getCollectionBidsForProject: GetCollectionBidsResponse;
   getCollectionBidsForProjectAndUser: GetCollectionBidsResponse;
   getCollectionBidsForUser: GetProjectAndCollectionBidsResponse;
@@ -1014,6 +1028,11 @@ export type QueryCreateWithdrawEscrowTxArgs = {
 
 
 export type QueryGetCollectionBidConfigArgs = {
+  project_id: Scalars['String'];
+};
+
+
+export type QueryGetCollectionBidMultiConfigArgs = {
   project_id: Scalars['String'];
 };
 

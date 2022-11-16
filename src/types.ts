@@ -72,6 +72,8 @@ export type GetUserHistoryCondition = {
   userAddress: string;
   actionTypes?: MarketplaceActionEnums[];
   nonMpaActionTypes?: NonMarketplaceActionEnums[]; //deprecated
+  projectId?: string;
+  isRoyaltiesPaid?: boolean;
 };
 
 export type GetProjectHistoryCondition = {
