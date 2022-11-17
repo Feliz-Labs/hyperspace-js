@@ -70,6 +70,8 @@ export type GetUserActionsCondition = {
 
 export type GetUserHistoryCondition = {
   userAddress: string;
+  buyerAddress?: string;
+  sellerAddress?: string;
   actionTypes?: MarketplaceActionEnums[];
   nonMpaActionTypes?: NonMarketplaceActionEnums[]; //deprecated
   projectId?: string;

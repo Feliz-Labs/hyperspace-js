@@ -455,9 +455,20 @@ export class HyperspaceClient {
     paginationInfo?: PaginationConfig;
   }): Promise<GetUserHistoryQuery> {
     const parsedCondition: GetMarketPlaceActionsByUserCondition = {
-      seller_address: condition.userAddress,
-      buyer_address: condition.userAddress,
     };
+
+    if(condition.buyerAddress) {
+      parsedCondition.buyer_address = condition.buyerAddress;
+    }
+
+    if(condition.sellerAddress) {
+      parsedCondition.seller_address = condition.sellerAddress;
+    }
+
+    if(!condition.buyerAddress && !condition.sellerAddress && condition.userAddress) {
+      parsedCondition.buyer_address = condition.userAddress;
+      parsedCondition.seller_address = condition.userAddress;
+    }
 
     if (condition.actionTypes)
       parsedCondition.by_mpa_types = condition.actionTypes as MarketPlaceActionEnum[]
