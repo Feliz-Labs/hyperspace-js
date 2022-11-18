@@ -45,7 +45,7 @@ import {
   GetUpcomingProjectsCondition as OldGetUpcomingProjectsCondition,
   GetOverallWalletStatsQuery,
   GetNonMpaProjectHistoryQuery,
-  GetNonMpaUserHistoryQuery
+  GetNonMpaUserHistoryQuery,
 } from "./sdk";
 import { GraphQLClient } from "graphql-request";
 import {
@@ -194,14 +194,11 @@ export class HyperspaceClient {
     if (condition?.excludeProjectAttributes)
       parsedCondition.exclude_project_attributes =
         condition.excludeProjectAttributes;
-    if (condition?.tags) 
-      parsedCondition.tags = condition.tags;
-    if (condition?.isVerified)
-      parsedCondition.is_verified = true;
-    if(condition?.floorPriceFilter)
+    if (condition?.tags) parsedCondition.tags = condition.tags;
+    if (condition?.isVerified) parsedCondition.is_verified = true;
+    if (condition?.floorPriceFilter)
       parsedCondition.floor_price = condition?.floorPriceFilter;
-    
-      
+
     return this.sdk.getProjectStats(
       {
         conditions: parsedCondition,
@@ -244,9 +241,9 @@ export class HyperspaceClient {
   getUpcomingProjects({
     condition,
     orderBy,
-    paginationInfo
+    paginationInfo,
   }: {
-    condition?: GetUpcomingProjectsCondition
+    condition?: GetUpcomingProjectsCondition;
     orderBy?: OrderConfig;
     paginationInfo?: PaginationConfig;
   }): Promise<GetUpcomingProjectsQuery> {
@@ -255,13 +252,16 @@ export class HyperspaceClient {
       is_featured: condition?.isFeatured,
       is_moonshot: condition?.isLaunchpad,
       display_name: condition?.searchName,
-      project_name: condition?.name
-    }
-    return this.sdk.getUpcomingProjects({
-      conditions: parsedCondition,
-      order_by: orderBy,
-      pagination_info: paginationInfo
-    }, this.headers);
+      project_name: condition?.name,
+    };
+    return this.sdk.getUpcomingProjects(
+      {
+        conditions: parsedCondition,
+        order_by: orderBy,
+        pagination_info: paginationInfo,
+      },
+      this.headers
+    );
   }
 
   getOverallWalletStats(): Promise<GetOverallWalletStatsQuery> {
@@ -270,39 +270,44 @@ export class HyperspaceClient {
 
   getNonMpaProjectHistory({
     condition,
-    paginationInfo
-  } : {
+    paginationInfo,
+  }: {
     condition: GetNonMarketplaceActionsByProjectCondition;
     paginationInfo?: PaginationConfig;
-  }) : Promise<GetNonMpaProjectHistoryQuery> {
-
+  }): Promise<GetNonMpaProjectHistoryQuery> {
     const parsedCondition = {
       projects: condition.projects,
-      by_nmpa_types: condition.nonMpaActionTypes
-    }
+      by_nmpa_types: condition.nonMpaActionTypes,
+    };
 
-    return this.sdk.getNonMpaProjectHistory({
-      condition: parsedCondition,
-      paginationInfo
-    }, this.headers);
+    return this.sdk.getNonMpaProjectHistory(
+      {
+        condition: parsedCondition,
+        paginationInfo,
+      },
+      this.headers
+    );
   }
 
   getNonMpaUserHistory({
     condition,
-    paginationInfo
+    paginationInfo,
   }: {
-    condition: GetNonMarketplaceActionsByUserCondition,
+    condition: GetNonMarketplaceActionsByUserCondition;
     paginationInfo?: PaginationConfig;
   }): Promise<GetNonMpaUserHistoryQuery> {
     const parsedCondition = {
       source_address: condition.userAddress,
       destination_address: condition.userAddress,
-      by_nmpa_types: condition.nonMpaActionTypes
-    }
-    return this.sdk.getNonMpaUserHistory({
-      condition: parsedCondition,
-      paginationInfo
-    }, this.headers);
+      by_nmpa_types: condition.nonMpaActionTypes,
+    };
+    return this.sdk.getNonMpaUserHistory(
+      {
+        condition: parsedCondition,
+        paginationInfo,
+      },
+      this.headers
+    );
   }
 
   getMarketplaceSnapshot({
@@ -331,8 +336,7 @@ export class HyperspaceClient {
     if (condition?.name) parsedCondition.name = condition.name;
     if (condition?.rankFilter)
       parsedCondition.rank_filter = condition.rankFilter;
-    if (condition?.onlyHyperspace)
-      parsedCondition.only_listed_on_hs = true;
+    if (condition?.onlyHyperspace) parsedCondition.only_listed_on_hs = true;
     if (condition?.filterPoolListings)
       parsedCondition.filter_pool_listings = true;
     return this.sdk.getMarketplaceSnapshots(
@@ -358,7 +362,8 @@ export class HyperspaceClient {
       token_addresses: condition.tokenAddresses,
     };
     if (condition.actionType)
-      parsedCondition.action_type = condition.actionType as MarketPlaceActionEnum;
+      parsedCondition.action_type =
+        condition.actionType as MarketPlaceActionEnum;
     if (condition.buyerAddress)
       parsedCondition.buyer_address = condition.buyerAddress;
     if (condition.sellerAddress)
@@ -431,7 +436,8 @@ export class HyperspaceClient {
       token_addresses: condition.tokenAddresses,
     };
     if (condition.actionType)
-      parsedCondition.action_type = condition.actionType as MarketPlaceActionEnum;
+      parsedCondition.action_type =
+        condition.actionType as MarketPlaceActionEnum;
     if (condition.marketPlaceIdentifiers)
       parsedCondition.marketplace_ids = condition.marketPlaceIdentifiers;
 
@@ -454,36 +460,48 @@ export class HyperspaceClient {
     condition: GetUserHistoryCondition;
     paginationInfo?: PaginationConfig;
   }): Promise<GetUserHistoryQuery> {
-    const parsedCondition: GetMarketPlaceActionsByUserCondition = {
-    };
+    const parsedCondition: GetMarketPlaceActionsByUserCondition = {};
 
-    if(condition.buyerAddress) {
+    if (condition.buyerAddress) {
       parsedCondition.buyer_address = condition.buyerAddress;
     }
 
-    if(condition.sellerAddress) {
+    if (condition.sellerAddress) {
       parsedCondition.seller_address = condition.sellerAddress;
     }
 
-    if(!condition.buyerAddress && !condition.sellerAddress && condition.userAddress) {
+    if (
+      !condition.buyerAddress &&
+      !condition.sellerAddress &&
+      condition.userAddress
+    ) {
       parsedCondition.buyer_address = condition.userAddress;
       parsedCondition.seller_address = condition.userAddress;
     }
 
     if (condition.actionTypes)
-      parsedCondition.by_mpa_types = condition.actionTypes as MarketPlaceActionEnum[]
+      parsedCondition.by_mpa_types =
+        condition.actionTypes as MarketPlaceActionEnum[];
     else parsedCondition.by_mpa_types = [];
 
-    if(condition.nonMpaActionTypes)
-      parsedCondition.by_nmpa_types = condition.nonMpaActionTypes as NonMarketPlaceActionEnum[]
+    if (condition.nonMpaActionTypes)
+      parsedCondition.by_nmpa_types =
+        condition.nonMpaActionTypes as NonMarketPlaceActionEnum[];
     else parsedCondition.by_nmpa_types = [];
 
-    if (condition.projectId)
-      parsedCondition.project_id = condition.projectId;
+    if (condition.projectId) parsedCondition.project_id = condition.projectId;
 
-    if(condition.isRoyaltiesPaid !== undefined && condition.isRoyaltiesPaid !== null)
+    if (
+      condition.isRoyaltiesPaid !== undefined &&
+      condition.isRoyaltiesPaid !== null
+    )
       parsedCondition.is_royalties_paid = condition.isRoyaltiesPaid;
+
+    if (condition.startTime)
+      parsedCondition.start_timestamp = condition.startTime;
       
+    if (condition.endTime) parsedCondition.end_timestamp = condition.endTime;
+
     return this.sdk.getUserHistory(
       {
         condition: parsedCondition,
@@ -504,11 +522,13 @@ export class HyperspaceClient {
       projects: condition.projects,
     };
     if (condition.actionTypes)
-      parsedCondition.by_mpa_types = condition.actionTypes as MarketPlaceActionEnum[]
+      parsedCondition.by_mpa_types =
+        condition.actionTypes as MarketPlaceActionEnum[];
     else parsedCondition.by_mpa_types = [];
-    
-    if(condition.nonMpaActionTypes)
-      parsedCondition.by_nmpa_types = condition.nonMpaActionTypes as NonMarketPlaceActionEnum[]
+
+    if (condition.nonMpaActionTypes)
+      parsedCondition.by_nmpa_types =
+        condition.nonMpaActionTypes as NonMarketPlaceActionEnum[];
     else parsedCondition.by_nmpa_types = [];
 
     return this.sdk.getProjectHistory(
@@ -527,7 +547,7 @@ export class HyperspaceClient {
     price,
     tokenAddress,
     unverified,
-    ignoreFundCheck
+    ignoreFundCheck,
   }: GetBuyTxQueryVariables): Promise<GetBuyTxQuery> {
     let response = await this.sdk.getBuyTx(
       {
@@ -537,7 +557,7 @@ export class HyperspaceClient {
         price,
         tokenAddress,
         unverified,
-        ignoreFundCheck
+        ignoreFundCheck,
       },
       this.headers
     );
@@ -556,7 +576,7 @@ export class HyperspaceClient {
           is_required_signers_on: true,
           //@ts-ignore
           metadata: response.createBuyTx.metadata,
-          stdBuffer: response.createBuyTx.stdBuffer
+          stdBuffer: response.createBuyTx.stdBuffer,
         },
       };
     }

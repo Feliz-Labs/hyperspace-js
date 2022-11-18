@@ -244,10 +244,12 @@ export type GetMarketPlaceActionsByUserCondition = {
   by_mpa_types?: InputMaybe<Array<MarketPlaceActionEnum>>;
   by_nmpa_types?: InputMaybe<Array<NonMarketPlaceActionEnum>>;
   destination_address?: InputMaybe<Scalars['String']>;
+  end_timestamp?: InputMaybe<Scalars['Float']>;
   is_royalties_paid?: InputMaybe<Scalars['Boolean']>;
   project_id?: InputMaybe<Scalars['String']>;
   seller_address?: InputMaybe<Scalars['String']>;
   source_address?: InputMaybe<Scalars['String']>;
+  start_timestamp?: InputMaybe<Scalars['Float']>;
 };
 
 export type GetMarketPlaceActionsOutput = {
