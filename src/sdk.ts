@@ -58,7 +58,7 @@ export type CollectionBidConfig = {
   instance_id?: Maybe<Scalars['String']>;
   program_id: Scalars['String'];
   project_id: Scalars['String'];
-  seller_fee_basis_points: Scalars['Float'];
+  seller_fee_basis_points?: Maybe<Scalars['Float']>;
 };
 
 export type CollectionBidState = {
@@ -191,6 +191,13 @@ export enum Day_Lookback_Enum {
   SevenDay = 'SEVEN_DAY'
 }
 
+export type DisplayPrice = {
+  __typename?: 'DisplayPrice';
+  platform_fee?: Maybe<Scalars['Float']>;
+  price: Scalars['Float'];
+  royalty?: Maybe<Scalars['Float']>;
+};
+
 export type GetCollectionBidConfigResponse = {
   __typename?: 'GetCollectionBidConfigResponse';
   config?: Maybe<CollectionBidConfig>;
@@ -265,6 +272,7 @@ export type GetMarketPlaceSnapshotCondition = {
   include_floors?: InputMaybe<Scalars['Boolean']>;
   is_project_verified?: InputMaybe<Scalars['Boolean']>;
   listing_type?: InputMaybe<MarketPlaceActionEnum>;
+  marketplace_program?: InputMaybe<Array<MarketPlaceProgram>>;
   name?: InputMaybe<StringInputArg>;
   only_cross_mint_verified?: InputMaybe<Scalars['Boolean']>;
   only_listed_on_hs?: InputMaybe<Scalars['Boolean']>;
@@ -374,7 +382,6 @@ export type GetProjectStatsCondition = {
   floor_price?: InputMaybe<MarketPlacePricingFilterValues>;
   is_verified?: InputMaybe<Scalars['Boolean']>;
   project_ids?: InputMaybe<Array<Scalars['String']>>;
-  supply?: InputMaybe<SupplyInput>;
   tags?: InputMaybe<Array<Scalars['String']>>;
 };
 
@@ -464,6 +471,7 @@ export type MarketPlaceActionResponse = {
   currency?: Maybe<Scalars['String']>;
   currency_price?: Maybe<Scalars['Float']>;
   decimal?: Maybe<Scalars['Float']>;
+  display_price?: Maybe<DisplayPrice>;
   escrow_address?: Maybe<Scalars['String']>;
   fee?: Maybe<Scalars['Float']>;
   is_cross_mint_verified?: Maybe<Scalars['Boolean']>;
@@ -481,6 +489,7 @@ export type MarketPlaceActionResponse = {
 export type MarketPlaceActions = {
   __typename?: 'MarketPlaceActions';
   amount?: Maybe<Scalars['Float']>;
+  block_index?: Maybe<Scalars['Float']>;
   block_number?: Maybe<Scalars['Float']>;
   block_timestamp?: Maybe<Scalars['Float']>;
   buyer_address?: Maybe<Scalars['String']>;
@@ -519,8 +528,13 @@ export type MarketPlacePricingFilterValues = {
   min?: InputMaybe<Scalars['Float']>;
 };
 
+export type MarketPlaceProgram = {
+  marketplace_program_id: Scalars['String'];
+};
+
 export type MarketPlaceSnapshotResponse = {
   __typename?: 'MarketPlaceSnapshotResponse';
+  animation_url?: Maybe<Scalars['String']>;
   attributes?: Maybe<Scalars['JSON']>;
   candy_machine_id?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['DateTime']>;
@@ -550,6 +564,7 @@ export type MarketPlaceSnapshotResponse = {
   project_supply?: Maybe<Scalars['Float']>;
   rank_est?: Maybe<Scalars['Float']>;
   rarity_est?: Maybe<Scalars['Float']>;
+  solrarity_rank?: Maybe<Scalars['Float']>;
   supply?: Maybe<Scalars['Float']>;
   token_address: Scalars['String'];
   updated_at?: Maybe<Scalars['DateTime']>;
@@ -560,6 +575,7 @@ export type MarketPlaceSnapshotResponse = {
 export type MarketPlaceState = {
   __typename?: 'MarketPlaceState';
   amount?: Maybe<Scalars['Float']>;
+  block_index?: Maybe<Scalars['Float']>;
   block_number?: Maybe<Scalars['Float']>;
   block_timestamp?: Maybe<Scalars['Float']>;
   buyer_address?: Maybe<Scalars['String']>;
@@ -640,6 +656,7 @@ export type MarketPlaceTxOutput = {
   is_required_signers_on?: Maybe<Scalars['Boolean']>;
   metadata?: Maybe<Scalars['JSON']>;
   stdBuffer?: Maybe<Array<Scalars['Float']>>;
+  stdBuffers?: Maybe<Array<Array<Scalars['Float']>>>;
 };
 
 export type MarketPlaceTxOutputError = {
@@ -734,10 +751,12 @@ export type NonMarketPlaceActions = {
   collection_id?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['DateTime']>;
   currency?: Maybe<Scalars['String']>;
+  currency_price?: Maybe<Scalars['Float']>;
   decimal?: Maybe<Scalars['Float']>;
   destination_address?: Maybe<Scalars['String']>;
   destination_token_account?: Maybe<Scalars['String']>;
   farm_id?: Maybe<Scalars['String']>;
+  instruction_index?: Maybe<Scalars['Float']>;
   metadata?: Maybe<Scalars['JSON']>;
   new_authority?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
@@ -804,8 +823,10 @@ export type Project = {
   protocol?: Maybe<ProtocolEnum>;
   rarities?: Maybe<Scalars['JSON']>;
   requires_categorization?: Maybe<Scalars['Boolean']>;
+  royalty?: Maybe<Scalars['String']>;
   supply?: Maybe<Scalars['Float']>;
   tags?: Maybe<Array<ProjectTag>>;
+  token_type?: Maybe<Scalars['String']>;
   twitter?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['DateTime']>;
   website?: Maybe<Scalars['String']>;
@@ -927,6 +948,7 @@ export enum ProtocolEnum {
 export type Query = {
   __typename?: 'Query';
   acceptBidTx: MarketPlaceTxOutput;
+  acceptCollectionBidTx: MarketPlaceTxOutput;
   confirmBuyTx: MarketPlaceTxConfirmation;
   createBidTx: MarketPlaceTxOutput;
   createBuyTx: MarketPlaceTxOutput;
@@ -970,6 +992,16 @@ export type QueryAcceptBidTxArgs = {
   seller_address: Scalars['String'];
   seller_broker: Scalars['String'];
   seller_broker_basis_points?: InputMaybe<Scalars['Float']>;
+  token_address: Scalars['String'];
+};
+
+
+export type QueryAcceptCollectionBidTxArgs = {
+  expected_price?: InputMaybe<Scalars['Float']>;
+  project_id: Scalars['String'];
+  seller_address: Scalars['String'];
+  seller_broker_basis_points: Scalars['Float'];
+  seller_broker_wallet: Scalars['String'];
   token_address: Scalars['String'];
 };
 
@@ -1199,12 +1231,6 @@ export enum StringInputOperationEnum {
   Fuzzy = 'FUZZY'
 }
 
-export type SupplyInput = {
-  operation: Scalars['String'];
-  order_by?: InputMaybe<Scalars['String']>;
-  supply: Scalars['Float'];
-};
-
 export enum TimePeriodEnum {
   All = 'ALL',
   OneDay = 'ONE_DAY'
@@ -1395,7 +1421,7 @@ export type GetListTxQueryVariables = Exact<{
 }>;
 
 
-export type GetListTxQuery = { __typename?: 'Query', createListTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetListTxQuery = { __typename?: 'Query', createListTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, stdBuffer?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetBidTxQueryVariables = Exact<{
   buyerAddress: Scalars['String'];
@@ -1406,7 +1432,7 @@ export type GetBidTxQueryVariables = Exact<{
 }>;
 
 
-export type GetBidTxQuery = { __typename?: 'Query', createBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetBidTxQuery = { __typename?: 'Query', createBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, stdBuffer?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetAcceptBidTxQueryVariables = Exact<{
   sellerAddress: Scalars['String'];
@@ -1417,7 +1443,7 @@ export type GetAcceptBidTxQueryVariables = Exact<{
 }>;
 
 
-export type GetAcceptBidTxQuery = { __typename?: 'Query', acceptBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetAcceptBidTxQuery = { __typename?: 'Query', acceptBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, stdBuffer?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetCancelBidTxQueryVariables = Exact<{
   buyerAddress: Scalars['String'];
@@ -1425,7 +1451,7 @@ export type GetCancelBidTxQueryVariables = Exact<{
 }>;
 
 
-export type GetCancelBidTxQuery = { __typename?: 'Query', createCancelBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetCancelBidTxQuery = { __typename?: 'Query', createCancelBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, stdBuffer?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetDelistTxQueryVariables = Exact<{
   sellerAddress: Scalars['String'];
@@ -1441,7 +1467,7 @@ export type GetWithdrawEscrowTxQueryVariables = Exact<{
 }>;
 
 
-export type GetWithdrawEscrowTxQuery = { __typename?: 'Query', createWithdrawEscrowTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetWithdrawEscrowTxQuery = { __typename?: 'Query', createWithdrawEscrowTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, stdBuffer?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetTokenHistoryQueryVariables = Exact<{
   condition: GetMarketPlaceActionsByTokenAddressCondition;
@@ -1631,6 +1657,7 @@ export const GetListTxDocument = gql`
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
@@ -1651,6 +1678,7 @@ export const GetBidTxDocument = gql`
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
@@ -1671,6 +1699,7 @@ export const GetAcceptBidTxDocument = gql`
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
@@ -1685,6 +1714,7 @@ export const GetCancelBidTxDocument = gql`
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
@@ -1713,6 +1743,7 @@ export const GetWithdrawEscrowTxDocument = gql`
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message

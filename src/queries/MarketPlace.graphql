@@ -64,6 +64,7 @@ query getListTx(
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
@@ -90,6 +91,7 @@ query getBidTx(
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
@@ -115,6 +117,7 @@ query getAcceptBidTx(
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
@@ -135,6 +138,7 @@ query getCancelBidTx(
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
@@ -175,6 +179,7 @@ query getWithdrawEscrowTx(
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
