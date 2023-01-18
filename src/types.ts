@@ -47,7 +47,7 @@ export type MarketplaceActionEnums =
   | MarketPlaceActionEnum.Updatebid
   | MarketPlaceActionEnum.Cancelbid;
 
-export type NonMarketplaceActionEnums = NonMarketPlaceActionEnum.Mint;
+export type NonMarketplaceActionEnums = NonMarketPlaceActionEnum.Mint | NonMarketPlaceActionEnum.Transfer;
 
 export type GetMarketplaceStateCondition = {
   tokenAddresses: string[];
@@ -155,4 +155,5 @@ export type GetNonMarketplaceActionsByProjectCondition = {
 export type GetNonMarketplaceActionsByUserCondition = {
   userAddress: string;
   nonMpaActionTypes: NonMarketplaceActionEnums[];
+  projectId?: string;
 };

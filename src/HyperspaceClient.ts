@@ -300,6 +300,7 @@ export class HyperspaceClient {
       source_address: condition.userAddress,
       destination_address: condition.userAddress,
       by_nmpa_types: condition.nonMpaActionTypes,
+      project_id: condition.projectId
     };
     return this.sdk.getNonMpaUserHistory(
       {
