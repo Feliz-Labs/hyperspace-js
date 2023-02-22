@@ -15,6 +15,7 @@ query getMarketplaceSnapshots(
         rank_est
         moonrank
         howrare_rank
+        solrarity_rank
         supply
         full_img
         meta_data_img
