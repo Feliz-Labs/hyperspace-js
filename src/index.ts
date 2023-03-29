@@ -40,7 +40,13 @@ import {
   GetWalletStatsQuery,
   GetWalletStatsHistQuery,
   Day_Lookback_Enum,
-  AttributeTypeEnum
+  AttributeTypeEnum,
+  GetCollectionBidsForProjectQuery,
+  GetCollectionBidsForProjectQueryVariables,
+  GetAcceptCollectionBidTxQueryVariables,
+  GetAcceptCollectionBidTxQuery,
+  GetCollectionBidsForUserQuery,
+  GetCollectionBidsForUserQueryVariables
 } from "./sdk";
 
 import {
@@ -67,6 +73,12 @@ module.exports = {
 }
 
 export {
+  GetCollectionBidsForProjectQuery,
+  GetCollectionBidsForProjectQueryVariables,
+  GetAcceptCollectionBidTxQueryVariables,
+  GetAcceptCollectionBidTxQuery,
+  GetCollectionBidsForUserQuery,
+  GetCollectionBidsForUserQueryVariables,
   GetNonMarketplaceActionsByUserCondition,
   GetNonMarketplaceActionsByProjectCondition,
   GetUpcomingProjectsCondition,

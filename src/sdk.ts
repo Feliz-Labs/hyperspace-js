@@ -73,6 +73,7 @@ export type CollectionBidState = {
   currency?: Maybe<Scalars['String']>;
   currency_price?: Maybe<Scalars['Float']>;
   decimal?: Maybe<Scalars['Float']>;
+  display_price?: Maybe<Scalars['Float']>;
   expiration?: Maybe<Scalars['Float']>;
   fee?: Maybe<Scalars['Float']>;
   fee_address?: Maybe<Scalars['String']>;
@@ -152,6 +153,26 @@ export type CreateMarketPlaceActionsInput = {
   slot: Scalars['Float'];
   token_address: Scalars['String'];
   type: MarketPlaceActionEnum;
+};
+
+export type CreateRawBuyTxInput = {
+  RSO?: InputMaybe<Scalars['Boolean']>;
+  buyer_address: Scalars['String'];
+  escrow_address?: InputMaybe<Scalars['String']>;
+  marketplace_instance_id?: InputMaybe<Scalars['String']>;
+  marketplace_program_id: Scalars['String'];
+  mint: Scalars['String'];
+  price: Scalars['Float'];
+  request_auth_metadata?: InputMaybe<Scalars['JSON']>;
+  request_auth_timestamp?: InputMaybe<Scalars['Float']>;
+  request_id?: InputMaybe<Scalars['String']>;
+  seller_address?: InputMaybe<Scalars['String']>;
+  seller_referral_address?: InputMaybe<Scalars['String']>;
+  session_buffer?: InputMaybe<Array<Scalars['Float']>>;
+  signature?: InputMaybe<Scalars['String']>;
+  sn_override?: InputMaybe<Scalars['String']>;
+  state_bump?: InputMaybe<Array<Scalars['Float']>>;
+  validate?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type CreateTransactionMarketPlaceActionInput = {
@@ -280,7 +301,7 @@ export type GetMarketPlaceSnapshotCondition = {
   include_floors?: InputMaybe<Scalars['Boolean']>;
   is_project_verified?: InputMaybe<Scalars['Boolean']>;
   listing_type?: InputMaybe<MarketPlaceActionEnum>;
-  marketplace_program?: InputMaybe<Array<MarketPlaceProgram>>;
+  marketplace_program_condition?: InputMaybe<MarketplaceProgramCondition>;
   name?: InputMaybe<StringInputArg>;
   only_cross_mint_verified?: InputMaybe<Scalars['Boolean']>;
   only_listed_on_hs?: InputMaybe<Scalars['Boolean']>;
@@ -405,6 +426,7 @@ export type GetUpcomingProjectsCondition = {
   is_featured?: InputMaybe<Scalars['Boolean']>;
   is_moonshot?: InputMaybe<Scalars['Boolean']>;
   project_name?: InputMaybe<Scalars['String']>;
+  protocol?: InputMaybe<ProtocolEnum>;
   user_timestamp?: InputMaybe<UserTimestamp>;
 };
 
@@ -526,6 +548,20 @@ export type MarketPlaceActions = {
   updated_at?: Maybe<Scalars['DateTime']>;
 };
 
+export type MarketPlaceBuyAuthOutput = {
+  __typename?: 'MarketPlaceBuyAuthOutput';
+  auth_metadata?: Maybe<Scalars['JSON']>;
+  exp?: Maybe<Scalars['Float']>;
+  iat?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  nonce?: Maybe<Scalars['String']>;
+  request_auth_timestamp?: Maybe<Scalars['Float']>;
+  request_id?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['Float']>;
+};
+
 export type MarketPlaceIdentifier = {
   marketplace_instance_id?: InputMaybe<Scalars['String']>;
   marketplace_program_id: Scalars['String'];
@@ -548,6 +584,7 @@ export type MarketPlaceSnapshotResponse = {
   attributes?: Maybe<Scalars['JSON']>;
   candy_machine_id?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['DateTime']>;
+  creator_royalty?: Maybe<Scalars['Float']>;
   first_creator?: Maybe<Scalars['String']>;
   floor_price?: Maybe<Scalars['Float']>;
   floor_price_1day_change?: Maybe<Scalars['Float']>;
@@ -563,6 +600,7 @@ export type MarketPlaceSnapshotResponse = {
   meta_data_uri?: Maybe<Scalars['String']>;
   moonrank?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
+  nft_standard?: Maybe<Scalars['String']>;
   non_market_place_state?: Maybe<NonMarketPlaceActions>;
   owner?: Maybe<Scalars['String']>;
   project_attributes?: Maybe<Array<ProjectAttribute>>;
@@ -595,6 +633,7 @@ export type MarketPlaceState = {
   currency?: Maybe<Scalars['String']>;
   currency_price?: Maybe<Scalars['Float']>;
   decimal?: Maybe<Scalars['Float']>;
+  display_price?: Maybe<Scalars['Float']>;
   escrow_address?: Maybe<Scalars['String']>;
   expiry_time?: Maybe<Scalars['Float']>;
   fee?: Maybe<Scalars['Float']>;
@@ -676,6 +715,11 @@ export type MarketPlaceTxOutputError = {
   error_type?: Maybe<MarketPlaceTxErrorEnum>;
   message?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSON']>;
+};
+
+export type MarketplaceProgramCondition = {
+  marketplace_programs?: InputMaybe<Array<MarketPlaceProgram>>;
+  should_exclude?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type Mutation = {
@@ -952,9 +996,16 @@ export type ProjectTag = {
 };
 
 export enum ProtocolEnum {
+  Aptos = 'APTOS',
+  Arbitrum = 'ARBITRUM',
+  Bitcoin = 'BITCOIN',
   Cardano = 'CARDANO',
   Ethereum = 'ETHEREUM',
-  Solana = 'SOLANA'
+  Near = 'NEAR',
+  Optimism = 'OPTIMISM',
+  Polygon = 'POLYGON',
+  Solana = 'SOLANA',
+  Sui = 'SUI'
 }
 
 export type Query = {
@@ -967,6 +1018,11 @@ export type Query = {
   createCancelBidTx: MarketPlaceTxOutput;
   createDelistTx: MarketPlaceTxOutput;
   createListTx: MarketPlaceTxOutput;
+  createRawAcceptBidTx: MarketPlaceTxOutput;
+  createRawAcceptCollectionBidTx: MarketPlaceTxOutput;
+  createRawBulkBuyTx: Array<MarketPlaceTxOutput>;
+  createRawBuyTx: MarketPlaceTxOutput;
+  createRawDelistTx: MarketPlaceTxOutput;
   createWithdrawEscrowTx: MarketPlaceTxOutput;
   getCollectionBidConfig: GetCollectionBidConfigResponse;
   getCollectionBidMultiConfig: GetCollectionBidMultiConfigResponse;
@@ -995,7 +1051,9 @@ export type Query = {
   getUserListings: GetMarketPlaceSnapshotsResponse;
   getWalletStats: GetWalletStatsOutput;
   getWalletStatsHist: GetWalletStatsHistOutput;
+  initBuyAuth: MarketPlaceBuyAuthOutput;
   validateAndConfirmSignature: ValidateAndConfirmSignatureOutput;
+  verifyBuyAuth: MarketPlaceBuyAuthOutput;
 };
 
 
@@ -1071,6 +1129,81 @@ export type QueryCreateListTxArgs = {
   seller_broker: Scalars['String'];
   seller_broker_basis_points?: InputMaybe<Scalars['Float']>;
   token_address: Scalars['String'];
+};
+
+
+export type QueryCreateRawAcceptBidTxArgs = {
+  buyer_address: Scalars['String'];
+  buyer_expiry?: InputMaybe<Scalars['Float']>;
+  marketplace_instance_id?: InputMaybe<Scalars['String']>;
+  marketplace_program_id: Scalars['String'];
+  price: Scalars['Float'];
+  seller_address: Scalars['String'];
+  seller_expiry?: InputMaybe<Array<Scalars['Float']>>;
+  token_address: Scalars['String'];
+};
+
+
+export type QueryCreateRawAcceptCollectionBidTxArgs = {
+  buyer_address: Scalars['String'];
+  buyer_broker?: InputMaybe<Scalars['String']>;
+  buyer_broker_basis_points?: InputMaybe<Scalars['Float']>;
+  buyer_expiry?: InputMaybe<Scalars['Float']>;
+  collection_identifier_index?: InputMaybe<Scalars['Float']>;
+  collection_identifier_type?: InputMaybe<Scalars['String']>;
+  collection_identifier_value?: InputMaybe<Scalars['String']>;
+  marketplace_instance_id?: InputMaybe<Scalars['String']>;
+  marketplace_program_id: Scalars['String'];
+  price: Scalars['Float'];
+  seller_address: Scalars['String'];
+  seller_expiry?: InputMaybe<Array<Scalars['Float']>>;
+  token_address: Scalars['String'];
+};
+
+
+export type QueryCreateRawBulkBuyTxArgs = {
+  buy_tx_inputs: Array<CreateRawBuyTxInput>;
+  request_auth_metadata?: InputMaybe<Scalars['JSON']>;
+  request_auth_timestamp?: InputMaybe<Scalars['Float']>;
+  request_id?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryCreateRawBuyTxArgs = {
+  RSO?: InputMaybe<Scalars['Boolean']>;
+  buyer_address: Scalars['String'];
+  escrow_address?: InputMaybe<Scalars['String']>;
+  marketplace_instance_id?: InputMaybe<Scalars['String']>;
+  marketplace_program_id: Scalars['String'];
+  mint: Scalars['String'];
+  price: Scalars['Float'];
+  request_auth_metadata?: InputMaybe<Scalars['JSON']>;
+  request_auth_timestamp?: InputMaybe<Scalars['Float']>;
+  request_id?: InputMaybe<Scalars['String']>;
+  seller_address?: InputMaybe<Scalars['String']>;
+  seller_referral_address?: InputMaybe<Scalars['String']>;
+  session_buffer?: InputMaybe<Array<Scalars['Float']>>;
+  signature?: InputMaybe<Scalars['String']>;
+  sn_override?: InputMaybe<Scalars['String']>;
+  state_bump?: InputMaybe<Array<Scalars['Float']>>;
+  validate?: InputMaybe<Scalars['Boolean']>;
+};
+
+
+export type QueryCreateRawDelistTxArgs = {
+  marketplace_instance_id?: InputMaybe<Scalars['String']>;
+  marketplace_program_id: Scalars['String'];
+  mint: Scalars['String'];
+  price: Scalars['Float'];
+  request_auth_metadata?: InputMaybe<Scalars['JSON']>;
+  request_auth_timestamp?: InputMaybe<Scalars['Float']>;
+  request_id?: InputMaybe<Scalars['String']>;
+  seller_address: Scalars['String'];
+  seller_referral_address?: InputMaybe<Scalars['String']>;
+  session_buffer?: InputMaybe<Array<Scalars['Float']>>;
+  signature?: InputMaybe<Scalars['String']>;
+  sn_override?: InputMaybe<Scalars['String']>;
+  state_bump?: InputMaybe<Array<Scalars['Float']>>;
 };
 
 
@@ -1231,8 +1364,27 @@ export type QueryGetWalletStatsHistArgs = {
 };
 
 
+export type QueryInitBuyAuthArgs = {
+  auth_type: Scalars['String'];
+  metadata?: InputMaybe<Scalars['JSON']>;
+  wallet?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryValidateAndConfirmSignatureArgs = {
   signature: Scalars['String'];
+};
+
+
+export type QueryVerifyBuyAuthArgs = {
+  auth_type: Scalars['String'];
+  message?: InputMaybe<Scalars['String']>;
+  nonce?: InputMaybe<Scalars['String']>;
+  request_auth_timestamp?: InputMaybe<Scalars['Float']>;
+  request_id?: InputMaybe<Scalars['String']>;
+  signature?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
+  wallet?: InputMaybe<Scalars['String']>;
 };
 
 export enum SortOrderEnum {
@@ -1267,9 +1419,9 @@ export type UpcomingProject = {
   display_name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   img_url?: Maybe<Scalars['String']>;
-  is_affiliate: Scalars['Boolean'];
-  is_featured: Scalars['Boolean'];
-  is_moonshot: Scalars['Boolean'];
+  is_affiliate?: Maybe<Scalars['Boolean']>;
+  is_featured?: Maybe<Scalars['Boolean']>;
+  is_moonshot?: Maybe<Scalars['Boolean']>;
   launch_date?: Maybe<Scalars['Date']>;
   launch_timestamp?: Maybe<Scalars['String']>;
   launchpad?: Maybe<Scalars['String']>;
@@ -1409,6 +1561,20 @@ export type ValidateAndConfirmSignatureOutput = {
   success: Scalars['Boolean'];
 };
 
+export type GetCollectionBidsForProjectQueryVariables = Exact<{
+  projectId: Scalars['String'];
+}>;
+
+
+export type GetCollectionBidsForProjectQuery = { __typename?: 'Query', getCollectionBidsForProject: { __typename?: 'GetCollectionBidsResponse', bids?: Array<{ __typename?: 'CollectionBidState', identifier_key?: string | null, identifier_type: CollectionIdentifierTypeEnum, identifier_index?: number | null, trade_state?: string | null, block_timestamp?: number | null, block_number?: number | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, fee_address?: string | null, program_id?: string | null, instance_id?: string | null, type?: CollectionBidActionEnum | null, price?: number | null, display_price?: number | null, fee?: number | null, amount?: number | null, seller_referral_address?: string | null, seller_referral_fee?: number | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, instruction_index?: number | null, currency_price?: number | null, decimal?: number | null, currency?: string | null, expiration?: number | null, created_at?: any | null, updated_at?: any | null }> | null } };
+
+export type GetCollectionBidsForUserQueryVariables = Exact<{
+  buyerAddress: Scalars['String'];
+}>;
+
+
+export type GetCollectionBidsForUserQuery = { __typename?: 'Query', getCollectionBidsForUser: { __typename?: 'GetProjectAndCollectionBidsResponse', bids?: Array<{ __typename?: 'ProjectAndCollectionBid', project_id?: string | null, display_name?: string | null, img_url?: string | null, project_slug?: string | null, identifier_key?: string | null, identifier_type: CollectionIdentifierTypeEnum, identifier_index?: number | null, trade_state?: string | null, block_timestamp?: number | null, block_number?: number | null, signature?: string | null, seller_address?: string | null, buyer_address?: string | null, fee_address?: string | null, program_id?: string | null, instance_id?: string | null, type?: CollectionBidActionEnum | null, price?: number | null, fee?: number | null, amount?: number | null, seller_referral_address?: string | null, seller_referral_fee?: number | null, buyer_referral_address?: string | null, buyer_referral_fee?: number | null, metadata?: any | null, instruction_index?: number | null, currency_price?: number | null, decimal?: number | null, currency?: string | null, expiration?: number | null, created_at?: any | null, updated_at?: any | null }> | null } };
+
 export type GetBuyTxQueryVariables = Exact<{
   buyerAddress: Scalars['String'];
   price: Scalars['Float'];
@@ -1478,7 +1644,7 @@ export type GetDelistTxQueryVariables = Exact<{
 }>;
 
 
-export type GetDelistTxQuery = { __typename?: 'Query', createDelistTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+export type GetDelistTxQuery = { __typename?: 'Query', createDelistTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, stdBuffer?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetWithdrawEscrowTxQueryVariables = Exact<{
   userAddress: Scalars['String'];
@@ -1487,6 +1653,25 @@ export type GetWithdrawEscrowTxQueryVariables = Exact<{
 
 
 export type GetWithdrawEscrowTxQuery = { __typename?: 'Query', createWithdrawEscrowTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, stdBuffer?: Array<number> | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
+
+export type GetAcceptCollectionBidTxQueryVariables = Exact<{
+  tokenAddress: Scalars['String'];
+  sellerAddress: Scalars['String'];
+  price: Scalars['Float'];
+  buyerAddress: Scalars['String'];
+  marketplaceProgramId: Scalars['String'];
+  marketplaceInstanceId?: InputMaybe<Scalars['String']>;
+  buyerBrokerBasisPoints?: InputMaybe<Scalars['Float']>;
+  buyerExpiry?: InputMaybe<Scalars['Float']>;
+  collectionIdentifierType?: InputMaybe<Scalars['String']>;
+  collectionIdentifierValue?: InputMaybe<Scalars['String']>;
+  collectionIdentifierIndex?: InputMaybe<Scalars['Float']>;
+  buyerBroker?: InputMaybe<Scalars['String']>;
+  sellerExpiry?: InputMaybe<Array<Scalars['Float']> | Scalars['Float']>;
+}>;
+
+
+export type GetAcceptCollectionBidTxQuery = { __typename?: 'Query', createRawAcceptCollectionBidTx: { __typename?: 'MarketPlaceTxOutput', data?: Array<number> | null, stdBuffer?: Array<number> | null, is_required_signers_on?: boolean | null, metadata?: any | null, error?: { __typename?: 'MarketPlaceTxOutputError', error_type?: MarketPlaceTxErrorEnum | null, message?: string | null, metadata?: any | null } | null } };
 
 export type GetTokenHistoryQueryVariables = Exact<{
   condition: GetMarketPlaceActionsByTokenAddressCondition;
@@ -1538,7 +1723,7 @@ export type GetMarketplaceSnapshotsQueryVariables = Exact<{
 }>;
 
 
-export type GetMarketplaceSnapshotsQuery = { __typename?: 'Query', getMarketPlaceSnapshots: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', token_address: string, project_id: string, name?: string | null, rank_est?: number | null, moonrank?: number | null, howrare_rank?: number | null, solrarity_rank?: number | null, supply?: number | null, full_img?: string | null, meta_data_img?: string | null, meta_data_uri?: string | null, attributes?: any | null, floor_price?: number | null, project_name?: string | null, project_image?: string | null, project_slug?: string | null, project_description?: string | null, is_project_verified?: boolean | null, created_at?: any | null, project_attributes?: Array<{ __typename?: 'ProjectAttribute', name: string, counts?: any | null, type: AttributeTypeEnum, values: Array<string> }> | null, lowest_listing_mpa?: { __typename?: 'MarketPlaceActionResponse', user_address?: string | null, price?: number | null, marketplace_program_id?: string | null, type?: MarketPlaceActionEnum | null, signature?: string | null, amount?: number | null, broker_referral_address?: string | null, block_timestamp?: number | null, broker_referral_fee?: number | null, escrow_address?: string | null, fee?: number | null, marketplace_fee_address?: string | null, marketplace_instance_id?: string | null, metadata?: any | null } | null, highest_bid_mpa?: { __typename?: 'MarketPlaceActionResponse', marketplace_fee_address?: string | null, fee?: number | null, escrow_address?: string | null, broker_referral_fee?: number | null, broker_referral_address?: string | null, block_timestamp?: number | null, signature?: string | null, amount?: number | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, price?: number | null, user_address?: string | null, metadata?: any | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number?: number | null } } };
+export type GetMarketplaceSnapshotsQuery = { __typename?: 'Query', getMarketPlaceSnapshots: { __typename?: 'GetMarketPlaceSnapshotsResponse', market_place_snapshots?: Array<{ __typename?: 'MarketPlaceSnapshotResponse', token_address: string, project_id: string, name?: string | null, owner?: string | null, rank_est?: number | null, moonrank?: number | null, howrare_rank?: number | null, solrarity_rank?: number | null, supply?: number | null, full_img?: string | null, meta_data_img?: string | null, meta_data_uri?: string | null, attributes?: any | null, floor_price?: number | null, project_name?: string | null, project_image?: string | null, project_slug?: string | null, project_description?: string | null, is_project_verified?: boolean | null, created_at?: any | null, nft_standard?: string | null, creator_royalty?: number | null, project_attributes?: Array<{ __typename?: 'ProjectAttribute', name: string, counts?: any | null, type: AttributeTypeEnum, values: Array<string> }> | null, last_sale_mpa?: { __typename?: 'MarketPlaceActionResponse', user_address?: string | null, price?: number | null, marketplace_program_id?: string | null, type?: MarketPlaceActionEnum | null, amount?: number | null, signature?: string | null, block_timestamp?: number | null } | null, lowest_listing_mpa?: { __typename?: 'MarketPlaceActionResponse', user_address?: string | null, price?: number | null, marketplace_program_id?: string | null, type?: MarketPlaceActionEnum | null, signature?: string | null, amount?: number | null, broker_referral_address?: string | null, block_timestamp?: number | null, broker_referral_fee?: number | null, escrow_address?: string | null, fee?: number | null, marketplace_fee_address?: string | null, marketplace_instance_id?: string | null, metadata?: any | null, twitter?: string | null, display_price?: { __typename?: 'DisplayPrice', price: number, royalty?: number | null, platform_fee?: number | null } | null } | null, highest_bid_mpa?: { __typename?: 'MarketPlaceActionResponse', marketplace_fee_address?: string | null, fee?: number | null, escrow_address?: string | null, broker_referral_fee?: number | null, broker_referral_address?: string | null, block_timestamp?: number | null, signature?: string | null, amount?: number | null, type?: MarketPlaceActionEnum | null, marketplace_program_id?: string | null, marketplace_instance_id?: string | null, price?: number | null, user_address?: string | null, metadata?: any | null } | null }> | null, pagination_info: { __typename?: 'PaginationInfoResponseType', current_page_number: number, current_page_size: number, has_next_page: boolean, total_page_number?: number | null } } };
 
 export type GetUserBidsQueryVariables = Exact<{
   condition?: InputMaybe<GetMarketPlaceStateCondition>;
@@ -1605,7 +1790,7 @@ export type GetUpcomingProjectsQueryVariables = Exact<{
 }>;
 
 
-export type GetUpcomingProjectsQuery = { __typename?: 'Query', getUpcomingProjectsRaw: { __typename?: 'GetUpcomingProjectsResponse', upcoming_projects: Array<{ __typename?: 'UpcomingProject', project_name: string, protocol: ProtocolEnum, twitter?: string | null, discord?: string | null, website?: string | null, display_name?: string | null, supply?: string | null, description?: string | null, launch_timestamp?: string | null, launch_date?: any | null, mint_site?: string | null, img_url?: string | null, price?: string | null, is_moonshot: boolean, is_featured: boolean }> } };
+export type GetUpcomingProjectsQuery = { __typename?: 'Query', getUpcomingProjectsRaw: { __typename?: 'GetUpcomingProjectsResponse', upcoming_projects: Array<{ __typename?: 'UpcomingProject', project_name: string, protocol: ProtocolEnum, twitter?: string | null, discord?: string | null, website?: string | null, display_name?: string | null, supply?: string | null, description?: string | null, launch_timestamp?: string | null, launch_date?: any | null, mint_site?: string | null, img_url?: string | null, price?: string | null, is_moonshot?: boolean | null, is_featured?: boolean | null }> } };
 
 export type GetWalletStatsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<OrderConfig> | OrderConfig>;
@@ -1629,6 +1814,83 @@ export type GetWalletStatsHistQueryVariables = Exact<{
 export type GetWalletStatsHistQuery = { __typename?: 'Query', getWalletStatsHist: { __typename?: 'GetWalletStatsHistOutput', wallet_stats_history?: Array<{ __typename?: 'WalletStatHist', timestamp: number, portfolio_value?: number | null, owned_nfts?: number | null }> | null } };
 
 
+export const GetCollectionBidsForProjectDocument = gql`
+    query getCollectionBidsForProject($projectId: String!) {
+  getCollectionBidsForProject(project_id: $projectId) {
+    bids {
+      identifier_key
+      identifier_type
+      identifier_index
+      trade_state
+      block_timestamp
+      block_number
+      signature
+      seller_address
+      buyer_address
+      fee_address
+      program_id
+      instance_id
+      type
+      price
+      display_price
+      fee
+      amount
+      seller_referral_address
+      seller_referral_fee
+      buyer_referral_address
+      buyer_referral_fee
+      metadata
+      instruction_index
+      currency_price
+      decimal
+      currency
+      expiration
+      created_at
+      updated_at
+    }
+  }
+}
+    `;
+export const GetCollectionBidsForUserDocument = gql`
+    query getCollectionBidsForUser($buyerAddress: String!) {
+  getCollectionBidsForUser(buyer_address: $buyerAddress) {
+    bids {
+      project_id
+      display_name
+      img_url
+      project_slug
+      identifier_key
+      identifier_type
+      identifier_index
+      trade_state
+      block_timestamp
+      block_number
+      signature
+      seller_address
+      buyer_address
+      fee_address
+      program_id
+      instance_id
+      type
+      price
+      fee
+      amount
+      seller_referral_address
+      seller_referral_fee
+      buyer_referral_address
+      buyer_referral_fee
+      metadata
+      instruction_index
+      currency_price
+      decimal
+      currency
+      expiration
+      created_at
+      updated_at
+    }
+  }
+}
+    `;
 export const GetBuyTxDocument = gql`
     query getBuyTx($buyerAddress: String!, $price: Float!, $tokenAddress: String!, $buyerBroker: String!, $buyerBrokerBasisPoints: Float, $unverified: Boolean, $ignoreFundCheck: Boolean) {
   createBuyTx(
@@ -1748,6 +2010,7 @@ export const GetDelistTxDocument = gql`
     data
     is_required_signers_on
     metadata
+    stdBuffer
     error {
       error_type
       message
@@ -1768,6 +2031,35 @@ export const GetWithdrawEscrowTxDocument = gql`
       message
       metadata
     }
+  }
+}
+    `;
+export const GetAcceptCollectionBidTxDocument = gql`
+    query getAcceptCollectionBidTx($tokenAddress: String!, $sellerAddress: String!, $price: Float!, $buyerAddress: String!, $marketplaceProgramId: String!, $marketplaceInstanceId: String, $buyerBrokerBasisPoints: Float, $buyerExpiry: Float, $collectionIdentifierType: String, $collectionIdentifierValue: String, $collectionIdentifierIndex: Float, $buyerBroker: String, $sellerExpiry: [Float!]) {
+  createRawAcceptCollectionBidTx(
+    token_address: $tokenAddress
+    seller_address: $sellerAddress
+    price: $price
+    buyer_address: $buyerAddress
+    marketplace_program_id: $marketplaceProgramId
+    marketplace_instance_id: $marketplaceInstanceId
+    buyer_broker_basis_points: $buyerBrokerBasisPoints
+    buyer_expiry: $buyerExpiry
+    collection_identifier_type: $collectionIdentifierType
+    collection_identifier_value: $collectionIdentifierValue
+    collection_identifier_index: $collectionIdentifierIndex
+    buyer_broker: $buyerBroker
+    seller_expiry: $sellerExpiry
+  ) {
+    data
+    stdBuffer
+    error {
+      error_type
+      message
+      metadata
+    }
+    is_required_signers_on
+    metadata
   }
 }
     `;
@@ -1973,6 +2265,7 @@ export const GetMarketplaceSnapshotsDocument = gql`
       token_address
       project_id
       name
+      owner
       rank_est
       moonrank
       howrare_rank
@@ -1989,11 +2282,22 @@ export const GetMarketplaceSnapshotsDocument = gql`
       project_description
       is_project_verified
       created_at
+      nft_standard
+      creator_royalty
       project_attributes {
         name
         counts
         type
         values
+      }
+      last_sale_mpa {
+        user_address
+        price
+        marketplace_program_id
+        type
+        amount
+        signature
+        block_timestamp
       }
       lowest_listing_mpa {
         user_address
@@ -2010,6 +2314,12 @@ export const GetMarketplaceSnapshotsDocument = gql`
         marketplace_fee_address
         marketplace_instance_id
         metadata
+        twitter
+        display_price {
+          price
+          royalty
+          platform_fee
+        }
       }
       highest_bid_mpa {
         marketplace_fee_address
@@ -2427,6 +2737,12 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    getCollectionBidsForProject(variables: GetCollectionBidsForProjectQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCollectionBidsForProjectQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCollectionBidsForProjectQuery>(GetCollectionBidsForProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCollectionBidsForProject', 'query');
+    },
+    getCollectionBidsForUser(variables: GetCollectionBidsForUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCollectionBidsForUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCollectionBidsForUserQuery>(GetCollectionBidsForUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCollectionBidsForUser', 'query');
+    },
     getBuyTx(variables: GetBuyTxQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetBuyTxQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetBuyTxQuery>(GetBuyTxDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getBuyTx', 'query');
     },
@@ -2450,6 +2766,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getWithdrawEscrowTx(variables: GetWithdrawEscrowTxQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetWithdrawEscrowTxQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetWithdrawEscrowTxQuery>(GetWithdrawEscrowTxDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getWithdrawEscrowTx', 'query');
+    },
+    getAcceptCollectionBidTx(variables: GetAcceptCollectionBidTxQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAcceptCollectionBidTxQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetAcceptCollectionBidTxQuery>(GetAcceptCollectionBidTxDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAcceptCollectionBidTx', 'query');
     },
     getTokenHistory(variables: GetTokenHistoryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTokenHistoryQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetTokenHistoryQuery>(GetTokenHistoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTokenHistory', 'query');

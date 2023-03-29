@@ -12,6 +12,7 @@ query getMarketplaceSnapshots(
         token_address
         project_id
         name
+        owner
         rank_est
         moonrank
         howrare_rank
@@ -28,11 +29,22 @@ query getMarketplaceSnapshots(
         project_description
         is_project_verified
         created_at
+        nft_standard
+        creator_royalty
         project_attributes {
           name
           counts
           type
           values
+        }
+        last_sale_mpa {
+          user_address
+          price
+          marketplace_program_id
+          type
+          amount
+          signature
+          block_timestamp
         }
         lowest_listing_mpa {
           user_address
@@ -49,6 +61,12 @@ query getMarketplaceSnapshots(
           marketplace_fee_address
           marketplace_instance_id
           metadata
+          twitter
+          display_price {
+            price
+            royalty
+            platform_fee
+          }
         }
         highest_bid_mpa {
           marketplace_fee_address

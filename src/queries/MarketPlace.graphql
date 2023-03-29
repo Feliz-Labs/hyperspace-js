@@ -28,17 +28,9 @@ query getBuyTx(
   }
 }
 
-query sendBuyTx(
-  $data: [Float!]
-  $hexData: String 
-  $metadata: JSON!
-) {
-  confirmBuyTx(
-    data: $data 
-    hex_data: $hexData
-    metadata: $metadata
-  ) {
-    tx_id 
+query sendBuyTx($data: [Float!], $hexData: String, $metadata: JSON!) {
+  confirmBuyTx(data: $data, hex_data: $hexData, metadata: $metadata) {
+    tx_id
     error {
       error_type
       message
@@ -55,11 +47,11 @@ query getListTx(
   $sellerBrokerBasisPoints: Float
 ) {
   createListTx(
-  seller_address: $sellerAddress 
-  token_address: $tokenAddress
-  price: $price
-  seller_broker: $sellerBroker
-  seller_broker_basis_points: $sellerBrokerBasisPoints
+    seller_address: $sellerAddress
+    token_address: $tokenAddress
+    price: $price
+    seller_broker: $sellerBroker
+    seller_broker_basis_points: $sellerBrokerBasisPoints
   ) {
     data
     is_required_signers_on
@@ -73,14 +65,13 @@ query getListTx(
   }
 }
 
-
 query getBidTx(
   $buyerAddress: String!
   $price: Float!
   $tokenAddress: String!
   $buyerBroker: String!
   $buyerBrokerBasisPoints: Float
-) { 
+) {
   createBidTx(
     buyer_address: $buyerAddress
     price: $price
@@ -106,13 +97,13 @@ query getAcceptBidTx(
   $tokenAddress: String!
   $sellerBroker: String!
   $sellerBrokerBasisPoints: Float
-) { 
-    acceptBidTx(
-      seller_address: $sellerAddress 
-      token_address: $tokenAddress
-      price: $price
-      seller_broker: $sellerBroker
-      seller_broker_basis_points: $sellerBrokerBasisPoints
+) {
+  acceptBidTx(
+    seller_address: $sellerAddress
+    token_address: $tokenAddress
+    price: $price
+    seller_broker: $sellerBroker
+    seller_broker_basis_points: $sellerBrokerBasisPoints
   ) {
     data
     is_required_signers_on
@@ -126,15 +117,11 @@ query getAcceptBidTx(
   }
 }
 
-
-query getCancelBidTx(
-  $buyerAddress: String!
-  $tokenAddress: String!
-) { 
+query getCancelBidTx($buyerAddress: String!, $tokenAddress: String!) {
   createCancelBidTx(
     buyer_address: $buyerAddress
     token_address: $tokenAddress
-  ){
+  ) {
     data
     is_required_signers_on
     metadata
@@ -147,43 +134,72 @@ query getCancelBidTx(
   }
 }
 
+query getDelistTx($sellerAddress: String!, $tokenAddress: String!) {
+  createDelistTx(seller_address: $sellerAddress, token_address: $tokenAddress) {
+    data
+    is_required_signers_on
+    metadata
+    stdBuffer
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
 
-query getDelistTx(
-  $sellerAddress: String!
+query getWithdrawEscrowTx($userAddress: String!, $amount: Float!) {
+  createWithdrawEscrowTx(user_address: $userAddress, amount: $amount) {
+    data
+    is_required_signers_on
+    metadata
+    stdBuffer
+    error {
+      error_type
+      message
+      metadata
+    }
+  }
+}
+
+query getAcceptCollectionBidTx(
   $tokenAddress: String!
-) { 
-  createDelistTx(
-    seller_address: $sellerAddress 
+  $sellerAddress: String!
+  $price: Float!
+  $buyerAddress: String!
+  $marketplaceProgramId: String!
+  $marketplaceInstanceId: String
+  $buyerBrokerBasisPoints: Float
+  $buyerExpiry: Float
+  $collectionIdentifierType: String
+  $collectionIdentifierValue: String
+  $collectionIdentifierIndex: Float
+  $buyerBroker: String
+  $sellerExpiry: [Float!]
+) {
+  createRawAcceptCollectionBidTx(
     token_address: $tokenAddress
-  ){
+    seller_address: $sellerAddress
+    price: $price
+    buyer_address: $buyerAddress
+    marketplace_program_id: $marketplaceProgramId
+    marketplace_instance_id: $marketplaceInstanceId
+    buyer_broker_basis_points: $buyerBrokerBasisPoints
+    buyer_expiry: $buyerExpiry
+    collection_identifier_type: $collectionIdentifierType
+    collection_identifier_value: $collectionIdentifierValue
+    collection_identifier_index: $collectionIdentifierIndex
+    buyer_broker: $buyerBroker
+    seller_expiry: $sellerExpiry
+  ) {
     data
-    is_required_signers_on
-    metadata
-    error {
-      error_type
-      message
-      metadata
-    }
-  }
-}
-
-
-query getWithdrawEscrowTx(
-  $userAddress: String!
-  $amount: Float!
-) { 
-  createWithdrawEscrowTx(
-    user_address: $userAddress
-    amount: $amount
-  ){
-    data
-    is_required_signers_on
-    metadata
     stdBuffer
     error {
       error_type
       message
       metadata
     }
+    is_required_signers_on
+    metadata
   }
 }

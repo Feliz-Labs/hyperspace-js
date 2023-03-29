@@ -46,6 +46,12 @@ import {
   GetOverallWalletStatsQuery,
   GetNonMpaProjectHistoryQuery,
   GetNonMpaUserHistoryQuery,
+  GetAcceptCollectionBidTxQueryVariables,
+  GetAcceptCollectionBidTxQuery,
+  GetCollectionBidsForProjectQueryVariables,
+  GetCollectionBidsForProjectQuery,
+  GetCollectionBidsForUserQueryVariables,
+  GetCollectionBidsForUserQuery,
 } from "./sdk";
 import { GraphQLClient } from "graphql-request";
 import {
@@ -69,6 +75,7 @@ import {
 const SolanaWeb3 = require("opensea-solana");
 
 const apiEndpoint = "https://beta.api.solanalysis.com/sdk";
+
 
 export class HyperspaceClient {
   apiKey: string;
@@ -683,6 +690,38 @@ export class HyperspaceClient {
         sellerBrokerBasisPoints,
       },
       this.headers
+    );
+  }
+
+  createAcceptCollectionBidTx({
+    ...variables
+  }: GetAcceptCollectionBidTxQueryVariables): Promise<GetAcceptCollectionBidTxQuery> {
+    return this.sdk.getAcceptCollectionBidTx({
+      ...variables
+    },
+    this.headers
+    );
+  }
+
+
+  getCollectionBidsForProject({
+    ...variables
+  }: GetCollectionBidsForProjectQueryVariables): Promise<GetCollectionBidsForProjectQuery> {
+    return this.sdk.getCollectionBidsForProject({
+      ...variables
+    },
+    this.headers
+    );
+  }
+
+
+  getCollectionBidsForUser({
+    ...variables
+  }: GetCollectionBidsForUserQueryVariables): Promise<GetCollectionBidsForUserQuery> {
+    return this.sdk.getCollectionBidsForUser({
+      ...variables
+    },
+    this.headers
     );
   }
 

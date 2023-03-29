@@ -1,0 +1,74 @@
+query getCollectionBidsForProject($projectId: String!) {
+  getCollectionBidsForProject(project_id: $projectId) {
+    bids {
+      identifier_key
+      identifier_type
+      identifier_index
+      trade_state
+      block_timestamp
+      block_number
+      signature
+      seller_address
+      buyer_address
+      fee_address
+      program_id
+      instance_id
+      type
+      price
+      display_price
+      fee
+      amount
+      seller_referral_address
+      seller_referral_fee
+      buyer_referral_address
+      buyer_referral_fee
+      metadata
+      instruction_index
+      currency_price
+      decimal
+      currency
+      expiration
+      created_at
+      updated_at
+    }
+  }
+}
+
+query getCollectionBidsForUser($buyerAddress: String!) {
+  getCollectionBidsForUser(buyer_address: $buyerAddress) {
+    bids {
+      project_id
+      display_name
+      img_url
+      project_slug
+      identifier_key
+      identifier_type
+      identifier_index
+      trade_state
+      block_timestamp
+      block_number
+      signature
+      seller_address
+      buyer_address
+      fee_address
+      program_id
+      instance_id
+      type
+      price
+      fee
+      amount
+      seller_referral_address
+      seller_referral_fee
+      buyer_referral_address
+      buyer_referral_fee
+      metadata
+      instruction_index
+      currency_price
+      decimal
+      currency
+      expiration
+      created_at
+      updated_at
+    }
+  }
+}
