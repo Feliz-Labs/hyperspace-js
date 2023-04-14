@@ -23,6 +23,7 @@ query getMarketplaceSnapshots(
         meta_data_uri
         attributes
         floor_price
+        feeless_floor_price
         project_name
         project_image
         project_slug
