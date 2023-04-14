@@ -1,6 +1,6 @@
 {
   "name": "hyperspace-client-js",
-  "version": "1.4.16",
+  "version": "1.4.17",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/Feliz-Labs/hyperspace-js.git",
